@@ -11,47 +11,47 @@ namespace EMS.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UsersController : ControllerBase
+    public class UserRolesController : ControllerBase
     {
         private readonly EventMSContext _context;
 
-        public UsersController(EventMSContext context)
+        public UserRolesController(EventMSContext context)
         {
             _context = context;
         }
 
-        // GET: api/Users
+        // GET: api/UserRoles
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<User>>> GetUsers()
+        public async Task<ActionResult<IEnumerable<UserRole>>> GetUserRoles()
         {
-            return await _context.Users.ToListAsync();
+            return await _context.UserRoles.ToListAsync();
         }
 
-        // GET: api/Users/5
+        // GET: api/UserRoles/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<User>> GetUser(int id)
+        public async Task<ActionResult<UserRole>> GetUserRole(int id)
         {
-            var user = await _context.Users.FindAsync(id);
+            var userRole = await _context.UserRoles.FindAsync(id);
 
-            if (user == null)
+            if (userRole == null)
             {
                 return NotFound();
             }
 
-            return user;
+            return userRole;
         }
 
-        // PUT: api/Users/5
+        // PUT: api/UserRoles/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutUser(int id, User user)
+        public async Task<IActionResult> PutUserRole(int id, UserRole userRole)
         {
-            if (id != user.Id)
+            if (id != userRole.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(user).State = EntityState.Modified;
+            _context.Entry(userRole).State = EntityState.Modified;
 
             try
             {
@@ -59,7 +59,7 @@ namespace EMS.API.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!UserExists(id))
+                if (!UserRoleExists(id))
                 {
                     return NotFound();
                 }
@@ -72,36 +72,36 @@ namespace EMS.API.Controllers
             return NoContent();
         }
 
-        // POST: api/Users
+        // POST: api/UserRoles
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<User>> PostUser(User user)
+        public async Task<ActionResult<UserRole>> PostUserRole(UserRole userRole)
         {
-            _context.Users.Add(user);
+            _context.UserRoles.Add(userRole);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetUser", new { id = user.Id }, user);
+            return CreatedAtAction("GetUserRole", new { id = userRole.Id }, userRole);
         }
 
-        // DELETE: api/Users/5
+        // DELETE: api/UserRoles/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteUser(int id)
+        public async Task<IActionResult> DeleteUserRole(int id)
         {
-            var user = await _context.Users.FindAsync(id);
-            if (user == null)
+            var userRole = await _context.UserRoles.FindAsync(id);
+            if (userRole == null)
             {
                 return NotFound();
             }
 
-            _context.Users.Remove(user);
+            _context.UserRoles.Remove(userRole);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
-        private bool UserExists(int id)
+        private bool UserRoleExists(int id)
         {
-            return _context.Users.Any(e => e.Id == id);
+            return _context.UserRoles.Any(e => e.Id == id);
         }
     }
 }

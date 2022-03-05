@@ -11,47 +11,47 @@ namespace EMS.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UsersController : ControllerBase
+    public class GroupUsersController : ControllerBase
     {
         private readonly EventMSContext _context;
 
-        public UsersController(EventMSContext context)
+        public GroupUsersController(EventMSContext context)
         {
             _context = context;
         }
 
-        // GET: api/Users
+        // GET: api/GroupUsers
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<User>>> GetUsers()
+        public async Task<ActionResult<IEnumerable<GroupUser>>> GetGroupUsers()
         {
-            return await _context.Users.ToListAsync();
+            return await _context.GroupUsers.ToListAsync();
         }
 
-        // GET: api/Users/5
+        // GET: api/GroupUsers/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<User>> GetUser(int id)
+        public async Task<ActionResult<GroupUser>> GetGroupUser(int id)
         {
-            var user = await _context.Users.FindAsync(id);
+            var groupUser = await _context.GroupUsers.FindAsync(id);
 
-            if (user == null)
+            if (groupUser == null)
             {
                 return NotFound();
             }
 
-            return user;
+            return groupUser;
         }
 
-        // PUT: api/Users/5
+        // PUT: api/GroupUsers/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutUser(int id, User user)
+        public async Task<IActionResult> PutGroupUser(int id, GroupUser groupUser)
         {
-            if (id != user.Id)
+            if (id != groupUser.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(user).State = EntityState.Modified;
+            _context.Entry(groupUser).State = EntityState.Modified;
 
             try
             {
@@ -59,7 +59,7 @@ namespace EMS.API.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!UserExists(id))
+                if (!GroupUserExists(id))
                 {
                     return NotFound();
                 }
@@ -72,36 +72,36 @@ namespace EMS.API.Controllers
             return NoContent();
         }
 
-        // POST: api/Users
+        // POST: api/GroupUsers
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<User>> PostUser(User user)
+        public async Task<ActionResult<GroupUser>> PostGroupUser(GroupUser groupUser)
         {
-            _context.Users.Add(user);
+            _context.GroupUsers.Add(groupUser);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetUser", new { id = user.Id }, user);
+            return CreatedAtAction("GetGroupUser", new { id = groupUser.Id }, groupUser);
         }
 
-        // DELETE: api/Users/5
+        // DELETE: api/GroupUsers/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteUser(int id)
+        public async Task<IActionResult> DeleteGroupUser(int id)
         {
-            var user = await _context.Users.FindAsync(id);
-            if (user == null)
+            var groupUser = await _context.GroupUsers.FindAsync(id);
+            if (groupUser == null)
             {
                 return NotFound();
             }
 
-            _context.Users.Remove(user);
+            _context.GroupUsers.Remove(groupUser);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
-        private bool UserExists(int id)
+        private bool GroupUserExists(int id)
         {
-            return _context.Users.Any(e => e.Id == id);
+            return _context.GroupUsers.Any(e => e.Id == id);
         }
     }
 }

@@ -13,6 +13,7 @@ namespace EMS.API.Models
         public int? InvitationResponseId { get; set; }
         public string TextResponse { get; set; }
         public DateTime ResponseDate { get; set; }
+        public int Id { get; set; }
 
         public virtual Event Event { get; set; }
         public virtual InvitationResponseType InvitationResponse { get; set; }
