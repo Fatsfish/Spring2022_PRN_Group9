@@ -5,20 +5,20 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
-using EMS.Razor.Models.User;
+using EMS.Models;
 
-namespace EMS.Razor.Pages.User
+namespace EMS.Pages.User
 {
     public class IndexModel : PageModel
     {
-        private readonly EMS.Razor.Models.EventMSContext _context;
+        private readonly EMS.Models.EventMSContext _context;
 
-        public IndexModel(EMS.Razor.Models.EventMSContext context)
+        public IndexModel(EMS.Models.EventMSContext context)
         {
             _context = context;
         }
 
-        public IList<User> User { get;set; }
+        public IList<Models.User> User { get;set; }
 
         public async Task OnGetAsync()
         {

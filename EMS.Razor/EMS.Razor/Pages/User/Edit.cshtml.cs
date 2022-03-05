@@ -6,21 +6,21 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using EMS.Razor.Models;
+using EMS.Models;
 
-namespace EMS.Razor.Pages.User
+namespace EMS.Pages.User
 {
     public class EditModel : PageModel
     {
-        private readonly EMS.Razor.Models.EventMSContext _context;
+        private readonly EMS.Models.EventMSContext _context;
 
-        public EditModel(EMS.Razor.Models.EventMSContext context)
+        public EditModel(EMS.Models.EventMSContext context)
         {
             _context = context;
         }
 
         [BindProperty]
-        public User User { get; set; }
+        public Models.User User { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {

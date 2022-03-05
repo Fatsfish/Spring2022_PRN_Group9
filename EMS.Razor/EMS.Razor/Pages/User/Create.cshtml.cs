@@ -5,15 +5,15 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using EMS.Razor.Models;
+using EMS.Models;
 
-namespace EMS.Razor.Pages.User
+namespace EMS.Pages.User
 {
     public class CreateModel : PageModel
     {
-        private readonly EMS.Razor.Models.EventMSContext _context;
+        private readonly EMS.Models.EventMSContext _context;
 
-        public CreateModel(EMS.Razor.Models.EventMSContext context)
+        public CreateModel(EMS.Models.EventMSContext context)
         {
             _context = context;
         }
@@ -24,7 +24,7 @@ namespace EMS.Razor.Pages.User
         }
 
         [BindProperty]
-        public User User { get; set; }
+        public Models.User User { get; set; }
 
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
         public async Task<IActionResult> OnPostAsync()

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 #nullable disable
 
-namespace EMS.Razor.Models​
+namespace EMS.Models​
 {
     public partial class InvitationResponseType
     {

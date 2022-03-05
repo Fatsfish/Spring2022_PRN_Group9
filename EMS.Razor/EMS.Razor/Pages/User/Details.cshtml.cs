@@ -5,20 +5,20 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
-using EMS.Razor.Models;
+using EMS.Models;
 
-namespace EMS.Razor.Pages.User
+namespace EMS.Pages.User
 {
     public class DetailsModel : PageModel
     {
-        private readonly EMS.Razor.Models.EventMSContext _context;
+        private readonly EMS.Models.EventMSContext _context;
 
-        public DetailsModel(EMS.Razor.Models.EventMSContext context)
+        public DetailsModel(EMS.Models.EventMSContext context)
         {
             _context = context;
         }
 
-        public User User { get; set; }
+        public Models.User User { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {

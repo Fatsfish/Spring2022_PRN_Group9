@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 #nullable disable
 
-namespace EMS.Razor.Models​
+namespace EMS.Models​
 {
     public partial class EventMSContext : DbContext
     {
