@@ -10,16 +10,16 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:5.0 AS build
 WORKDIR /src
-COPY ["EMS.Razor/EMS.Razor.csproj", "EMS.Razor/"]
-RUN dotnet restore "EMS.Razor/EMS.Razor.csproj"
+COPY ["EMS/EMS.csproj", "EMS/"]
+RUN dotnet restore "EMS/EMS.csproj"
 COPY . .
-WORKDIR "/src/EMS.Razor"
-RUN dotnet build "EMS.Razor.csproj" -c Release -o /app/build
+WORKDIR "/src/EMS"
+RUN dotnet build "EMS.csproj" -c Release -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "EMS.Razor.csproj" -c Release -o /app/publish
+RUN dotnet publish "EMS.csproj" -c Release -o /app/publish
 
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "EMS.Razor.dll"]
+ENTRYPOINT ["dotnet", "EMS.dll"]
