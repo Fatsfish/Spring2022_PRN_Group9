@@ -11,47 +11,47 @@ namespace EMS.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UsersController : ControllerBase
+    public class CommentsController : ControllerBase
     {
         private readonly EventMSContext _context;
 
-        public UsersController(EventMSContext context)
+        public CommentsController(EventMSContext context)
         {
             _context = context;
         }
 
-        // GET: api/Users
+        // GET: api/Comments
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<User>>> GetUsers()
+        public async Task<ActionResult<IEnumerable<Comment>>> GetComments()
         {
-            return await _context.Users.ToListAsync();
+            return await _context.Comments.ToListAsync();
         }
 
-        // GET: api/Users/5
+        // GET: api/Comments/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<User>> GetUser(int id)
+        public async Task<ActionResult<Comment>> GetComment(int id)
         {
-            var user = await _context.Users.FindAsync(id);
+            var comment = await _context.Comments.FindAsync(id);
 
-            if (user == null)
+            if (comment == null)
             {
                 return NotFound();
             }
 
-            return user;
+            return comment;
         }
 
-        // PUT: api/Users/5
+        // PUT: api/Comments/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutUser(int id, User user)
+        public async Task<IActionResult> PutComment(int id, Comment comment)
         {
-            if (id != user.Id)
+            if (id != comment.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(user).State = EntityState.Modified;
+            _context.Entry(comment).State = EntityState.Modified;
 
             try
             {
@@ -59,7 +59,7 @@ namespace EMS.API.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!UserExists(id))
+                if (!CommentExists(id))
                 {
                     return NotFound();
                 }
@@ -72,36 +72,36 @@ namespace EMS.API.Controllers
             return NoContent();
         }
 
-        // POST: api/Users
+        // POST: api/Comments
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<User>> PostUser(User user)
+        public async Task<ActionResult<Comment>> PostComment(Comment comment)
         {
-            _context.Users.Add(user);
+            _context.Comments.Add(comment);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetUser", new { id = user.Id }, user);
+            return CreatedAtAction("GetComment", new { id = comment.Id }, comment);
         }
 
-        // DELETE: api/Users/5
+        // DELETE: api/Comments/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteUser(int id)
+        public async Task<IActionResult> DeleteComment(int id)
         {
-            var user = await _context.Users.FindAsync(id);
-            if (user == null)
+            var comment = await _context.Comments.FindAsync(id);
+            if (comment == null)
             {
                 return NotFound();
             }
 
-            _context.Users.Remove(user);
+            _context.Comments.Remove(comment);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
-        private bool UserExists(int id)
+        private bool CommentExists(int id)
         {
-            return _context.Users.Any(e => e.Id == id);
+            return _context.Comments.Any(e => e.Id == id);
         }
     }
 }

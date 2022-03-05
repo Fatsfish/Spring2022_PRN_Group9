@@ -107,6 +107,7 @@ create table [EventTicket](
 );
 Go
 
+
 ALTER TABLE UserRole
 ADD ID int identity(1,1) NOT NULL PRIMARY KEY;
 

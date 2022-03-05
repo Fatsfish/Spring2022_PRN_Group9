@@ -9,7 +9,9 @@ namespace EMS.API.Models
     {
         public Event()
         {
+            AllowedEventGroups = new HashSet<AllowedEventGroup>();
             Comments = new HashSet<Comment>();
+            EventInvitations = new HashSet<EventInvitation>();
             EventTickets = new HashSet<EventTicket>();
         }
 
@@ -29,7 +31,9 @@ namespace EMS.API.Models
 
         public virtual User CreationUser { get; set; }
         public virtual EventStatus Status { get; set; }
+        public virtual ICollection<AllowedEventGroup> AllowedEventGroups { get; set; }
         public virtual ICollection<Comment> Comments { get; set; }
+        public virtual ICollection<EventInvitation> EventInvitations { get; set; }
         public virtual ICollection<EventTicket> EventTickets { get; set; }
     }
 }

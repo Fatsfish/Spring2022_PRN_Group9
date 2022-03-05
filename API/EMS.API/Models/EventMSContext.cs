@@ -45,17 +45,17 @@ namespace EMS.API.Models
 
             modelBuilder.Entity<AllowedEventGroup>(entity =>
             {
-                entity.HasNoKey();
-
                 entity.ToTable("AllowedEventGroup");
 
+                entity.Property(e => e.Id).HasColumnName("ID");
+
                 entity.HasOne(d => d.Event)
-                    .WithMany()
+                    .WithMany(p => p.AllowedEventGroups)
                     .HasForeignKey(d => d.EventId)
                     .HasConstraintName("FK__AllowedEv__Event__34C8D9D1");
 
                 entity.HasOne(d => d.Group)
-                    .WithMany()
+                    .WithMany(p => p.AllowedEventGroups)
                     .HasForeignKey(d => d.GroupId)
                     .HasConstraintName("FK__AllowedEv__Group__35BCFE0A");
             });
@@ -130,9 +130,9 @@ namespace EMS.API.Models
 
             modelBuilder.Entity<EventInvitation>(entity =>
             {
-                entity.HasNoKey();
-
                 entity.ToTable("EventInvitation");
+
+                entity.Property(e => e.Id).HasColumnName("ID");
 
                 entity.Property(e => e.InvitationResponseId).HasColumnName("InvitationResponseID");
 
@@ -145,17 +145,17 @@ namespace EMS.API.Models
                 entity.Property(e => e.UserId).HasColumnName("UserID");
 
                 entity.HasOne(d => d.Event)
-                    .WithMany()
+                    .WithMany(p => p.EventInvitations)
                     .HasForeignKey(d => d.EventId)
                     .HasConstraintName("FK__EventInvi__Event__3D5E1FD2");
 
                 entity.HasOne(d => d.InvitationResponse)
-                    .WithMany()
+                    .WithMany(p => p.EventInvitations)
                     .HasForeignKey(d => d.InvitationResponseId)
                     .HasConstraintName("FK__EventInvi__Invit__3F466844");
 
                 entity.HasOne(d => d.User)
-                    .WithMany()
+                    .WithMany(p => p.EventInvitations)
                     .HasForeignKey(d => d.UserId)
                     .HasConstraintName("FK__EventInvi__UserI__3E52440B");
             });
@@ -210,17 +210,17 @@ namespace EMS.API.Models
 
             modelBuilder.Entity<GroupUser>(entity =>
             {
-                entity.HasNoKey();
-
                 entity.ToTable("GroupUser");
 
+                entity.Property(e => e.Id).HasColumnName("ID");
+
                 entity.HasOne(d => d.Group)
-                    .WithMany()
+                    .WithMany(p => p.GroupUsers)
                     .HasForeignKey(d => d.GroupId)
                     .HasConstraintName("FK__GroupUser__Group__2D27B809");
 
                 entity.HasOne(d => d.User)
-                    .WithMany()
+                    .WithMany(p => p.GroupUsers)
                     .HasForeignKey(d => d.UserId)
                     .HasConstraintName("FK__GroupUser__UserI__2C3393D0");
             });
@@ -279,17 +279,17 @@ namespace EMS.API.Models
 
             modelBuilder.Entity<UserRole>(entity =>
             {
-                entity.HasNoKey();
-
                 entity.ToTable("UserRole");
 
+                entity.Property(e => e.Id).HasColumnName("ID");
+
                 entity.HasOne(d => d.Role)
-                    .WithMany()
+                    .WithMany(p => p.UserRoles)
                     .HasForeignKey(d => d.RoleId)
                     .HasConstraintName("FK__UserRole__RoleId__286302EC");
 
                 entity.HasOne(d => d.User)
-                    .WithMany()
+                    .WithMany(p => p.UserRoles)
                     .HasForeignKey(d => d.UserId)
                     .HasConstraintName("FK__UserRole__UserId__276EDEB3");
             });

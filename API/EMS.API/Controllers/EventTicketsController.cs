@@ -11,47 +11,47 @@ namespace EMS.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UsersController : ControllerBase
+    public class EventTicketsController : ControllerBase
     {
         private readonly EventMSContext _context;
 
-        public UsersController(EventMSContext context)
+        public EventTicketsController(EventMSContext context)
         {
             _context = context;
         }
 
-        // GET: api/Users
+        // GET: api/EventTickets
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<User>>> GetUsers()
+        public async Task<ActionResult<IEnumerable<EventTicket>>> GetEventTickets()
         {
-            return await _context.Users.ToListAsync();
+            return await _context.EventTickets.ToListAsync();
         }
 
-        // GET: api/Users/5
+        // GET: api/EventTickets/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<User>> GetUser(int id)
+        public async Task<ActionResult<EventTicket>> GetEventTicket(int id)
         {
-            var user = await _context.Users.FindAsync(id);
+            var eventTicket = await _context.EventTickets.FindAsync(id);
 
-            if (user == null)
+            if (eventTicket == null)
             {
                 return NotFound();
             }
 
-            return user;
+            return eventTicket;
         }
 
-        // PUT: api/Users/5
+        // PUT: api/EventTickets/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutUser(int id, User user)
+        public async Task<IActionResult> PutEventTicket(int id, EventTicket eventTicket)
         {
-            if (id != user.Id)
+            if (id != eventTicket.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(user).State = EntityState.Modified;
+            _context.Entry(eventTicket).State = EntityState.Modified;
 
             try
             {
@@ -59,7 +59,7 @@ namespace EMS.API.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!UserExists(id))
+                if (!EventTicketExists(id))
                 {
                     return NotFound();
                 }
@@ -72,36 +72,36 @@ namespace EMS.API.Controllers
             return NoContent();
         }
 
-        // POST: api/Users
+        // POST: api/EventTickets
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<User>> PostUser(User user)
+        public async Task<ActionResult<EventTicket>> PostEventTicket(EventTicket eventTicket)
         {
-            _context.Users.Add(user);
+            _context.EventTickets.Add(eventTicket);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetUser", new { id = user.Id }, user);
+            return CreatedAtAction("GetEventTicket", new { id = eventTicket.Id }, eventTicket);
         }
 
-        // DELETE: api/Users/5
+        // DELETE: api/EventTickets/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteUser(int id)
+        public async Task<IActionResult> DeleteEventTicket(int id)
         {
-            var user = await _context.Users.FindAsync(id);
-            if (user == null)
+            var eventTicket = await _context.EventTickets.FindAsync(id);
+            if (eventTicket == null)
             {
                 return NotFound();
             }
 
-            _context.Users.Remove(user);
+            _context.EventTickets.Remove(eventTicket);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
-        private bool UserExists(int id)
+        private bool EventTicketExists(int id)
         {
-            return _context.Users.Any(e => e.Id == id);
+            return _context.EventTickets.Any(e => e.Id == id);
         }
     }
 }
