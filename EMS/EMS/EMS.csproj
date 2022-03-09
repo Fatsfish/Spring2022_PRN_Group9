@@ -8,6 +8,91 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="wwwroot\js\bootstrap.min.js" />
+    <Content Remove="wwwroot\js\jquery-min.js" />
+    <Content Remove="wwwroot\js\jquery.countdown.min.js" />
+    <Content Remove="wwwroot\js\jquery.counterup.min.js" />
+    <Content Remove="wwwroot\js\jquery.easing.min.js" />
+    <Content Remove="wwwroot\js\jquery.nav.js" />
+    <Content Remove="wwwroot\js\jquery.slicknav.js" />
+    <Content Remove="wwwroot\js\main.js" />
+    <Content Remove="wwwroot\js\nivo-lightbox.js" />
+    <Content Remove="wwwroot\js\popper.min.js" />
+    <Content Remove="wwwroot\js\video.js" />
+    <Content Remove="wwwroot\js\waypoints.min.js" />
+    <Content Remove="wwwroot\js\wow.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\css\animate.css" />
+    <None Include="wwwroot\css\bootstrap.min.css" />
+    <None Include="wwwroot\css\main.css" />
+    <None Include="wwwroot\css\nivo-lightbox.css" />
+    <None Include="wwwroot\css\responsive.css" />
+    <None Include="wwwroot\fonts\.DS_Store" />
+    <None Include="wwwroot\fonts\line-icons.css" />
+    <None Include="wwwroot\fonts\LineIcons.eot" />
+    <None Include="wwwroot\fonts\LineIcons.svg" />
+    <None Include="wwwroot\fonts\LineIcons.ttf" />
+    <None Include="wwwroot\fonts\LineIcons.woff" />
+    <None Include="wwwroot\img\.DS_Store" />
+    <None Include="wwwroot\img\about\.DS_Store" />
+    <None Include="wwwroot\img\about\img1.png" />
+    <None Include="wwwroot\img\background\.DS_Store" />
+    <None Include="wwwroot\img\background\countdown.jpg" />
+    <None Include="wwwroot\img\blog\.DS_Store" />
+    <None Include="wwwroot\img\blog\img-1.jpg" />
+    <None Include="wwwroot\img\blog\img-2.jpg" />
+    <None Include="wwwroot\img\blog\img-3.jpg" />
+    <None Include="wwwroot\img\event\.DS_Store" />
+    <None Include="wwwroot\img\event\img1.jpg" />
+    <None Include="wwwroot\img\event\img2.jpg" />
+    <None Include="wwwroot\img\event\img3.jpg" />
+    <None Include="wwwroot\img\event\img4.jpg" />
+    <None Include="wwwroot\img\hero-area.jpg" />
+    <None Include="wwwroot\img\logo.png" />
+    <None Include="wwwroot\img\logo.psd" />
+    <None Include="wwwroot\img\speaker\.DS_Store" />
+    <None Include="wwwroot\img\speaker\speakers-1.jpg" />
+    <None Include="wwwroot\img\speaker\speakers-2.jpg" />
+    <None Include="wwwroot\img\speaker\speakers-3.jpg" />
+    <None Include="wwwroot\img\speaker\speakers-4.jpg" />
+    <None Include="wwwroot\img\sponsors\.DS_Store" />
+    <None Include="wwwroot\img\sponsors\logo-1.png" />
+    <None Include="wwwroot\img\sponsors\logo-2.png" />
+    <None Include="wwwroot\img\sponsors\logo-3.png" />
+    <None Include="wwwroot\img\sponsors\logo-4.png" />
+    <None Include="wwwroot\img\sponsors\logo-5.png" />
+    <None Include="wwwroot\img\sponsors\logo-6.png" />
+    <None Include="wwwroot\img\sponsors\logo-7.png" />
+    <None Include="wwwroot\img\sponsors\logo-8.png" />
+    <None Include="wwwroot\img\sponsors\logo-9.png" />
+    <None Include="wwwroot\img\team\.DS_Store" />
+    <None Include="wwwroot\img\team\team-01.jpg" />
+    <None Include="wwwroot\img\team\team-02.jpg" />
+    <None Include="wwwroot\img\team\team-03.jpg" />
+    <None Include="wwwroot\img\team\team-04.jpg" />
+    <None Include="wwwroot\img\team\team-05.jpg" />
+    <None Include="wwwroot\img\team\team-06.jpg" />
+    <None Include="wwwroot\img\team\team-07.jpg" />
+    <None Include="wwwroot\img\team\team-08.jpg" />
+    <None Include="wwwroot\js\bootstrap.min.js" />
+    <None Include="wwwroot\js\jquery-min.js" />
+    <None Include="wwwroot\js\jquery.countdown.min.js" />
+    <None Include="wwwroot\js\jquery.counterup.min.js" />
+    <None Include="wwwroot\js\jquery.easing.min.js" />
+    <None Include="wwwroot\js\jquery.nav.js" />
+    <None Include="wwwroot\js\jquery.slicknav.js" />
+    <None Include="wwwroot\js\main.js" />
+    <None Include="wwwroot\js\nivo-lightbox.js" />
+    <None Include="wwwroot\js\popper.min.js" />
+    <None Include="wwwroot\js\video.js" />
+    <None Include="wwwroot\js\waypoints.min.js" />
+    <None Include="wwwroot\js\wow.js" />
+    <None Include="wwwroot\video\event.webm" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="5.0.13" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.13" NoWarn="NU1605" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="5.0.13" NoWarn="NU1605" />
