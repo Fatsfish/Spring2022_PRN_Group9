@@ -1,0 +1,54 @@
+﻿@page
+@model EMS.Pages.Comment.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-page="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Comment[0].Text)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Comment[0].CreationDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Comment[0].CreationUser)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Comment[0].Event)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.Comment) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Text)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreationDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreationUser.Bio)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Event.Description)
+            </td>
+            <td>
+                <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

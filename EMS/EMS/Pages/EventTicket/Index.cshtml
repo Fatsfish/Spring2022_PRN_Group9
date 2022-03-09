@@ -1,0 +1,54 @@
+﻿@page
+@model EMS.Pages.EventTicket.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-page="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.EventTicket[0].IsPaid)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EventTicket[0].PaidDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EventTicket[0].Event)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EventTicket[0].Owner)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.EventTicket) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsPaid)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PaidDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Event.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Owner.Bio)
+            </td>
+            <td>
+                <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

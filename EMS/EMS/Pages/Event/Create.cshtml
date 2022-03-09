@@ -1,0 +1,87 @@
+﻿@page
+@model EMS.Pages.Event.CreateModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>Event</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Event.Name" class="control-label"></label>
+                <input asp-for="Event.Name" class="form-control" />
+                <span asp-validation-for="Event.Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Event.Description" class="control-label"></label>
+                <input asp-for="Event.Description" class="form-control" />
+                <span asp-validation-for="Event.Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Event.CreationDate" class="control-label"></label>
+                <input asp-for="Event.CreationDate" class="form-control" />
+                <span asp-validation-for="Event.CreationDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Event.CreationUserId" class="control-label"></label>
+                <select asp-for="Event.CreationUserId" class ="form-control" asp-items="ViewBag.CreationUserId"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="Event.RegistrationEndDate" class="control-label"></label>
+                <input asp-for="Event.RegistrationEndDate" class="form-control" />
+                <span asp-validation-for="Event.RegistrationEndDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Event.StartDateTime" class="control-label"></label>
+                <input asp-for="Event.StartDateTime" class="form-control" />
+                <span asp-validation-for="Event.StartDateTime" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Event.EndDateTime" class="control-label"></label>
+                <input asp-for="Event.EndDateTime" class="form-control" />
+                <span asp-validation-for="Event.EndDateTime" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Event.Place" class="control-label"></label>
+                <input asp-for="Event.Place" class="form-control" />
+                <span asp-validation-for="Event.Place" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="Event.IsPublic" /> @Html.DisplayNameFor(model => model.Event.IsPublic)
+                </label>
+            </div>
+            <div class="form-group">
+                <label asp-for="Event.Capacity" class="control-label"></label>
+                <input asp-for="Event.Capacity" class="form-control" />
+                <span asp-validation-for="Event.Capacity" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Event.Price" class="control-label"></label>
+                <input asp-for="Event.Price" class="form-control" />
+                <span asp-validation-for="Event.Price" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Event.StatusId" class="control-label"></label>
+                <select asp-for="Event.StatusId" class ="form-control" asp-items="ViewBag.StatusId"></select>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
