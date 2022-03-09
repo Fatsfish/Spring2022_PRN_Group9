@@ -1,0 +1,66 @@
+﻿@page
+@model EMS.Pages.EventInvitation.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-page="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.EventInvitation[0].SentDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EventInvitation[0].TextResponse)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EventInvitation[0].ResponseDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EventInvitation[0].Event)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EventInvitation[0].InvitationResponse)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EventInvitation[0].User)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.EventInvitation) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.SentDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TextResponse)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ResponseDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Event.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.InvitationResponse.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.User.Bio)
+            </td>
+            <td>
+                <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

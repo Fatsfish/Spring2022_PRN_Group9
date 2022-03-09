@@ -1,0 +1,40 @@
+﻿@page
+@model EMS.Pages.AllowedEventGroup.EditModel
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>AllowedEventGroup</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="AllowedEventGroup.EventId" class="control-label"></label>
+                <select asp-for="AllowedEventGroup.EventId" class="form-control" asp-items="ViewBag.EventId"></select>
+                <span asp-validation-for="AllowedEventGroup.EventId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AllowedEventGroup.GroupId" class="control-label"></label>
+                <select asp-for="AllowedEventGroup.GroupId" class="form-control" asp-items="ViewBag.GroupId"></select>
+                <span asp-validation-for="AllowedEventGroup.GroupId" class="text-danger"></span>
+            </div>
+            <input type="hidden" asp-for="AllowedEventGroup.Id" />
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="./Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
