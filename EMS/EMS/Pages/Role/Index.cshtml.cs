@@ -30,8 +30,6 @@ namespace EMS.Pages.Role
             string currentFilter, string searchString, int? pageIndex)
         {
             var role = from m in _context.Roles
-                .Include(p => p.UserRoles)
-                .Include(p => p.Name)
                            select m;
             if (!string.IsNullOrEmpty(SearchString))
             {
