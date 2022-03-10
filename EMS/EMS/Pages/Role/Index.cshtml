@@ -7,9 +7,14 @@
 
 <h1>Index</h1>
 
-<p>
-    <a asp-page="Create">Create New</a>
-</p>
+<form>
+    <p>
+        Search by name: <input type="text" asp-for="SearchString" />
+        <input type="submit" class="btn btn-primary" value="Search" /> | 
+        <a class="btn btn-info" asp-page="Create">Create New</a>
+    </p>
+</form>
+
 <table class="table">
     <thead>
         <tr>
@@ -32,11 +37,29 @@
                 @Html.DisplayFor(modelItem => item.Description)
             </td>
             <td>
-                <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
+                <a class="btn btn-success" asp-page="./Edit" asp-route-id="@item.Id">Edit</a>
+                <a class="btn btn-primary" asp-page="./Details" asp-route-id="@item.Id">Details</a>
+                <a class="btn btn-danger" asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
             </td>
         </tr>
 }
     </tbody>
 </table>
+
+@{
+    var prevDisabled = !Model.Role.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.Role.HasNextPage ? "disabled" : "";
+}
+
+<a asp-page="./Index"
+   asp-route-pageIndex="@(Model.Role.PageIndex - 1)"
+   asp-route-currentFilter="@Model.SearchString"
+   class="btn btn-primary @prevDisabled">
+    Previous
+</a>
+<a asp-page="./Index"
+   asp-route-pageIndex="@(Model.Role.PageIndex + 1)"
+   asp-route-currentFilter="@Model.SearchString"
+   class="btn btn-primary @nextDisabled">
+    Next
+</a>

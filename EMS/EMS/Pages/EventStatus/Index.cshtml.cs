@@ -6,23 +6,48 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using EMS.Models;
+using Microsoft.Extensions.Configuration;
+using EMS.Services;
 
 namespace EMS.Pages.EventStatus
 {
     public class IndexModel : PageModel
     {
         private readonly EMS.Models.EventMSContext _context;
-
-        public IndexModel(EMS.Models.EventMSContext context)
+        private readonly IConfiguration Configuration;
+        public IndexModel(EventMSContext context, IConfiguration configuration)
         {
             _context = context;
+            Configuration = configuration;
         }
 
-        public IList<Models.EventStatus> EventStatus { get;set; }
+        public PaginatedList<Models.EventStatus> EventStatus { get;set; }
 
-        public async Task OnGetAsync()
+        [BindProperty(SupportsGet = true)]
+        public string SearchString { get; set; }
+
+        public async Task OnGetAsync(string sortOrder,
+            string currentFilter, string searchString, int? pageIndex)
         {
-            EventStatus = await _context.EventStatuses.ToListAsync();
+            var eventStatus = from m in _context.EventStatuses
+                .Include(p => p.Events)
+                .Include(p => p.Name)
+                       select m;
+            if (!string.IsNullOrEmpty(SearchString))
+            {
+                eventStatus = eventStatus.Where(o => o.Name.Contains(SearchString));
+            }
+            if (searchString != null)
+            {
+                pageIndex = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+            var pageSize = Configuration.GetValue("PageSize", 4);
+            EventStatus = await PaginatedList<Models.EventStatus>.CreateAsync(
+                eventStatus.AsNoTracking(), pageIndex ?? 1, pageSize);
         }
     }
 }
