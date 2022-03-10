@@ -1,15 +1,21 @@
 ﻿@page
 @model EMS.Pages.User.IndexModel
 
+
 @{
     ViewData["Title"] = "Index";
 }
 
 <h1>Index</h1>
 
-<p>
-    <a class="btn btn-info" asp-page="Create">Create New</a>
-</p>
+<form>
+    <p>
+        Search by name: <input type="text" asp-for="SearchString" />
+        <input type="submit" class="btn btn-primary" value="Search" /> | 
+        <a class="btn btn-info" asp-page="Create">Create New</a>
+    </p>
+</form>
+
 <table class="table">
     <thead>
         <tr>
@@ -64,3 +70,21 @@
 }
     </tbody>
 </table>
+
+@{
+    var prevDisabled = !Model.User.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.User.HasNextPage ? "disabled" : "";
+}
+
+<a asp-page="./Index"
+   asp-route-pageIndex="@(Model.User.PageIndex - 1)"
+   asp-route-currentFilter="@Model.SearchString"
+   class="btn btn-primary @prevDisabled">
+    Previous
+</a>
+<a asp-page="./Index"
+   asp-route-pageIndex="@(Model.User.PageIndex + 1)"
+   asp-route-currentFilter="@Model.SearchString"
+   class="btn btn-primary @nextDisabled">
+    Next
+</a>

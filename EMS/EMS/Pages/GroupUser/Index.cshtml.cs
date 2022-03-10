@@ -6,25 +6,50 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using EMS.Models;
+using Microsoft.Extensions.Configuration;
+using EMS.Services;
 
 namespace EMS.Pages.GroupUser
 {
     public class IndexModel : PageModel
     {
         private readonly EMS.Models.EventMSContext _context;
-
-        public IndexModel(EMS.Models.EventMSContext context)
+        private readonly IConfiguration Configuration;
+        public IndexModel(EventMSContext context, IConfiguration configuration)
         {
             _context = context;
+            Configuration = configuration;
         }
 
-        public IList<Models.GroupUser> GroupUser { get;set; }
+        public PaginatedList<Models.GroupUser> GroupUser { get;set; }
 
-        public async Task OnGetAsync()
+        [BindProperty(SupportsGet = true)]
+        public string SearchString { get; set; }
+
+        public async Task OnGetAsync(string sortOrder,
+            string currentFilter, string searchString, int? pageIndex)
         {
-            GroupUser = await _context.GroupUsers
-                .Include(g => g.Group)
-                .Include(g => g.User).ToListAsync();
+            var groupUser = from m in _context.GroupUsers
+                .Include(p => p.Group)
+                .Include(p => p.User)
+                       select m;
+            if (!string.IsNullOrEmpty(SearchString))
+            {
+                var i = int.Parse(searchString);
+                groupUser = groupUser.Where(o => o.UserId == i || o.GroupId == i || o.Id == i);
+            }
+            if (searchString != null)
+            {
+                pageIndex = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+            var pageSize = Configuration.GetValue("PageSize", 4);
+            GroupUser = await PaginatedList<Models.GroupUser>.CreateAsync(
+                groupUser.AsNoTracking(), pageIndex ?? 1, pageSize);
         }
     }
 }
+

@@ -5,11 +5,14 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<form>
+    <p>
+        Search by description: <input type="text" asp-for="SearchString" />
+        <input type="submit" class="btn btn-primary" value="Search" /> | 
+        <a class="btn btn-info" asp-page="Create">Create New</a>
+    </p>
+</form>
 
-<p>
-    <a class="btn btn-info" asp-page="Create">Create New</a>
-</p>
 <table class="table">
     <thead>
         <tr>
@@ -40,3 +43,21 @@
 }
     </tbody>
 </table>
+
+@{
+    var prevDisabled = !Model.AllowedEventGroup.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.AllowedEventGroup.HasNextPage ? "disabled" : "";
+}
+
+<a asp-page="./Index"
+   asp-route-pageIndex="@(Model.AllowedEventGroup.PageIndex - 1)"
+   asp-route-currentFilter="@Model.SearchString"
+   class="btn btn-primary @prevDisabled">
+    Previous
+</a>
+<a asp-page="./Index"
+   asp-route-pageIndex="@(Model.AllowedEventGroup.PageIndex + 1)"
+   asp-route-currentFilter="@Model.SearchString"
+   class="btn btn-primary @nextDisabled">
+    Next
+</a>

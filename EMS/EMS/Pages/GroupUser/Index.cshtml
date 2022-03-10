@@ -7,9 +7,14 @@
 
 <h1>Index</h1>
 
-<p>
-    <a class="btn btn-info" asp-page="Create">Create New</a>
-</p>
+<form>
+    <p>
+        Search by id: <input type="text" asp-for="SearchString" />
+        <input type="submit" class="btn btn-primary" value="Search" /> | 
+        <a class="btn btn-info" asp-page="Create">Create New</a>
+    </p>
+</form>
+
 <table class="table">
     <thead>
         <tr>
@@ -40,3 +45,21 @@
 }
     </tbody>
 </table>
+
+@{
+    var prevDisabled = !Model.GroupUser.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.GroupUser.HasNextPage ? "disabled" : "";
+}
+
+<a asp-page="./Index"
+   asp-route-pageIndex="@(Model.GroupUser.PageIndex - 1)"
+   asp-route-currentFilter="@Model.SearchString"
+   class="btn btn-primary @prevDisabled">
+    Previous
+</a>
+<a asp-page="./Index"
+   asp-route-pageIndex="@(Model.GroupUser.PageIndex + 1)"
+   asp-route-currentFilter="@Model.SearchString"
+   class="btn btn-primary @nextDisabled">
+    Next
+</a>
