@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="~/css/site.css" />
 </head>
 <body>
-    @if (User.Identity.IsAuthenticated)
+    @if (@HttpContextAccessor.HttpContext.Session.GetString("id") != null)
     {
         <header>
             <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
@@ -26,8 +26,9 @@
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-page="/Privacy">Privacy</a>
                             </li>
+                            @*<a class="nav-link text-dark" asp-area="" asp-page="/Accounts/Edit" asp-route-id="@HttpContextAccessor.HttpContext.Session.GetInt32("id")">Welcome user with id @t</a>
+                            *@<a class="nav-link text-dark" style="right" asp-page="/Login" asp-page-handler="Logout">Logout</a>
                         </ul>
-                        <partial name="_LoginPartial" />
                     </div>
                 </div>
             </nav>
@@ -39,7 +40,7 @@
       <nav class="navbar navbar-expand-lg bg-inverse fixed-top scrolling-navbar">
         <div class="container">
           <!-- Brand and toggle get grouped for better mobile display -->
-          <a href="index.html" class="navbar-brand" style="color: #ff4a4a">
+          <a href="/index" class="navbar-brand" style="color: #ff4a4a">
               @*<img src="./img/logo.png" alt="">*@
               EMS
               </a>       
@@ -96,30 +97,6 @@
         </div>
       </nav>
       <!-- Navbar End -->
-
-      <!-- Hero Area Start -->
-      <div id="hero-area" class="hero-area-bg">
-        <div class="overlay"></div>
-        <div class="container">
-          <div class="row justify-content-center">
-            <div class="col-lg-9 col-sm-12">
-              <div class="contents text-center">
-                <div class="icon">
-                  <i class="lni-mic"></i>
-                </div>
-                <p class="banner-info">15, Oct 2020 - Maria Hall, NY, United states</p>
-                <h2 class="head-title">Developers Conference</h2>
-                <p class="banner-desc">
-                  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sapiente, nobis nesciunt atque perferendis, ipsa doloremque deserunt cum qui.</p>
-                <div class="banner-btn">
-                  <a href="#" class="btn btn-common">Get Ticket</a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- Hero Area End -->
     </header>
     }
     <div class="container">
