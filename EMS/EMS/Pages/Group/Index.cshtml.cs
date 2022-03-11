@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using EMS.Models;
 using Microsoft.Extensions.Configuration;
 using EMS.Services;
+using Microsoft.AspNetCore.Http;
 
 namespace EMS.Pages.Group
 {
@@ -26,9 +27,17 @@ namespace EMS.Pages.Group
         [BindProperty(SupportsGet = true)]
         public string SearchString { get; set; }
 
-        public async Task OnGetAsync(string sortOrder,
+        public async Task<IActionResult> OnGetAsync(string sortOrder,
             string currentFilter, string searchString, int? pageIndex)
         {
+            if (HttpContext.Session.GetString("role") == null)
+            {
+                return RedirectToPage("/Login");
+            }
+            if (HttpContext.Session.GetString("role2") == "member" || HttpContext.Session.GetString("role2") != null)
+            {
+                return RedirectToPage("/Index");
+            }
             var group = from m in _context.Groups
                 .Include(p => p.GroupUsers)
                 .Include(p => p.AllowedEventGroups)
@@ -48,6 +57,7 @@ namespace EMS.Pages.Group
             var pageSize = Configuration.GetValue("PageSize", 4);
             Group = await PaginatedList<Models.Group>.CreateAsync(
                 group.AsNoTracking(), pageIndex ?? 1, pageSize);
+            return Page();
         }
     }
 }

@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using EMS.Models;
+using System.Threading.Tasks;
 
 namespace EMS.Pages.EventInvitation
 {
@@ -20,9 +17,17 @@ namespace EMS.Pages.EventInvitation
 
         public IActionResult OnGet()
         {
-        ViewData["EventId"] = new SelectList(_context.Events, "Id", "Description");
-        ViewData["InvitationResponseId"] = new SelectList(_context.InvitationResponseTypes, "Id", "Name");
-        ViewData["UserId"] = new SelectList(_context.Users, "Id", "Bio");
+            if (HttpContext.Session.GetString("role") == null)
+            {
+                return RedirectToPage("/Login");
+            }
+            if (HttpContext.Session.GetString("role2") == "member" || HttpContext.Session.GetString("role2") != null)
+            {
+                return RedirectToPage("/Index");
+            }
+            ViewData["EventId"] = new SelectList(_context.Events, "Id", "Description");
+            ViewData["InvitationResponseId"] = new SelectList(_context.InvitationResponseTypes, "Id", "Name");
+            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Bio");
             return Page();
         }
 

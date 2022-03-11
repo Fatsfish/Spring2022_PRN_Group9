@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using EMS.Models;
 using Microsoft.Extensions.Configuration;
 using EMS.Services;
+using Microsoft.AspNetCore.Http;
 
 namespace EMS.Pages.EventTicket
 {
@@ -26,9 +27,17 @@ namespace EMS.Pages.EventTicket
         [BindProperty(SupportsGet = true)]
         public string SearchString { get; set; }
 
-        public async Task OnGetAsync(string sortOrder,
+        public async Task<IActionResult> OnGetAsync(string sortOrder,
             string currentFilter, string searchString, int? pageIndex)
         {
+            if (HttpContext.Session.GetString("role") == null)
+            {
+                return RedirectToPage("/Login");
+            }
+            if (HttpContext.Session.GetString("role2") == "member" || HttpContext.Session.GetString("role2") != null)
+            {
+                return RedirectToPage("/Index");
+            }
             var eventTicket = from m in _context.EventTickets
                 .Include(p => p.Event)
                 .Include(p => p.Owner)
@@ -48,6 +57,7 @@ namespace EMS.Pages.EventTicket
             var pageSize = Configuration.GetValue("PageSize", 4);
             EventTicket = await PaginatedList<Models.EventTicket>.CreateAsync(
                 eventTicket.AsNoTracking(), pageIndex ?? 1, pageSize);
+            return Page();
         }
     }
 }

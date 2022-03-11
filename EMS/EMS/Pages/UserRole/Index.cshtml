@@ -1,6 +1,13 @@
 ﻿@page
 @model EMS.Pages.UserRole.IndexModel
-
+@if (@HttpContextAccessor.HttpContext.Session.GetInt32("id") == null)
+{
+    Unauthorized();
+}
+@if (@HttpContextAccessor.HttpContext.Session.GetString("role") != "admin")
+{
+    @RedirectToPage("~/Login");
+}
 @{
     ViewData["Title"] = "Index";
 }

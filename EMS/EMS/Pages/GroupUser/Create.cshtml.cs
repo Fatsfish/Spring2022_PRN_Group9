@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using EMS.Models;
+using System.Threading.Tasks;
 
 namespace EMS.Pages.GroupUser
 {
@@ -20,8 +17,16 @@ namespace EMS.Pages.GroupUser
 
         public IActionResult OnGet()
         {
-        ViewData["GroupId"] = new SelectList(_context.Groups, "Id", "Description");
-        ViewData["UserId"] = new SelectList(_context.Users, "Id", "Bio");
+            if (HttpContext.Session.GetString("role") == null)
+            {
+                return RedirectToPage("/Login");
+            }
+            if (HttpContext.Session.GetString("role2") == "member" || HttpContext.Session.GetString("role2") != null)
+            {
+                return RedirectToPage("/Index");
+            }
+            ViewData["GroupId"] = new SelectList(_context.Groups, "Id", "Description");
+            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Bio");
             return Page();
         }
 

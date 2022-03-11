@@ -25,7 +25,7 @@ namespace EMS.Pages
             {
                 return RedirectToPage("User/index");
             }
-            else if (HttpContext.Session.GetString("role1") == "host" || HttpContext.Session.GetString("role2") == "member" || HttpContext.Session.GetString("role1") != null || HttpContext.Session.GetString("role") != null)
+            else if (HttpContext.Session.GetString("role1") == "host" || HttpContext.Session.GetString("role2") == "member" || HttpContext.Session.GetString("role1") != null || HttpContext.Session.GetString("role2") != null)
             {
                 return RedirectToPage("Index");
             }
@@ -95,7 +95,7 @@ namespace EMS.Pages
             {
                 return RedirectToPage("User/index");
             }
-            else if (HttpContext.Session.GetString("role1") == "host"|| HttpContext.Session.GetString("role2") == "member" || HttpContext.Session.GetString("role1")!=null|| HttpContext.Session.GetString("role") !=null)
+            else if (HttpContext.Session.GetString("role1") == "host"|| HttpContext.Session.GetString("role2") == "member" || HttpContext.Session.GetString("role1")!=null|| HttpContext.Session.GetString("role2") !=null)
             {
                 return RedirectToPage("Index");
             }

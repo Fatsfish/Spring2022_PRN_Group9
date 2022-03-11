@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using EMS.Models;
+using System.Threading.Tasks;
 
 namespace EMS.Pages.AllowedEventGroup
 {
@@ -20,8 +17,16 @@ namespace EMS.Pages.AllowedEventGroup
 
         public IActionResult OnGet()
         {
-        ViewData["EventId"] = new SelectList(_context.Events, "Id", "Description");
-        ViewData["GroupId"] = new SelectList(_context.Groups, "Id", "Description");
+            if (HttpContext.Session.GetString("role") == null)
+            {
+                return RedirectToPage("/Login");
+            }
+            if (HttpContext.Session.GetString("role2") == "member" || HttpContext.Session.GetString("role2") != null)
+            {
+                return RedirectToPage("/Index");
+            }
+            ViewData["EventId"] = new SelectList(_context.Events, "Id", "Description");
+            ViewData["GroupId"] = new SelectList(_context.Groups, "Id", "Description");
             return Page();
         }
 
