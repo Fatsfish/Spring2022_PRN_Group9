@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using EMS.Models;
 using Microsoft.Extensions.Configuration;
 using EMS.Services;
+using Microsoft.AspNetCore.Http;
 
 namespace EMS.Pages.UserRole
 {
@@ -26,9 +27,17 @@ namespace EMS.Pages.UserRole
         [BindProperty(SupportsGet = true)]
         public string SearchString { get; set; }
 
-        public async Task OnGetAsync(string sortOrder,
+        public async Task<IActionResult> OnGetAsync(string sortOrder,
             string currentFilter, string searchString, int? pageIndex)
         {
+            if (HttpContext.Session.GetString("role") != "admin" || HttpContext.Session.GetString("role") == null)
+            {
+                return RedirectToPage("/Login");
+            }
+            if (HttpContext.Session.GetString("role1") == "host" || HttpContext.Session.GetString("role2") == "member" || HttpContext.Session.GetString("role1") != null || HttpContext.Session.GetString("role2") != null)
+            {
+                return RedirectToPage("/Index");
+            }
             var userRole = from m in _context.UserRoles
                 .Include(p => p.User)
                 .Include(p => p.Role)
@@ -48,6 +57,7 @@ namespace EMS.Pages.UserRole
             var pageSize = Configuration.GetValue("PageSize", 4);
             UserRole = await PaginatedList<Models.UserRole>.CreateAsync(
                 userRole.AsNoTracking(), pageIndex ?? 1, pageSize);
+            return Page();
         }
     }
 }

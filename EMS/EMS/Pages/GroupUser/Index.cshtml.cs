@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using EMS.Models;
 using Microsoft.Extensions.Configuration;
 using EMS.Services;
+using Microsoft.AspNetCore.Http;
 
 namespace EMS.Pages.GroupUser
 {
@@ -21,34 +22,46 @@ namespace EMS.Pages.GroupUser
             Configuration = configuration;
         }
 
-        public PaginatedList<Models.GroupUser> GroupUser { get;set; }
+        public PaginatedList<Models.GroupUser> GroupUser { get; set; }
 
         [BindProperty(SupportsGet = true)]
         public string SearchString { get; set; }
 
-        public async Task OnGetAsync(string sortOrder,
+        public async Task<IActionResult> OnGetAsync(string sortOrder,
             string currentFilter, string searchString, int? pageIndex)
         {
-            var groupUser = from m in _context.GroupUsers
-                .Include(p => p.Group)
-                .Include(p => p.User)
-                       select m;
-            if (!string.IsNullOrEmpty(SearchString))
+            if (HttpContext.Session.GetInt32("id") == null)
             {
-                var i = int.Parse(searchString);
-                groupUser = groupUser.Where(o => o.UserId == i || o.GroupId == i || o.Id == i);
+                return RedirectToPage("/Login");
             }
-            if (searchString != null)
+            if (HttpContext.Session.GetString("role2") == "member" || HttpContext.Session.GetString("role2") != null)
             {
-                pageIndex = 1;
+                return RedirectToPage("/Index");
             }
             else
             {
-                searchString = currentFilter;
+                var groupUser = from m in _context.GroupUsers
+                .Include(p => p.Group)
+                .Include(p => p.User)
+                                select m;
+                if (!string.IsNullOrEmpty(SearchString))
+                {
+                    var i = int.Parse(searchString);
+                    groupUser = groupUser.Where(o => o.UserId == i || o.GroupId == i || o.Id == i);
+                }
+                if (searchString != null)
+                {
+                    pageIndex = 1;
+                }
+                else
+                {
+                    searchString = currentFilter;
+                }
+                var pageSize = Configuration.GetValue("PageSize", 4);
+                GroupUser = await PaginatedList<Models.GroupUser>.CreateAsync(
+                    groupUser.AsNoTracking(), pageIndex ?? 1, pageSize);
+                return Page();
             }
-            var pageSize = Configuration.GetValue("PageSize", 4);
-            GroupUser = await PaginatedList<Models.GroupUser>.CreateAsync(
-                groupUser.AsNoTracking(), pageIndex ?? 1, pageSize);
         }
     }
 }

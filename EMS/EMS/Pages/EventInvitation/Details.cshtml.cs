@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using EMS.Models;
+using Microsoft.AspNetCore.Http;
 
 namespace EMS.Pages.EventInvitation
 {
@@ -22,21 +23,32 @@ namespace EMS.Pages.EventInvitation
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
-            if (id == null)
+            if (HttpContext.Session.GetInt32("id") == null)
             {
-                return NotFound();
+                return RedirectToPage("/Login");
             }
-
-            EventInvitation = await _context.EventInvitations
-                .Include(e => e.Event)
-                .Include(e => e.InvitationResponse)
-                .Include(e => e.User).FirstOrDefaultAsync(m => m.Id == id);
-
-            if (EventInvitation == null)
+            if (HttpContext.Session.GetString("role2") == "member" || HttpContext.Session.GetString("role2") != null)
             {
-                return NotFound();
+                return RedirectToPage("/Index");
             }
-            return Page();
+            else
+            {
+                if (id == null)
+                {
+                    return NotFound();
+                }
+
+                EventInvitation = await _context.EventInvitations
+                    .Include(e => e.Event)
+                    .Include(e => e.InvitationResponse)
+                    .Include(e => e.User).FirstOrDefaultAsync(m => m.Id == id);
+
+                if (EventInvitation == null)
+                {
+                    return NotFound();
+                }
+                return Page();
+            }
         }
     }
 }

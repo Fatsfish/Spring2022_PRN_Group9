@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using EMS.Models;
+using System.Threading.Tasks;
 
 namespace EMS.Pages.EventTicket
 {
@@ -20,9 +17,20 @@ namespace EMS.Pages.EventTicket
 
         public IActionResult OnGet()
         {
-        ViewData["EventId"] = new SelectList(_context.Events, "Id", "Description");
-        ViewData["OwnerId"] = new SelectList(_context.Users, "Id", "Bio");
-            return Page();
+            if (HttpContext.Session.GetInt32("id") == null)
+            {
+                return RedirectToPage("/Login");
+            }
+            if (HttpContext.Session.GetString("role2") == "member" || HttpContext.Session.GetString("role2") != null)
+            {
+                return RedirectToPage("/Index");
+            }
+            else
+            {
+                ViewData["EventId"] = new SelectList(_context.Events, "Id", "Description");
+                ViewData["OwnerId"] = new SelectList(_context.Users, "Id", "Bio");
+                return Page();
+            }
         }
 
         [BindProperty]

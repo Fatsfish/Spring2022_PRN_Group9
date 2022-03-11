@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using EMS.Models;
+using Microsoft.AspNetCore.Http;
 
 namespace EMS.Pages.Event
 {
@@ -22,20 +23,31 @@ namespace EMS.Pages.Event
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
-            if (id == null)
+            if (HttpContext.Session.GetInt32("id") == null)
             {
-                return NotFound();
+                return RedirectToPage("/Login");
             }
-
-            Event = await _context.Events
-                .Include(e => e.CreationUser)
-                .Include(e => e.Status).FirstOrDefaultAsync(m => m.Id == id);
-
-            if (Event == null)
+            if (HttpContext.Session.GetString("role2") == "member" || HttpContext.Session.GetString("role2") != null)
             {
-                return NotFound();
+                return RedirectToPage("/Index");
             }
-            return Page();
+            else
+            {
+                if (id == null)
+                {
+                    return NotFound();
+                }
+
+                Event = await _context.Events
+                    .Include(e => e.CreationUser)
+                    .Include(e => e.Status).FirstOrDefaultAsync(m => m.Id == id);
+
+                if (Event == null)
+                {
+                    return NotFound();
+                }
+                return Page();
+            }
         }
     }
 }

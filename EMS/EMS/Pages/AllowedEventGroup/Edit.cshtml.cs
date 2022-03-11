@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using EMS.Models;
+using Microsoft.AspNetCore.Http;
 
 namespace EMS.Pages.AllowedEventGroup
 {
@@ -24,22 +25,33 @@ namespace EMS.Pages.AllowedEventGroup
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
-            if (id == null)
+            if (HttpContext.Session.GetInt32("id") == null)
             {
-                return NotFound();
+                return RedirectToPage("/Login");
             }
-
-            AllowedEventGroup = await _context.AllowedEventGroups
-                .Include(a => a.Event)
-                .Include(a => a.Group).FirstOrDefaultAsync(m => m.Id == id);
-
-            if (AllowedEventGroup == null)
+            if (HttpContext.Session.GetString("role2") == "member" || HttpContext.Session.GetString("role2") != null)
             {
-                return NotFound();
+                return RedirectToPage("/Index");
             }
-           ViewData["EventId"] = new SelectList(_context.Events, "Id", "Description");
-           ViewData["GroupId"] = new SelectList(_context.Groups, "Id", "Description");
-            return Page();
+            else
+            {
+                if (id == null)
+                {
+                    return NotFound();
+                }
+
+                AllowedEventGroup = await _context.AllowedEventGroups
+                    .Include(a => a.Event)
+                    .Include(a => a.Group).FirstOrDefaultAsync(m => m.Id == id);
+
+                if (AllowedEventGroup == null)
+                {
+                    return NotFound();
+                }
+                ViewData["EventId"] = new SelectList(_context.Events, "Id", "Description");
+                ViewData["GroupId"] = new SelectList(_context.Groups, "Id", "Description");
+                return Page();
+            }
         }
 
         // To protect from overposting attacks, enable the specific properties you want to bind to.

@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using EMS.Models;
+using Microsoft.AspNetCore.Http;
 
 namespace EMS.Pages.Comment
 {
@@ -24,22 +25,33 @@ namespace EMS.Pages.Comment
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
-            if (id == null)
+            if (HttpContext.Session.GetInt32("id") == null)
             {
-                return NotFound();
+                return RedirectToPage("/Login");
             }
-
-            Comment = await _context.Comments
-                .Include(c => c.CreationUser)
-                .Include(c => c.Event).FirstOrDefaultAsync(m => m.Id == id);
-
-            if (Comment == null)
+            if (HttpContext.Session.GetString("role2") == "member" || HttpContext.Session.GetString("role2") != null)
             {
-                return NotFound();
+                return RedirectToPage("/Index");
             }
-           ViewData["CreationUserId"] = new SelectList(_context.Users, "Id", "Bio");
-           ViewData["EventId"] = new SelectList(_context.Events, "Id", "Description");
-            return Page();
+            else
+            {
+                if (id == null)
+                {
+                    return NotFound();
+                }
+
+                Comment = await _context.Comments
+                    .Include(c => c.CreationUser)
+                    .Include(c => c.Event).FirstOrDefaultAsync(m => m.Id == id);
+
+                if (Comment == null)
+                {
+                    return NotFound();
+                }
+                ViewData["CreationUserId"] = new SelectList(_context.Users, "Id", "Bio");
+                ViewData["EventId"] = new SelectList(_context.Events, "Id", "Description");
+                return Page();
+            }
         }
 
         // To protect from overposting attacks, enable the specific properties you want to bind to.
