@@ -25,7 +25,7 @@ namespace EMS.Pages.Group
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
-            if (HttpContext.Session.GetString("role") == null)
+            if (HttpContext.Session.GetInt32("id") == null)
             {
                 return RedirectToPage("/Login");
             }
@@ -33,18 +33,21 @@ namespace EMS.Pages.Group
             {
                 return RedirectToPage("/Index");
             }
-            if (id == null)
+            else
             {
-                return NotFound();
-            }
+                if (id == null)
+                {
+                    return NotFound();
+                }
 
-            Group = await _context.Groups.FirstOrDefaultAsync(m => m.Id == id);
+                Group = await _context.Groups.FirstOrDefaultAsync(m => m.Id == id);
 
-            if (Group == null)
-            {
-                return NotFound();
+                if (Group == null)
+                {
+                    return NotFound();
+                }
+                return Page();
             }
-            return Page();
         }
 
         // To protect from overposting attacks, enable the specific properties you want to bind to.

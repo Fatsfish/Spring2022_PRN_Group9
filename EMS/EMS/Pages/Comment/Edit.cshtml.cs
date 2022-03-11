@@ -25,7 +25,7 @@ namespace EMS.Pages.Comment
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
-            if (HttpContext.Session.GetString("role") == null)
+            if (HttpContext.Session.GetInt32("id") == null)
             {
                 return RedirectToPage("/Login");
             }
@@ -33,22 +33,25 @@ namespace EMS.Pages.Comment
             {
                 return RedirectToPage("/Index");
             }
-            if (id == null)
+            else
             {
-                return NotFound();
-            }
+                if (id == null)
+                {
+                    return NotFound();
+                }
 
-            Comment = await _context.Comments
-                .Include(c => c.CreationUser)
-                .Include(c => c.Event).FirstOrDefaultAsync(m => m.Id == id);
+                Comment = await _context.Comments
+                    .Include(c => c.CreationUser)
+                    .Include(c => c.Event).FirstOrDefaultAsync(m => m.Id == id);
 
-            if (Comment == null)
-            {
-                return NotFound();
+                if (Comment == null)
+                {
+                    return NotFound();
+                }
+                ViewData["CreationUserId"] = new SelectList(_context.Users, "Id", "Bio");
+                ViewData["EventId"] = new SelectList(_context.Events, "Id", "Description");
+                return Page();
             }
-           ViewData["CreationUserId"] = new SelectList(_context.Users, "Id", "Bio");
-           ViewData["EventId"] = new SelectList(_context.Events, "Id", "Description");
-            return Page();
         }
 
         // To protect from overposting attacks, enable the specific properties you want to bind to.

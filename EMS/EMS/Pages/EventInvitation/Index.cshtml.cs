@@ -30,7 +30,7 @@ namespace EMS.Pages.EventInvitation
         public async Task<IActionResult> OnGetAsync(string sortOrder,
             string currentFilter, string searchString, int? pageIndex)
         {
-            if (HttpContext.Session.GetString("role") == null)
+            if (HttpContext.Session.GetInt32("id") == null)
             {
                 return RedirectToPage("/Login");
             }
@@ -38,27 +38,30 @@ namespace EMS.Pages.EventInvitation
             {
                 return RedirectToPage("/Index");
             }
-            var eventInvitation = from m in _context.EventInvitations
+            else
+            {
+                var eventInvitation = from m in _context.EventInvitations
                 .Include(p => p.Event)
                 .Include(p => p.User)
                 .Include(p => p.InvitationResponse)
-                       select m;
-            if (!string.IsNullOrEmpty(SearchString))
-            {
-                eventInvitation = eventInvitation.Where(o => o.TextResponse.Contains(SearchString) || o.Event.Description.Contains(SearchString) || o.InvitationResponse.Name.Contains(SearchString));
+                                      select m;
+                if (!string.IsNullOrEmpty(SearchString))
+                {
+                    eventInvitation = eventInvitation.Where(o => o.TextResponse.Contains(SearchString) || o.Event.Description.Contains(SearchString) || o.InvitationResponse.Name.Contains(SearchString));
+                }
+                if (searchString != null)
+                {
+                    pageIndex = 1;
+                }
+                else
+                {
+                    searchString = currentFilter;
+                }
+                var pageSize = Configuration.GetValue("PageSize", 4);
+                EventInvitation = await PaginatedList<Models.EventInvitation>.CreateAsync(
+                    eventInvitation.AsNoTracking(), pageIndex ?? 1, pageSize);
+                return Page();
             }
-            if (searchString != null)
-            {
-                pageIndex = 1;
-            }
-            else
-            {
-                searchString = currentFilter;
-            }
-            var pageSize = Configuration.GetValue("PageSize", 4);
-            EventInvitation = await PaginatedList<Models.EventInvitation>.CreateAsync(
-                eventInvitation.AsNoTracking(), pageIndex ?? 1, pageSize);
-            return Page();
         }
     }
 }

@@ -25,7 +25,7 @@ namespace EMS.Pages.EventTicket
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
-            if (HttpContext.Session.GetString("role") == null)
+            if (HttpContext.Session.GetInt32("id") == null)
             {
                 return RedirectToPage("/Login");
             }
@@ -33,22 +33,25 @@ namespace EMS.Pages.EventTicket
             {
                 return RedirectToPage("/Index");
             }
-            if (id == null)
+            else
             {
-                return NotFound();
-            }
+                if (id == null)
+                {
+                    return NotFound();
+                }
 
-            EventTicket = await _context.EventTickets
-                .Include(e => e.Event)
-                .Include(e => e.Owner).FirstOrDefaultAsync(m => m.Id == id);
+                EventTicket = await _context.EventTickets
+                    .Include(e => e.Event)
+                    .Include(e => e.Owner).FirstOrDefaultAsync(m => m.Id == id);
 
-            if (EventTicket == null)
-            {
-                return NotFound();
+                if (EventTicket == null)
+                {
+                    return NotFound();
+                }
+                ViewData["EventId"] = new SelectList(_context.Events, "Id", "Description");
+                ViewData["OwnerId"] = new SelectList(_context.Users, "Id", "Bio");
+                return Page();
             }
-           ViewData["EventId"] = new SelectList(_context.Events, "Id", "Description");
-           ViewData["OwnerId"] = new SelectList(_context.Users, "Id", "Bio");
-            return Page();
         }
 
         // To protect from overposting attacks, enable the specific properties you want to bind to.

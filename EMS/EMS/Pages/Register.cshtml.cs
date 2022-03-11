@@ -23,9 +23,9 @@ namespace EMS.Pages
         {
             if (HttpContext.Session.GetString("role") == "admin" || HttpContext.Session.GetString("role") != null)
             {
-                return RedirectToPage("/User");
+                return RedirectToPage("/User/index");
             }
-            else if (HttpContext.Session.GetString("role1") == "host" || HttpContext.Session.GetString("role2") == "member" || HttpContext.Session.GetString("role1") != null || HttpContext.Session.GetString("role") != null)
+            else if (HttpContext.Session.GetString("role1") == "host" || HttpContext.Session.GetString("role2") == "member" || HttpContext.Session.GetString("role1") != null || HttpContext.Session.GetString("role2") != null)
             {
                 return RedirectToPage("Index");
             }
@@ -49,8 +49,11 @@ namespace EMS.Pages
             Account.Bio= Account.Email;
             Account.IsActive= false;
             _context.Users.Add(Account);
-            Role.UserId = _context.Users.FirstOrDefault(o => o.Email == Account.Email).Id;
-            Role.RoleId = 3;
+            await _context.SaveChangesAsync();
+            var i=  _context.Users.FirstOrDefault(o => o.Email.ToLower().Contains(Account.Email.ToLower())).Id;
+            Role = new Models.UserRole();
+            Role.RoleId = (int?)3;
+            Role.UserId= (int?)i;
             _context.UserRoles.Add(Role);
             await _context.SaveChangesAsync();
             return RedirectToPage("./Login");

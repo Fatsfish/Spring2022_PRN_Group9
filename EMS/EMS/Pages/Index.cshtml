@@ -8,7 +8,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Home page</title>
-    @{    Layout = "~/Pages/Shared/_Layout.cshtml";
+    @{    Layout = null;
 }
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" type="text/css" href="./css/bootstrap.min.css" >
@@ -25,6 +25,121 @@
 
   </head>
   <body>
+      <header id="header-wrap">
+          <!-- Navbar Start -->
+          <nav class="navbar navbar-expand-lg bg-inverse fixed-top scrolling-navbar">
+            <div class="container">
+              <!-- Brand and toggle get grouped for better mobile display -->
+              <a href="/index" class="navbar-brand" style="color: #ff4a4a">
+                  EMS
+                  </a>       
+              <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+                <i class="lni-menu"></i>
+              </button>
+              <div class="collapse navbar-collapse" id="navbarCollapse">
+                <ul class="navbar-nav mr-auto w-100 justify-content-end">
+                  <li class="nav-item active">
+                    <a class="nav-link" href="#header-wrap">
+                      Home
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="#about">
+                      About
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="#schedules">
+                      Schedules
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="#team">
+                      Speakers
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="#gallery">
+                      Gallery
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="#pricing">
+                      Pricing
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="#sponsors">
+                      Sponsors
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="#google-map-area">
+                      Contact
+                    </a>
+                  </li>
+                  @if (@HttpContextAccessor.HttpContext.Session.GetString("role") !=null && @HttpContextAccessor.HttpContext.Session.GetString("role") == "admin")
+                                {
+                                    <li class="nav-item dropdown">
+                                        <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Admin Management</a>
+                                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                            <a class="dropdown-item" asp-area="" asp-page="/User/Index">User</a>
+                                            <a class="dropdown-item" asp-area="" asp-page="/UserRole/Index">User Role</a>
+                                            <a class="dropdown-item" asp-area="" asp-page="/Role/Index">Role</a>
+                                            <a class="dropdown-item" asp-area="" asp-page="/InvitationResponseType/Index">Invitation Response Type</a>
+                                            <div class="dropdown-divider"></div>
+                                            <a class="dropdown-item" asp-area="" asp-page="/Group/Index">Group</a>
+                                            <a class="dropdown-item" asp-area="" asp-page="/GroupUser/Index">Group User</a>
+                                            <div class="dropdown-divider"></div>
+                                            <a class="dropdown-item" asp-area="" asp-page="/Event/Index">Event</a>
+                                            <a class="dropdown-item" asp-area="" asp-page="/EventInvitation/Index">Event Invitation</a>
+                                            <a class="dropdown-item" asp-area="" asp-page="/EventTicket/Index">Event Ticket</a>
+                                            <a class="dropdown-item" asp-area="" asp-page="/EventStatus/Index">Event Status</a>
+                                             <div class="dropdown-divider"></div>
+                                            <a class="dropdown-item" asp-area="" asp-page="/Comment/Index">Comment</a>
+                                            <a class="dropdown-item" asp-area="" asp-page="/AllowedEventGroup/Index">Allowed Event Group</a>
+                                        </div>
+                                    </li>
+                                }
+                                @if (@HttpContextAccessor.HttpContext.Session.GetString("role1") !=null &&@HttpContextAccessor.HttpContext.Session.GetString("role1") == "host")
+                                {
+                                    <li class="nav-item dropdown">
+                                        <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Host Management</a>
+                                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                            <a class="dropdown-item" asp-area="" asp-page="/Group/Index">Group</a>
+                                            <a class="dropdown-item" asp-area="" asp-page="/GroupUser/Index">Group User</a>
+                                            <div class="dropdown-divider"></div>
+                                            <a class="dropdown-item" asp-area="" asp-page="/Event/Index">Event</a>
+                                            <a class="dropdown-item" asp-area="" asp-page="/EventInvitation/Index">Event Invitation</a>
+                                            <a class="dropdown-item" asp-area="" asp-page="/EventTicket/Index">Event Ticket</a>
+                                            <a class="dropdown-item" asp-area="" asp-page="/EventStatus/Index">Event Status</a>
+                                             <div class="dropdown-divider"></div>
+                                            <a class="dropdown-item" asp-area="" asp-page="/Comment/Index">Comment</a>
+                                            <a class="dropdown-item" asp-area="" asp-page="/AllowedEventGroup/Index">Allowed Event Group</a>
+                                        </div>
+                                    </li>
+                                }
+                                @if (@HttpContextAccessor.HttpContext.Session.GetInt32("id") == null)
+                                {
+                                    <li class="nav-item">
+                                        <a class="nav-link" asp-area="" asp-page="/Login">Login</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" asp-area="" asp-page="/Register">Register</a>
+                                    </li>
+                                }
+                                @if (@HttpContextAccessor.HttpContext.Session.GetInt32("id") != null)
+                                {
+                                    <li class="nav-item">
+                                        <a class="nav-link" style="right" asp-page="/Login" asp-page-handler="Logout">Logout</a>
+                                    </li>
+                                }
+                </ul>
+              </div>
+            </div>
+          </nav>
+          <!-- Navbar End -->
+        </header>
     <!-- Header Area wrapper Starts -->
     <header id="header-wrap">
       

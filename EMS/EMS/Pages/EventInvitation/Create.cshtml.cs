@@ -17,7 +17,7 @@ namespace EMS.Pages.EventInvitation
 
         public IActionResult OnGet()
         {
-            if (HttpContext.Session.GetString("role") == null)
+            if (HttpContext.Session.GetInt32("id") == null)
             {
                 return RedirectToPage("/Login");
             }
@@ -25,10 +25,13 @@ namespace EMS.Pages.EventInvitation
             {
                 return RedirectToPage("/Index");
             }
-            ViewData["EventId"] = new SelectList(_context.Events, "Id", "Description");
-            ViewData["InvitationResponseId"] = new SelectList(_context.InvitationResponseTypes, "Id", "Name");
-            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Bio");
-            return Page();
+            else
+            {
+                ViewData["EventId"] = new SelectList(_context.Events, "Id", "Description");
+                ViewData["InvitationResponseId"] = new SelectList(_context.InvitationResponseTypes, "Id", "Name");
+                ViewData["UserId"] = new SelectList(_context.Users, "Id", "Bio");
+                return Page();
+            }
         }
 
         [BindProperty]

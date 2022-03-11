@@ -24,7 +24,7 @@ namespace EMS.Pages.AllowedEventGroup
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
-            if (HttpContext.Session.GetString("role") == null)
+            if (HttpContext.Session.GetInt32("id") == null)
             {
                 return RedirectToPage("/Login");
             }
@@ -32,20 +32,23 @@ namespace EMS.Pages.AllowedEventGroup
             {
                 return RedirectToPage("/Index");
             }
-            if (id == null)
+            else
             {
-                return NotFound();
-            }
+                if (id == null)
+                {
+                    return NotFound();
+                }
 
-            AllowedEventGroup = await _context.AllowedEventGroups
-                .Include(a => a.Event)
-                .Include(a => a.Group).FirstOrDefaultAsync(m => m.Id == id);
+                AllowedEventGroup = await _context.AllowedEventGroups
+                    .Include(a => a.Event)
+                    .Include(a => a.Group).FirstOrDefaultAsync(m => m.Id == id);
 
-            if (AllowedEventGroup == null)
-            {
-                return NotFound();
+                if (AllowedEventGroup == null)
+                {
+                    return NotFound();
+                }
+                return Page();
             }
-            return Page();
         }
 
         public async Task<IActionResult> OnPostAsync(int? id)

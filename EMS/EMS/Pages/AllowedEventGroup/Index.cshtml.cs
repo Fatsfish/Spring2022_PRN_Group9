@@ -22,7 +22,7 @@ namespace EMS.Pages.AllowedEventGroup
             Configuration = configuration;
         }
 
-        public PaginatedList<Models.AllowedEventGroup> AllowedEventGroup { get;set; }
+        public PaginatedList<Models.AllowedEventGroup> AllowedEventGroup { get; set; }
 
         [BindProperty(SupportsGet = true)]
         public string SearchString { get; set; }
@@ -30,7 +30,7 @@ namespace EMS.Pages.AllowedEventGroup
         public async Task<IActionResult> OnGetAsync(string sortOrder,
             string currentFilter, string searchString, int? pageIndex)
         {
-            if (HttpContext.Session.GetString("role") == null)
+            if (HttpContext.Session.GetInt32("id") == null)
             {
                 return RedirectToPage("/Login");
             }
@@ -38,26 +38,29 @@ namespace EMS.Pages.AllowedEventGroup
             {
                 return RedirectToPage("/Index");
             }
-            var allowedEventGroup = from m in _context.AllowedEventGroups
-                .Include(p => p.Event)
-                .Include(p => p.Group)
-                       select m;
-            if (!string.IsNullOrEmpty(SearchString))
-            {
-                allowedEventGroup = allowedEventGroup.Where(o => o.Event.Description.Contains(SearchString) || o.Group.Description.Contains(SearchString));
-            }
-            if (searchString != null)
-            {
-                pageIndex = 1;
-            }
             else
             {
-                searchString = currentFilter;
+                var allowedEventGroup = from m in _context.AllowedEventGroups
+                .Include(p => p.Event)
+                .Include(p => p.Group)
+                                        select m;
+                if (!string.IsNullOrEmpty(SearchString))
+                {
+                    allowedEventGroup = allowedEventGroup.Where(o => o.Event.Description.Contains(SearchString) || o.Group.Description.Contains(SearchString));
+                }
+                if (searchString != null)
+                {
+                    pageIndex = 1;
+                }
+                else
+                {
+                    searchString = currentFilter;
+                }
+                var pageSize = Configuration.GetValue("PageSize", 4);
+                AllowedEventGroup = await PaginatedList<Models.AllowedEventGroup>.CreateAsync(
+                    allowedEventGroup.AsNoTracking(), pageIndex ?? 1, pageSize);
+                return Page();
             }
-            var pageSize = Configuration.GetValue("PageSize", 4);
-            AllowedEventGroup = await PaginatedList<Models.AllowedEventGroup>.CreateAsync(
-                allowedEventGroup.AsNoTracking(), pageIndex ?? 1, pageSize);
-            return Page();
         }
     }
 }

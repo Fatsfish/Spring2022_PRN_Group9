@@ -17,7 +17,7 @@ namespace EMS.Pages.GroupUser
 
         public IActionResult OnGet()
         {
-            if (HttpContext.Session.GetString("role") == null)
+            if (HttpContext.Session.GetInt32("id") == null)
             {
                 return RedirectToPage("/Login");
             }
@@ -25,9 +25,12 @@ namespace EMS.Pages.GroupUser
             {
                 return RedirectToPage("/Index");
             }
-            ViewData["GroupId"] = new SelectList(_context.Groups, "Id", "Description");
-            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Bio");
-            return Page();
+            else
+            {
+                ViewData["GroupId"] = new SelectList(_context.Groups, "Id", "Description");
+                ViewData["UserId"] = new SelectList(_context.Users, "Id", "Bio");
+                return Page();
+            }
         }
 
         [BindProperty]

@@ -21,7 +21,7 @@ namespace EMS.Pages.EventStatus
 
         public IActionResult OnGet()
         {
-            if (HttpContext.Session.GetString("role") == null)
+            if (HttpContext.Session.GetInt32("id") == null)
             {
                 return RedirectToPage("/Login");
             }
@@ -29,7 +29,10 @@ namespace EMS.Pages.EventStatus
             {
                 return RedirectToPage("/Index");
             }
-            return Page();
+            else
+            {
+                return Page();
+            }
         }
 
         [BindProperty]

@@ -30,7 +30,7 @@ namespace EMS.Pages.GroupUser
         public async Task<IActionResult> OnGetAsync(string sortOrder,
             string currentFilter, string searchString, int? pageIndex)
         {
-            if (HttpContext.Session.GetString("role") == null)
+            if (HttpContext.Session.GetInt32("id") == null)
             {
                 return RedirectToPage("/Login");
             }
@@ -38,27 +38,30 @@ namespace EMS.Pages.GroupUser
             {
                 return RedirectToPage("/Index");
             }
-            var groupUser = from m in _context.GroupUsers
-                .Include(p => p.Group)
-                .Include(p => p.User)
-                       select m;
-            if (!string.IsNullOrEmpty(SearchString))
-            {
-                var i = int.Parse(searchString);
-                groupUser = groupUser.Where(o => o.UserId == i || o.GroupId == i || o.Id == i);
-            }
-            if (searchString != null)
-            {
-                pageIndex = 1;
-            }
             else
             {
-                searchString = currentFilter;
+                var groupUser = from m in _context.GroupUsers
+                .Include(p => p.Group)
+                .Include(p => p.User)
+                                select m;
+                if (!string.IsNullOrEmpty(SearchString))
+                {
+                    var i = int.Parse(searchString);
+                    groupUser = groupUser.Where(o => o.UserId == i || o.GroupId == i || o.Id == i);
+                }
+                if (searchString != null)
+                {
+                    pageIndex = 1;
+                }
+                else
+                {
+                    searchString = currentFilter;
+                }
+                var pageSize = Configuration.GetValue("PageSize", 4);
+                GroupUser = await PaginatedList<Models.GroupUser>.CreateAsync(
+                    groupUser.AsNoTracking(), pageIndex ?? 1, pageSize);
+                return Page();
             }
-            var pageSize = Configuration.GetValue("PageSize", 4);
-            GroupUser = await PaginatedList<Models.GroupUser>.CreateAsync(
-                groupUser.AsNoTracking(), pageIndex ?? 1, pageSize);
-            return Page();
         }
     }
 }

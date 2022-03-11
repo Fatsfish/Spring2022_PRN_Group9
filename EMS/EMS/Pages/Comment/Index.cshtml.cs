@@ -30,7 +30,7 @@ namespace EMS.Pages.Comment
         public async Task<IActionResult> OnGetAsync(string sortOrder,
             string currentFilter, string searchString, int? pageIndex)
         {
-            if (HttpContext.Session.GetString("role") == null)
+            if (HttpContext.Session.GetInt32("id") == null)
             {
                 return RedirectToPage("/Login");
             }
@@ -38,26 +38,29 @@ namespace EMS.Pages.Comment
             {
                 return RedirectToPage("/Index");
             }
-            var comment = from m in _context.Comments
-                .Include(p => p.CreationUser)
-                .Include(p => p.Event)
-                       select m;
-            if (!string.IsNullOrEmpty(SearchString))
-            {
-                comment = comment.Where(o => o.Text.Contains(SearchString));
-            }
-            if (searchString != null)
-            {
-                pageIndex = 1;
-            }
             else
             {
-                searchString = currentFilter;
+                var comment = from m in _context.Comments
+                .Include(p => p.CreationUser)
+                .Include(p => p.Event)
+                              select m;
+                if (!string.IsNullOrEmpty(SearchString))
+                {
+                    comment = comment.Where(o => o.Text.Contains(SearchString));
+                }
+                if (searchString != null)
+                {
+                    pageIndex = 1;
+                }
+                else
+                {
+                    searchString = currentFilter;
+                }
+                var pageSize = Configuration.GetValue("PageSize", 4);
+                Comment = await PaginatedList<Models.Comment>.CreateAsync(
+                    comment.AsNoTracking(), pageIndex ?? 1, pageSize);
+                return Page();
             }
-            var pageSize = Configuration.GetValue("PageSize", 4);
-            Comment = await PaginatedList<Models.Comment>.CreateAsync(
-                comment.AsNoTracking(), pageIndex ?? 1, pageSize);
-            return Page();
         }
     }
 }

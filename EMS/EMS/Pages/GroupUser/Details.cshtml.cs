@@ -23,7 +23,7 @@ namespace EMS.Pages.GroupUser
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
-            if (HttpContext.Session.GetString("role") == null)
+            if (HttpContext.Session.GetInt32("id") == null)
             {
                 return RedirectToPage("/Login");
             }
@@ -31,20 +31,23 @@ namespace EMS.Pages.GroupUser
             {
                 return RedirectToPage("/Index");
             }
-            if (id == null)
+            else
             {
-                return NotFound();
-            }
+                if (id == null)
+                {
+                    return NotFound();
+                }
 
-            GroupUser = await _context.GroupUsers
-                .Include(g => g.Group)
-                .Include(g => g.User).FirstOrDefaultAsync(m => m.Id == id);
+                GroupUser = await _context.GroupUsers
+                    .Include(g => g.Group)
+                    .Include(g => g.User).FirstOrDefaultAsync(m => m.Id == id);
 
-            if (GroupUser == null)
-            {
-                return NotFound();
+                if (GroupUser == null)
+                {
+                    return NotFound();
+                }
+                return Page();
             }
-            return Page();
         }
     }
 }

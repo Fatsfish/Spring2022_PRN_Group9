@@ -17,7 +17,7 @@ namespace EMS.Pages.EventTicket
 
         public IActionResult OnGet()
         {
-            if (HttpContext.Session.GetString("role") == null)
+            if (HttpContext.Session.GetInt32("id") == null)
             {
                 return RedirectToPage("/Login");
             }
@@ -25,9 +25,12 @@ namespace EMS.Pages.EventTicket
             {
                 return RedirectToPage("/Index");
             }
-            ViewData["EventId"] = new SelectList(_context.Events, "Id", "Description");
-            ViewData["OwnerId"] = new SelectList(_context.Users, "Id", "Bio");
-            return Page();
+            else
+            {
+                ViewData["EventId"] = new SelectList(_context.Events, "Id", "Description");
+                ViewData["OwnerId"] = new SelectList(_context.Users, "Id", "Bio");
+                return Page();
+            }
         }
 
         [BindProperty]

@@ -92,7 +92,7 @@
                                 <li class="nav-item">
                                     <a class="nav-link text-dark" asp-area="" asp-page="/Privacy">Privacy</a>
                                 </li>
-                                @if (@HttpContextAccessor.HttpContext.Session.GetString("role") == "admin")
+                                @if (@HttpContextAccessor.HttpContext.Session.GetString("role") !=null && @HttpContextAccessor.HttpContext.Session.GetString("role") == "admin")
                                 {
                                     <li class="nav-item dropdown">
                                         <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Admin Management</a>
@@ -115,7 +115,7 @@
                                         </div>
                                     </li>
                                 }
-                                @if (@HttpContextAccessor.HttpContext.Session.GetString("role1") == "host")
+                                @if (@HttpContextAccessor.HttpContext.Session.GetString("role1") !=null &&@HttpContextAccessor.HttpContext.Session.GetString("role1") == "host")
                                 {
                                     <li class="nav-item dropdown">
                                         <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Host Management</a>
@@ -133,7 +133,7 @@
                                         </div>
                                     </li>
                                 }
-                                @if (@HttpContextAccessor.HttpContext.Session.GetString("role") == null || @HttpContextAccessor.HttpContext.Session.GetString("role1") == null || @HttpContextAccessor.HttpContext.Session.GetString("role2") == null)
+                                @if (@HttpContextAccessor.HttpContext.Session.GetInt32("id") == null)
                                 {
                                     <li class="nav-item">
                                         <a class="nav-link text-dark" asp-area="" asp-page="/Login">Login</a>
@@ -144,7 +144,7 @@
                                 }
                                 @*<a class="nav-link text-dark" asp-area="" asp-page="/Accounts/Edit" asp-route-id="@HttpContextAccessor.HttpContext.Session.GetInt32("id")">Welcome user with id @t</a>
                                 *@
-                                @if (@HttpContextAccessor.HttpContext.Session.GetString("role") != null || @HttpContextAccessor.HttpContext.Session.GetString("role1") != null || @HttpContextAccessor.HttpContext.Session.GetString("role2") != null)
+                                @if (@HttpContextAccessor.HttpContext.Session.GetInt32("id") != null)
                                 {
                                     <li class="nav-item">
                                         <a class="nav-link text-dark" style="right" asp-page="/Login" asp-page-handler="Logout">Logout</a>

@@ -17,7 +17,7 @@ namespace EMS.Pages.AllowedEventGroup
 
         public IActionResult OnGet()
         {
-            if (HttpContext.Session.GetString("role") == null)
+            if (HttpContext.Session.GetInt32("id") == null)
             {
                 return RedirectToPage("/Login");
             }
@@ -25,9 +25,12 @@ namespace EMS.Pages.AllowedEventGroup
             {
                 return RedirectToPage("/Index");
             }
-            ViewData["EventId"] = new SelectList(_context.Events, "Id", "Description");
-            ViewData["GroupId"] = new SelectList(_context.Groups, "Id", "Description");
-            return Page();
+            else
+            {
+                ViewData["EventId"] = new SelectList(_context.Events, "Id", "Description");
+                ViewData["GroupId"] = new SelectList(_context.Groups, "Id", "Description");
+                return Page();
+            }
         }
 
         [BindProperty]

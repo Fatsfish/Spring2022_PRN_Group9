@@ -30,7 +30,7 @@ namespace EMS.Pages.EventTicket
         public async Task<IActionResult> OnGetAsync(string sortOrder,
             string currentFilter, string searchString, int? pageIndex)
         {
-            if (HttpContext.Session.GetString("role") == null)
+            if (HttpContext.Session.GetInt32("id") == null)
             {
                 return RedirectToPage("/Login");
             }
@@ -38,26 +38,29 @@ namespace EMS.Pages.EventTicket
             {
                 return RedirectToPage("/Index");
             }
-            var eventTicket = from m in _context.EventTickets
-                .Include(p => p.Event)
-                .Include(p => p.Owner)
-                       select m;
-            if (!string.IsNullOrEmpty(SearchString))
-            {
-                eventTicket = eventTicket.Where(o => o.Event.Description.Contains(SearchString) || o.Owner.Bio.Contains(SearchString));
-            }
-            if (searchString != null)
-            {
-                pageIndex = 1;
-            }
             else
             {
-                searchString = currentFilter;
+                var eventTicket = from m in _context.EventTickets
+                .Include(p => p.Event)
+                .Include(p => p.Owner)
+                                  select m;
+                if (!string.IsNullOrEmpty(SearchString))
+                {
+                    eventTicket = eventTicket.Where(o => o.Event.Description.Contains(SearchString) || o.Owner.Bio.Contains(SearchString));
+                }
+                if (searchString != null)
+                {
+                    pageIndex = 1;
+                }
+                else
+                {
+                    searchString = currentFilter;
+                }
+                var pageSize = Configuration.GetValue("PageSize", 4);
+                EventTicket = await PaginatedList<Models.EventTicket>.CreateAsync(
+                    eventTicket.AsNoTracking(), pageIndex ?? 1, pageSize);
+                return Page();
             }
-            var pageSize = Configuration.GetValue("PageSize", 4);
-            EventTicket = await PaginatedList<Models.EventTicket>.CreateAsync(
-                eventTicket.AsNoTracking(), pageIndex ?? 1, pageSize);
-            return Page();
         }
     }
 }

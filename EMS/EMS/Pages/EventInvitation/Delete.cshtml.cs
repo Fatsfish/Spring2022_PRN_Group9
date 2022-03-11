@@ -24,7 +24,7 @@ namespace EMS.Pages.EventInvitation
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
-            if (HttpContext.Session.GetString("role") == null)
+            if (HttpContext.Session.GetInt32("id") == null)
             {
                 return RedirectToPage("/Login");
             }
@@ -32,21 +32,24 @@ namespace EMS.Pages.EventInvitation
             {
                 return RedirectToPage("/Index");
             }
-            if (id == null)
+            else
             {
-                return NotFound();
-            }
+                if (id == null)
+                {
+                    return NotFound();
+                }
 
-            EventInvitation = await _context.EventInvitations
-                .Include(e => e.Event)
-                .Include(e => e.InvitationResponse)
-                .Include(e => e.User).FirstOrDefaultAsync(m => m.Id == id);
+                EventInvitation = await _context.EventInvitations
+                    .Include(e => e.Event)
+                    .Include(e => e.InvitationResponse)
+                    .Include(e => e.User).FirstOrDefaultAsync(m => m.Id == id);
 
-            if (EventInvitation == null)
-            {
-                return NotFound();
+                if (EventInvitation == null)
+                {
+                    return NotFound();
+                }
+                return Page();
             }
-            return Page();
         }
 
         public async Task<IActionResult> OnPostAsync(int? id)
