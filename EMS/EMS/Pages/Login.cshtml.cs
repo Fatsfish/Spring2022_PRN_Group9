@@ -25,7 +25,7 @@ namespace EMS.Pages
             {
                 return RedirectToPage("User/index");
             }
-            else if (HttpContext.Session.GetString("role1") == "host" || HttpContext.Session.GetString("role2") == "member" || HttpContext.Session.GetString("role1") != null || HttpContext.Session.GetString("role") != null)
+            else if (HttpContext.Session.GetString("role1") == "host" || HttpContext.Session.GetString("role2") == "member" || HttpContext.Session.GetString("role1") != null || HttpContext.Session.GetString("role2") != null)
             {
                 return RedirectToPage("Index");
             }
@@ -34,8 +34,11 @@ namespace EMS.Pages
         public IActionResult OnGetLogout()
         {
             HttpContext.Session.Remove("role");
+            HttpContext.Session.Remove("role1");
+            HttpContext.Session.Remove("role2");
             HttpContext.Session.Remove("id");
             HttpContext.Session.Remove("username");
+            HttpContext.Session.Clear();
             return Page();
         }
 
@@ -68,9 +71,11 @@ namespace EMS.Pages
                     Msg = "The account is not active!";
                     return Page();
                 }
+                HttpContext.Session.SetInt32("id", Account.Id);
+                HttpContext.Session.SetString("username", Account.Email);
                 foreach (var i in _context.UserRoles.ToList())
                 {
-                    if ( i.UserId== Account.Id && i.RoleId == 1)
+                    if ( i.UserId == Account.Id && i.RoleId == 1)
                     {
                         HttpContext.Session.SetString("role", "admin");
                         return RedirectToPage("User/index");
@@ -78,7 +83,7 @@ namespace EMS.Pages
                     else if (i.UserId == Account.Id && i.RoleId == 2)
                     {
                         HttpContext.Session.SetString("role1", "host");
-                        return RedirectToPage("Index");
+                        return RedirectToPage("/group/Index");
 
                     }
                     else if (i.UserId == Account.Id && i.RoleId == 3)
@@ -86,23 +91,11 @@ namespace EMS.Pages
                         HttpContext.Session.SetString("role2", "member");
                         return RedirectToPage("Index");
                     }
-                    else { Msg = "This account doesn't have role, contact admin for details!"; }
+                    else { Msg = "This account doesn't have role, contact admin for details!";
+                    }
                 }
-                HttpContext.Session.SetInt32("id", Account.Id);
-                HttpContext.Session.SetString("username", Account.Email);
-            }
-            if (HttpContext.Session.GetString("role") == "admin" || HttpContext.Session.GetString("role") != null)
-            {
-                return RedirectToPage("User/index");
-            }
-            else if (HttpContext.Session.GetString("role1") == "host"|| HttpContext.Session.GetString("role2") == "member" || HttpContext.Session.GetString("role1")!=null|| HttpContext.Session.GetString("role") !=null)
-            {
-                return RedirectToPage("Index");
-            }
-            else
-            {
+            }    
                 return Page();
-            }
         }
     }
 }

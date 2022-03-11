@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using EMS.Models;
+using Microsoft.AspNetCore.Http;
 
 namespace EMS.Pages.GroupUser
 {
@@ -24,53 +25,65 @@ namespace EMS.Pages.GroupUser
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
-            if (id == null)
+            if (HttpContext.Session.GetInt32("id") == null)
             {
-                return NotFound();
+                return RedirectToPage("/Login");
             }
-
-            GroupUser = await _context.GroupUsers
-                .Include(g => g.Group)
-                .Include(g => g.User).FirstOrDefaultAsync(m => m.Id == id);
-
-            if (GroupUser == null)
+            if (HttpContext.Session.GetString("role2") == "member" || HttpContext.Session.GetString("role2") != null)
             {
-                return NotFound();
+                return RedirectToPage("/Index");
             }
-           ViewData["GroupId"] = new SelectList(_context.Groups, "Id", "Description");
-           ViewData["UserId"] = new SelectList(_context.Users, "Id", "Bio");
-            return Page();
-        }
-
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see https://aka.ms/RazorPagesCRUD.
-        public async Task<IActionResult> OnPostAsync()
-        {
-            if (!ModelState.IsValid)
+            else
             {
-                return Page();
-            }
-
-            _context.Attach(GroupUser).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!GroupUserExists(GroupUser.Id))
+                if (id == null)
                 {
                     return NotFound();
                 }
-                else
-                {
-                    throw;
-                }
-            }
 
-            return RedirectToPage("./Index");
+                GroupUser = await _context.GroupUsers
+                    .Include(g => g.Group)
+                    .Include(g => g.User).FirstOrDefaultAsync(m => m.Id == id);
+
+                if (GroupUser == null)
+                {
+                    return NotFound();
+                }
+                ViewData["GroupId"] = new SelectList(_context.Groups, "Id", "Description");
+                ViewData["UserId"] = new SelectList(_context.Users, "Id", "Bio");
+                return Page();
+            }
         }
+
+            // To protect from overposting attacks, enable the specific properties you want to bind to.
+            // For more details, see https://aka.ms/RazorPagesCRUD.
+            public async Task<IActionResult> OnPostAsync()
+            {
+                if (!ModelState.IsValid)
+                {
+                    return Page();
+                }
+
+                _context.Attach(GroupUser).State = EntityState.Modified;
+
+                try
+                {
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!GroupUserExists(GroupUser.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+
+                return RedirectToPage("./Index");
+            }
+        
 
         private bool GroupUserExists(int id)
         {

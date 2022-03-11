@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using EMS.Models;
 using Microsoft.Extensions.Configuration;
 using EMS.Services;
+using Microsoft.AspNetCore.Http;
 
 namespace EMS.Pages.Event
 {
@@ -26,32 +27,44 @@ namespace EMS.Pages.Event
         [BindProperty(SupportsGet = true)]
         public string SearchString { get; set; }
 
-        public async Task OnGetAsync(string sortOrder,
+        public async Task<IActionResult> OnGetAsync(string sortOrder,
             string currentFilter, string searchString, int? pageIndex)
         {
-            var _event = from m in _context.Events
+            if (HttpContext.Session.GetInt32("id") == null)
+            {
+                return RedirectToPage("/Login");
+            }
+            if (HttpContext.Session.GetString("role2") == "member" || HttpContext.Session.GetString("role2") != null)
+            {
+                return RedirectToPage("/Index");
+            }
+            else
+            {
+                var _event = from m in _context.Events
                 .Include(p => p.CreationUser)
                 .Include(p => p.AllowedEventGroups)
                 .Include(p => p.Status)
                 .Include(p => p.Comments)
                 .Include(p => p.EventInvitations)
                 .Include(p => p.EventTickets)
-                         select m;
-            if (!string.IsNullOrEmpty(SearchString))
-            {
-                _event = _event.Where(o => o.Name.Contains(SearchString));
+                             select m;
+                if (!string.IsNullOrEmpty(SearchString))
+                {
+                    _event = _event.Where(o => o.Name.Contains(SearchString));
+                }
+                if (searchString != null)
+                {
+                    pageIndex = 1;
+                }
+                else
+                {
+                    searchString = currentFilter;
+                }
+                var pageSize = Configuration.GetValue("PageSize", 4);
+                Event = await PaginatedList<Models.Event>.CreateAsync(
+                    _event.AsNoTracking(), pageIndex ?? 1, pageSize);
+                return Page();
             }
-            if (searchString != null)
-            {
-                pageIndex = 1;
-            }
-            else
-            {
-                searchString = currentFilter;
-            }
-            var pageSize = Configuration.GetValue("PageSize", 4);
-            Event = await PaginatedList<Models.Event>.CreateAsync(
-                _event.AsNoTracking(), pageIndex ?? 1, pageSize);
         }
     }
 }

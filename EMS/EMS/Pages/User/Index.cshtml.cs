@@ -9,6 +9,7 @@ using EMS.Models;
 using Microsoft.Extensions.Configuration;
 using EMS.Services;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Http;
 
 namespace EMS.Pages.User
 {
@@ -28,9 +29,17 @@ namespace EMS.Pages.User
         [BindProperty(SupportsGet = true)]
         public string SearchString { get; set; }
         
-        public async Task OnGetAsync(string sortOrder,
+        public async Task<IActionResult> OnGetAsync(string sortOrder,
             string currentFilter, string searchString, int? pageIndex)
         {
+            if (HttpContext.Session.GetString("role") != "admin" || HttpContext.Session.GetString("role") == null)
+            {
+                return RedirectToPage("/Login");
+            }
+            if (HttpContext.Session.GetString("role1") == "host" || HttpContext.Session.GetString("role2") == "member" || HttpContext.Session.GetString("role1") != null || HttpContext.Session.GetString("role2") != null)
+            {
+                return RedirectToPage("/Index");
+            }
             var users = from m in _context.Users
                 .Include(p => p.UserRoles)
                 .Include(p => p.GroupUsers)
@@ -50,6 +59,7 @@ namespace EMS.Pages.User
             var pageSize = Configuration.GetValue("PageSize", 4);
             User = await PaginatedList<Models.User>.CreateAsync(
                 users.AsNoTracking(), pageIndex ?? 1, pageSize);
+            return Page();
         }
     }
 }

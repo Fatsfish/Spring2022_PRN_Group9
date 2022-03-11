@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using EMS.Models;
 using Microsoft.Extensions.Configuration;
 using EMS.Services;
+using Microsoft.AspNetCore.Http;
 
 namespace EMS.Pages.Group
 {
@@ -26,28 +27,44 @@ namespace EMS.Pages.Group
         [BindProperty(SupportsGet = true)]
         public string SearchString { get; set; }
 
-        public async Task OnGetAsync(string sortOrder,
+        public async Task<IActionResult> OnGetAsync(string sortOrder,
             string currentFilter, string searchString, int? pageIndex)
         {
-            var group = from m in _context.Groups
-                .Include(p => p.GroupUsers)
-                .Include(p => p.AllowedEventGroups)
-                       select m;
-            if (!string.IsNullOrEmpty(SearchString))
+            if (HttpContext.Session.GetInt32("id") == null)
             {
-                group = group.Where(o => o.Name.Contains(SearchString));
+                return RedirectToPage("/Login");
             }
-            if (searchString != null)
+            if (HttpContext.Session.GetString("role2") == "member" || HttpContext.Session.GetString("role2") != null)
             {
-                pageIndex = 1;
+                return RedirectToPage("/Index");
             }
             else
             {
-                searchString = currentFilter;
+                var group = from m in _context.Groups
+                    .Include(p => p.GroupUsers)
+                    .Include(p => p.AllowedEventGroups)
+                            select m;
+                if (!string.IsNullOrEmpty(SearchString))
+                {
+                    group = group.Where(o => o.Name.Contains(SearchString));
+                }
+                if (searchString != null)
+                {
+                    pageIndex = 1;
+                }
+                else
+                {
+                    searchString = currentFilter;
+                }
+                var pageSize = Configuration.GetValue("PageSize", 4);
+                Group = await PaginatedList<Models.Group>.CreateAsync(
+                    group.AsNoTracking(), pageIndex ?? 1, pageSize);
+                if (HttpContext.Session.GetString("role1") == "host" || HttpContext.Session.GetString("role1") != null)
+                {
+                    return Page();
+                }
+                return Page();
             }
-            var pageSize = Configuration.GetValue("PageSize", 4);
-            Group = await PaginatedList<Models.Group>.CreateAsync(
-                group.AsNoTracking(), pageIndex ?? 1, pageSize);
         }
     }
 }

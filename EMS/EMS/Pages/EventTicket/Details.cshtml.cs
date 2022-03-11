@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using EMS.Models;
+using Microsoft.AspNetCore.Http;
 
 namespace EMS.Pages.EventTicket
 {
@@ -22,20 +23,31 @@ namespace EMS.Pages.EventTicket
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
-            if (id == null)
+            if (HttpContext.Session.GetInt32("id") == null)
             {
-                return NotFound();
+                return RedirectToPage("/Login");
             }
-
-            EventTicket = await _context.EventTickets
-                .Include(e => e.Event)
-                .Include(e => e.Owner).FirstOrDefaultAsync(m => m.Id == id);
-
-            if (EventTicket == null)
+            if (HttpContext.Session.GetString("role2") == "member" || HttpContext.Session.GetString("role2") != null)
             {
-                return NotFound();
+                return RedirectToPage("/Index");
             }
-            return Page();
+            else
+            {
+                if (id == null)
+                {
+                    return NotFound();
+                }
+
+                EventTicket = await _context.EventTickets
+                    .Include(e => e.Event)
+                    .Include(e => e.Owner).FirstOrDefaultAsync(m => m.Id == id);
+
+                if (EventTicket == null)
+                {
+                    return NotFound();
+                }
+                return Page();
+            }
         }
     }
 }
