@@ -28,6 +28,7 @@ namespace EMS.API.Models
         public int Capacity { get; set; }
         public decimal Price { get; set; }
         public int? StatusId { get; set; }
+        public string Images { get; set; }
 
         public virtual User CreationUser { get; set; }
         public virtual EventStatus Status { get; set; }
