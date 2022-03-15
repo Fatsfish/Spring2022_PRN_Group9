@@ -5,6 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
+    <!-- Icon -->
+    <link rel="stylesheet" type="text/css" href="./fonts/line-icons.css">
+    <!-- Nivo Lightbox -->
+    <link rel="stylesheet" type="text/css" href="./css/nivo-lightbox.css" >
+    <!-- Animate -->
+    <link rel="stylesheet" type="text/css" href="./css/animate.css">
 </head>
 <body>
     @*@if (@HttpContextAccessor.HttpContext.Session.GetString("role") == null)
@@ -78,7 +84,7 @@
     else {*@
         <header>
                 <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-                    <div class="container">
+                    <div class="container" style="font-weight:bold">
                         <a class="navbar-brand" asp-area="" asp-page="/Index">EMS</a>
                         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                             aria-expanded="false" aria-label="Toggle navigation">
@@ -95,7 +101,7 @@
                                 @if (@HttpContextAccessor.HttpContext.Session.GetString("role") !=null && @HttpContextAccessor.HttpContext.Session.GetString("role") == "admin")
                                 {
                                     <li class="nav-item dropdown">
-                                        <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Admin Management</a>
+                                        <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color: #f74d23">Admin Management</a>
                                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                             <a class="dropdown-item" asp-area="" asp-page="/User/Index">User</a>
                                             <a class="dropdown-item" asp-area="" asp-page="/UserRole/Index">User Role</a>
@@ -118,7 +124,7 @@
                                 @if (@HttpContextAccessor.HttpContext.Session.GetString("role1") !=null &&@HttpContextAccessor.HttpContext.Session.GetString("role1") == "host")
                                 {
                                     <li class="nav-item dropdown">
-                                        <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Host Management</a>
+                                        <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color: #f74d23">Host Management</a>
                                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                             <a class="dropdown-item" asp-area="" asp-page="/Group/Index">Group</a>
                                             <a class="dropdown-item" asp-area="" asp-page="/GroupUser/Index">Group User</a>

@@ -8,8 +8,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Home page</title>
-    @{    Layout = null;
-}
+    @{    Layout = null;   }
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" type="text/css" href="./css/bootstrap.min.css" >
     <!-- Icon -->
@@ -48,7 +47,7 @@
                       About
                     </a>
                   </li>
-                  <li class="nav-item">
+                  @*<li class="nav-item">
                     <a class="nav-link" href="#schedules">
                       Schedules
                     </a>
@@ -57,22 +56,22 @@
                     <a class="nav-link" href="#team">
                       Speakers
                     </a>
-                  </li>
+                  </li>*@
                   <li class="nav-item">
                     <a class="nav-link" href="#gallery">
                       Gallery
                     </a>
                   </li>
-                  <li class="nav-item">
+                  @*<li class="nav-item">
                     <a class="nav-link" href="#pricing">
                       Pricing
                     </a>
-                  </li>
-                  <li class="nav-item">
+                  </li>*@
+                  @*<li class="nav-item">
                     <a class="nav-link" href="#sponsors">
                       Sponsors
                     </a>
-                  </li>
+                  </li>*@
                   <li class="nav-item">
                     <a class="nav-link" href="#google-map-area">
                       Contact
@@ -139,7 +138,7 @@
             </div>
           </nav>
           <!-- Navbar End -->
-        </header>
+      </header>
     <!-- Header Area wrapper Starts -->
     <header id="header-wrap">
       
@@ -153,12 +152,12 @@
                 <div class="icon">
                   <i class="lni-mic"></i>
                 </div>
-                <p class="banner-info">15, Oct 2020 - Maria Hall, NY, United states</p>
-                <h2 class="head-title">Developers Conference</h2>
+                <p class="banner-info"></p>
+                <h2 class="head-title">Event Management System</h2>
                 <p class="banner-desc">
-                  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sapiente, nobis nesciunt atque perferendis, ipsa doloremque deserunt cum qui.</p>
+                  @*Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sapiente, nobis nesciunt atque perferendis, ipsa doloremque deserunt cum qui.*@</p>
                 <div class="banner-btn">
-                  <a href="#" class="btn btn-common">Get Ticket</a>
+                  <a class="btn btn-common" asp-area="" asp-page="Index_Guest">Get Ticket</a>
                 </div>
               </div>
             </div>
@@ -169,7 +168,7 @@
     </header>
     <!-- Header Area wrapper End -->
 
-    <!-- Count Bar Start -->
+    @*<!-- Count Bar Start -->
     <section id="count">
       <div class="container">
         <div class="row justify-content-center">
@@ -183,7 +182,7 @@
         </div>
       </div>
     </section>
-    <!-- Count Bar End -->
+    <!-- Count Bar End -->*@
 
     <!-- About Section Start -->
     <section id="about" class="section-padding">
@@ -235,7 +234,7 @@
     <!-- Information Bar Start -->
     <section id="information-bar">
       <div class="container">
-        <div class="row inforation-wrapper">
+       @* <div class="row inforation-wrapper">
           <div class="col-lg-3 col-md-6 col-xs-12">
             <ul>
               <li>
@@ -268,7 +267,7 @@
               <li><span><b>Seats</b> 100 People</span></li>
             </ul>
           </div>
-        </div>
+        </div>*@
       </div>
     </section>
     <!-- Information Bar End -->
@@ -409,7 +408,7 @@
     </section>
     <!-- Counter Area End-->
 
-    <!-- Schedule Section Start -->
+    @*<!-- Schedule Section Start -->
     <section id="schedules" class="schedule section-padding">
       <div class="container">
         <div class="row">
@@ -810,9 +809,9 @@
         </div>
       </div>
     </section>
-    <!-- Schedule Section End -->
+    <!-- Schedule Section End -->*@
 
-    <!-- Team Section Start -->
+  @*  <!-- Team Section Start -->
     <section id="team" class="section-padding text-center">
       <div class="container">
         <div class="row">
@@ -1018,7 +1017,7 @@
         <a href="#" class="btn btn-common mt-30 wow fadeInUp" data-wow-delay="1.9s">Meet all speakers</a>
       </div>
     </section>
-    <!-- Team Section End -->
+    <!-- Team Section End -->*@
 
     <!-- Gallary Section Start -->
     <section id="gallery" class="section-padding">
@@ -1049,7 +1048,7 @@
           <div class="col-12">
             <div class="section-title-header text-center">
               <h2 class="section-title wow fadeInUp" data-wow-delay="0.2s">Upcoming Events</h2>
-              <p class="wow fadeInDown" data-wow-delay="0.2s">Lorem ipsum dolor sit amet, in quodsi vulputate pro. Ius illum vocent mediocritatem an <br> cule dicta iriure at phaedrum.</p>
+              <p class="wow fadeInDown" data-wow-delay="0.2s">All of the upcomming event!</p>
             </div>
           </div>
         </div>
@@ -1101,14 +1100,14 @@
         </div>
         <div class="row mt-5">
           <div class="col-12 text-center">
-            <a href="#" class="btn btn-common">More Event</a>
+            <a class="btn btn-common" asp-area="" asp-page="Index_Guest">More Event</a>
           </div>
         </div>
       </div>
     </section>
     <!-- Event Slides Section End -->
 
-    <!-- Ticket Pricing Area Start -->
+    @*<!-- Ticket Pricing Area Start -->
     <section id="pricing" class="section-padding">
       <div class="container">
         <div class="row">
@@ -1186,9 +1185,9 @@
         </div>
       </div>
     </section>
-    <!-- Ticket Pricing Area End -->
+    <!-- Ticket Pricing Area End -->*@
 
-    <!-- Blog Section Start -->
+    @*<!-- Blog Section Start -->
     <section id="blog" class="section-padding">
       <div class="container">
         <div class="row">
@@ -1278,9 +1277,9 @@
         </div>
       </div>
     </section>
-    <!-- Blog Section End -->
+    <!-- Blog Section End -->*@
 
-    <!-- Sponsors Section Start -->
+    @*<!-- Sponsors Section Start -->
     <section id="sponsors" class="section-padding">
       <div class="overlay"></div>
       <div class="container">
@@ -1309,7 +1308,7 @@
         </div>
       </div>
     </section>
-    <!-- Sponsors Section End -->
+    <!-- Sponsors Section End -->*@
 
     <!-- Contact Us Section -->
     <section id="contact-map" class="section-padding">
@@ -1318,7 +1317,7 @@
           <div class="col-12">
             <div class="section-title-header text-center">
               <h2 class="section-title wow fadeInUp" data-wow-delay="0.2s">Contact Us</h2>
-              <p class="wow fadeInDown" data-wow-delay="0.2s">Lorem ipsum dolor sit amet, in quodsi vulputate pro. Ius illum vocent mediocritatem an <br> cule dicta iriure at phaedrum.</p>
+              @*<p class="wow fadeInDown" data-wow-delay="0.2s">Lorem ipsum dolor sit amet, in quodsi vulputate pro. Ius illum vocent mediocritatem an <br> cule dicta iriure at phaedrum.</p>*@
             </div>
           </div>
         </div>
@@ -1370,7 +1369,7 @@
       <div class="container-fluid">
         <div class="row">
           <div class="col-12">
-            <object style="border:0; height: 450px; width: 100%;" data="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15864.15480778837!2d-77.44908382752939!3d38.953293865566366!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x6775cb22a9fa1341!2sThe+Firkin+%26+Fox!5e0!3m2!1sen!2sbd!4v1543773685573"></object>
+            <object style="border:0; height: 450px; width: 100%;" data="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d125395.3707046406!2d106.74000855820314!3d10.841484600000003!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31752731176b07b1%3A0xb752b24b379bae5e!2zVHLGsOG7nW5nIMSQ4bqhaSBo4buNYyBGUFQgVFAuIEhDTQ!5e0!3m2!1svi!2s!4v1647329763854!5m2!1svi!2s"></object>
           </div>
         </div>
       </div>
@@ -1386,7 +1385,7 @@
               <li>
                 <i class="lni-home"></i>
               </li>
-              <li><span>Cesare Rosaroll, 118 80139 Eventine</li>
+              <li><span>Lô E2a-7, Đường D1, TP.Thủ Đức</li>
             </ul>
           </div>
           <div class="col-lg-4 col-md-3 col-xs-12">
@@ -1394,7 +1393,7 @@
               <li>
                 <i class="lni-phone"></i>
               </li>
-              <li><span>+789 123 456 79</span></li>
+              <li><span>+84 28 7300 5588</span></li>
             </ul>
           </div>
           <div class="col-lg-4 col-md-3 col-xs-12">
@@ -1402,7 +1401,7 @@
               <li>
                 <i class="lni-envelope"></i>
               </li>
-              <li><span>Support@example.com</span></li>
+              <li><span>hcmuni.fpt.edu.vn</span></li>
             </ul>
           </div>
         </div>
@@ -1414,7 +1413,7 @@
       <div class="container">
         <div class="row justify-content-center">
           <div class="col-lg-8 col-md-12 col-xs-12">
-            <div class="subscribe-inner wow fadeInDown" data-wow-delay="0.3s">
+            @*<div class="subscribe-inner wow fadeInDown" data-wow-delay="0.3s">
               <h2 class="subscribe-title">To Get Nearly Updates</h2>
               <form class="text-center form-inline">
                 <input class="mb-20 form-control" name="email" placeholder="Enter Your Email Here">
@@ -1422,7 +1421,7 @@
                   <span class="ladda-label"><i class="lni-check-box"></i> Subscribe</span>
                 </button>
               </form>
-            </div>
+            </div>*@
             <div class="footer-logo" style="color: #ff4a4a; font-size: x-large">
               @*<img src="./img/logo.png" alt="">*@
               Event Management System
@@ -1435,7 +1434,7 @@
               </ul>
             </div>
             <div class="site-info">
-              <p>Designed and Developed by <a href="http://uideck.com" rel="nofollow">UIdeck</a></p>
+              <p>Designed and Developed by Tony and James</p>
             </div>
           </div>
         </div>
