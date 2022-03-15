@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
-using EMS.Models;
-using Microsoft.AspNetCore.Http;
+using System.Threading.Tasks;
 
-namespace EMS.Pages.Event
+namespace EMS.Pages
 {
     public class DetailsModel : PageModel
     {

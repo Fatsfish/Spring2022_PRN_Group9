@@ -1053,57 +1053,26 @@
           </div>
         </div>
         <div class="row">
+            @foreach (var item in Model.Event) {
           <div class="col-lg-3 col-md-6 col-xs-12">
-            <div class="event-item">
-              <img class="img-fluid" src="./img/event/img1.jpg" alt="">
+            <div class="event-item" style="padding:10px 10px 10px 10px">
+              <img class="img-fluid" src="./img/event/img2.jpg" alt="" @*@Html.DisplayFor(modelItem => item.Images) *@>
               <div class="overlay-text">
                 <div class="content">
-                  <h3>Business Confrence</h3>
-                  <a href="#">View details</a>
+                  <h3>@Html.DisplayFor(modelItem => item.Name)</h3>
+                  <a asp-page="./Details" asp-route-id="@item.Id">Details</a>
                 </div>
               </div>
             </div>
           </div>
-          <div class="col-lg-3 col-md-6 col-xs-12">
-            <div class="event-item">
-              <img class="img-fluid" src="./img/event/img2.jpg" alt="">
-              <div class="overlay-text">
-                <div class="content">
-                  <h3>Designer Confrence</h3>
-                  <a href="#">View details</a>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-3 col-md-6 col-xs-12">
-            <div class="event-item">
-              <img class="img-fluid" src="./img/event/img3.jpg" alt="">
-              <div class="overlay-text">
-                <div class="content">
-                  <h3>Marketer Confrence</h3>
-                  <a href="#">View details</a>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-3 col-md-6 col-xs-12">
-            <div class="event-item">
-              <img class="img-fluid" src="./img/event/img4.jpg" alt="">
-              <div class="overlay-text">
-                <div class="content">
-                  <h3>JS Confrence</h3>
-                  <a href="#">View details</a>
-                </div>
-              </div>
-            </div>
-          </div>
+          }
+        </div>
         </div>
         <div class="row mt-5">
           <div class="col-12 text-center">
             <a class="btn btn-common" asp-area="" asp-page="Index_Guest">More Event</a>
           </div>
         </div>
-      </div>
     </section>
     <!-- Event Slides Section End -->
 
@@ -1424,7 +1393,7 @@
             </div>*@
             <div class="footer-logo" style="color: #ff4a4a; font-size: x-large">
               @*<img src="./img/logo.png" alt="">*@
-              Event Management System
+              
             </div>
             <div class="social-icons-footer">
               <ul>

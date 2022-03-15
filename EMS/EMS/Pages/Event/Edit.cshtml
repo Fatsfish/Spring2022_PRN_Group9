@@ -75,6 +75,11 @@
                 <span asp-validation-for="Event.StatusId" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="Event.Images" class="control-label"></label>
+                <input asp-for="Event.Images" class="form-control" asp-items="ViewBag.Images"></input>
+                <span asp-validation-for="Event.Images" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
         </form>

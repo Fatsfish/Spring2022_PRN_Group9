@@ -16,6 +16,8 @@
     <link rel="stylesheet" type="text/css" href="./css/nivo-lightbox.css" >
     <!-- Animate -->
     <link rel="stylesheet" type="text/css" href="./css/animate.css">
+    <!-- Main Style -->
+    <link rel="stylesheet" type="text/css" href="./css/main.css">
     <!-- Responsive Style -->
     <link rel="stylesheet" type="text/css" href="./css/responsive.css">
 
@@ -173,14 +175,14 @@
                   <i class="lni-mic"></i>
                 </div>
                 <p class="banner-info"></p>
-                <h2 class="head-title">Event Management System</h2>
+                <h2 class="head-title">Events</h2>
                 
               </div>
             </div>
           </div>
         </div>
       </div>
-<div class="container">
+@*<div class="container">
     <div class="row">
         <div class="col-12 col-sm-3">
             <div class="card bg-light mb-3">
@@ -193,7 +195,7 @@
                     <li class="list-group-item"><a href="category.html">Vestibulum at eros</a></li>
                 </ul>
             </div>
-            @*<div class="card bg-light mb-3">
+            <div class="card bg-light mb-3">
                 <div class="card-header bg-success text-white text-uppercase">Last product</div>
                 <div class="card-body">
                     <img class="img-fluid" src="https://dummyimage.com/600x400/55595c/fff" />
@@ -201,7 +203,7 @@
                     <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
                     <p class="bloc_left_price">99.00 $</p>
                 </div>
-            </div>*@
+            </div>
         </div>
         <div class="col">
             <div class="row">
@@ -328,7 +330,39 @@
         </div>
 
     </div>
-</div>
+</div>*@
+<section id="event-up" class="section-padding">
+      <div class="container">
+        <div class="row">
+          <div class="col-12">
+            <div class="section-title-header text-center">
+              <h2 class="section-title wow fadeInUp" data-wow-delay="0.2s">Upcoming Events</h2>
+              <p class="wow fadeInDown" data-wow-delay="0.2s">All of the upcomming event!</p>
+            </div>
+          </div>
+        
+        <div class="row">
+            </div>@foreach (var item in Model.Event) {
+          <div class="col-lg-3 col-md-6 col-xs-12">
+            <div class="event-item" style="padding:10px 10px 10px 10px">
+              <img class="img-fluid" src="./img/event/img2.jpg" alt="" @*@Html.DisplayFor(modelItem => item.Images) *@>
+              <div class="overlay-text">
+                <div class="content">
+                  <h3>@Html.DisplayFor(modelItem => item.Name)</h3>
+                  <a asp-page="./Details" asp-route-id="@item.Id">Details</a>
+                </div>
+              </div>
+            </div>
+          </div>
+          }
+        </div>
+        <div class="row mt-5">
+          <div class="col-12 text-center">
+            <a class="btn btn-common" asp-area="" asp-page="Index_Guest">More Event</a>
+          </div>
+        </div>
+      </div>
+    </section>
 @*
 <!-- Footer -->
 <footer class="text-light">

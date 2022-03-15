@@ -1,0 +1,199 @@
+﻿@page
+@model EMS.Pages.DetailsModel
+@{
+    Layout = null;
+}
+
+<!-- Bootstrap CSS -->
+    <link rel="stylesheet" type="text/css" href="./css/bootstrap.min.css" >
+    <!-- Icon -->
+    <link rel="stylesheet" type="text/css" href="./fonts/line-icons.css">
+    <!-- Nivo Lightbox -->
+    <link rel="stylesheet" type="text/css" href="./css/nivo-lightbox.css" >
+    <!-- Animate -->
+    <link rel="stylesheet" type="text/css" href="./css/animate.css">
+    <!-- Main Style -->
+    <link rel="stylesheet" type="text/css" href="./css/main.css">
+    <!-- Responsive Style -->
+    <link rel="stylesheet" type="text/css" href="./css/responsive.css">
+
+<header id="header-wrap">
+          <!-- Navbar Start -->
+          <nav class="navbar navbar-expand-lg bg-inverse fixed-top scrolling-navbar">
+            <div class="container">
+              <!-- Brand and toggle get grouped for better mobile display -->
+              <a href="/index" class="navbar-brand" style="color: #ff4a4a">
+                  EMS
+                  </a>       
+              <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+                <i class="lni-menu"></i>
+              </button>
+              <div class="collapse navbar-collapse" id="navbarCollapse">
+                <ul class="navbar-nav mr-auto w-100 justify-content-end">
+                  <li class="nav-item">
+                                    <a class="nav-link" asp-area="" asp-page="/Index">Home</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-area="" asp-page="/Privacy">Privacy</a>
+                                </li>
+                  @if (@HttpContextAccessor.HttpContext.Session.GetString("role") !=null && @HttpContextAccessor.HttpContext.Session.GetString("role") == "admin")
+                                {
+                                    <li class="nav-item dropdown">
+                                        <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Admin Management</a>
+                                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                            <a class="dropdown-item" asp-area="" asp-page="/User/Index">User</a>
+                                            <a class="dropdown-item" asp-area="" asp-page="/UserRole/Index">User Role</a>
+                                            <a class="dropdown-item" asp-area="" asp-page="/Role/Index">Role</a>
+                                            <a class="dropdown-item" asp-area="" asp-page="/InvitationResponseType/Index">Invitation Response Type</a>
+                                            <div class="dropdown-divider"></div>
+                                            <a class="dropdown-item" asp-area="" asp-page="/Group/Index">Group</a>
+                                            <a class="dropdown-item" asp-area="" asp-page="/GroupUser/Index">Group User</a>
+                                            <div class="dropdown-divider"></div>
+                                            <a class="dropdown-item" asp-area="" asp-page="/Event/Index">Event</a>
+                                            <a class="dropdown-item" asp-area="" asp-page="/EventInvitation/Index">Event Invitation</a>
+                                            <a class="dropdown-item" asp-area="" asp-page="/EventTicket/Index">Event Ticket</a>
+                                            <a class="dropdown-item" asp-area="" asp-page="/EventStatus/Index">Event Status</a>
+                                             <div class="dropdown-divider"></div>
+                                            <a class="dropdown-item" asp-area="" asp-page="/Comment/Index">Comment</a>
+                                            <a class="dropdown-item" asp-area="" asp-page="/AllowedEventGroup/Index">Allowed Event Group</a>
+                                        </div>
+                                    </li>
+                                }
+                                @if (@HttpContextAccessor.HttpContext.Session.GetString("role1") !=null &&@HttpContextAccessor.HttpContext.Session.GetString("role1") == "host")
+                                {
+                                    <li class="nav-item dropdown">
+                                        <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Host Management</a>
+                                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                            <a class="dropdown-item" asp-area="" asp-page="/Group/Index">Group</a>
+                                            <a class="dropdown-item" asp-area="" asp-page="/GroupUser/Index">Group User</a>
+                                            <div class="dropdown-divider"></div>
+                                            <a class="dropdown-item" asp-area="" asp-page="/Event/Index">Event</a>
+                                            <a class="dropdown-item" asp-area="" asp-page="/EventInvitation/Index">Event Invitation</a>
+                                            <a class="dropdown-item" asp-area="" asp-page="/EventTicket/Index">Event Ticket</a>
+                                            <a class="dropdown-item" asp-area="" asp-page="/EventStatus/Index">Event Status</a>
+                                             <div class="dropdown-divider"></div>
+                                            <a class="dropdown-item" asp-area="" asp-page="/Comment/Index">Comment</a>
+                                            <a class="dropdown-item" asp-area="" asp-page="/AllowedEventGroup/Index">Allowed Event Group</a>
+                                        </div>
+                                    </li>
+                                }
+                                @if (@HttpContextAccessor.HttpContext.Session.GetInt32("id") == null)
+                                {
+                                    <li class="nav-item">
+                                        <a class="nav-link" asp-area="" asp-page="/Login">Login</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" asp-area="" asp-page="/Register">Register</a>
+                                    </li>
+                                }
+                                @if (@HttpContextAccessor.HttpContext.Session.GetInt32("id") != null)
+                                {
+                                    <li class="nav-item">
+                                        <a class="nav-link" style="right" asp-page="/Login" asp-page-handler="Logout">Logout</a>
+                                    </li>
+                                }
+                </ul>
+              </div>
+            </div>
+          </nav>
+          <!-- Navbar End -->
+      </header>
+       <div id="hero-area" class="hero-area-bg">
+        <div class="overlay"></div>
+        <div class="container">
+          <div class="row justify-content-center">
+            <div class="col-lg-9 col-sm-12">
+              <div class="contents text-center">
+                <div class="icon">
+                  <i class="lni-mic"></i>
+                </div>
+                <p class="banner-info"></p>
+                <h2 class="head-title">Event Details</h2>
+                
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+<!-- Page Content -->
+<div class="container">
+    <!-- Portfolio Item Heading -->
+    <h1 class="my-4">@Html.DisplayFor(model => model.Event.Name)
+      @*<small>Secondary Text</small>*@
+    </h1>
+  
+    <!-- Portfolio Item Row -->
+    <div class="row">
+  
+      <div class="col-md-8">
+        <img class="img-fluid" alt="" @Html.DisplayFor(model => model.Event.Images)>
+      </div>
+  
+      <div class="col-md-4">
+        <h3 class="my-3">Event Description</h3>
+        <p>@Html.DisplayFor(model => model.Event.Description)</p>
+        <h3 class="my-3">Event Details</h3>
+        <ul>
+          <li>Creation Date: @Html.DisplayFor(model => model.Event.CreationDate)</li>
+          <li>Registration End Date: @Html.DisplayFor(model => model.Event.RegistrationEndDate)</li>
+          <li>Start Date Time: @Html.DisplayFor(model => model.Event.StartDateTime)</li>
+          <li>End Date Time: @Html.DisplayFor(model => model.Event.EndDateTime)</li>
+          <li>Place: @Html.DisplayFor(model => model.Event.Place)</li>
+          <li>Is Public: @Html.DisplayFor(model => model.Event.IsPublic)</li>
+          <li>Capacity: @Html.DisplayFor(model => model.Event.Capacity)</li>
+          <li>Price: @Html.DisplayFor(model => model.Event.Price)</li>
+          <li>Creation User: @Html.DisplayFor(model => model.Event.CreationUser.Bio)</li>
+          <li>Status: @Html.DisplayFor(model => model.Event.Status.Name)</li>
+            
+        </ul>
+      </div>
+  
+    </div>
+    <!-- /.row -->
+  
+    @*<!-- Related Projects Row -->
+    <h3 class="my-4">Related Projects</h3>
+  
+    <div class="row">
+  
+      <div class="col-md-3 col-sm-6 mb-4">
+        <a href="#">
+              <img class="img-fluid" src="https://via.placeholder.com/500x300" alt="">
+            </a>
+      </div>
+  
+      <div class="col-md-3 col-sm-6 mb-4">
+        <a href="#">
+              <img class="img-fluid" src="https://via.placeholder.com/500x300" alt="">
+            </a>
+      </div>
+  
+      <div class="col-md-3 col-sm-6 mb-4">
+        <a href="#">
+              <img class="img-fluid" src="https://via.placeholder.com/500x300" alt="">
+            </a>
+      </div>
+  
+      <div class="col-md-3 col-sm-6 mb-4">
+        <a href="#">
+              <img class="img-fluid" src="https://via.placeholder.com/500x300" alt="">
+            </a>
+      </div>
+  
+    </div>
+    <!-- /.row -->*@
+  </div>
+  <!-- /.container -->
+
+<script src="./js/jquery-min.js"></script>
+    <script src="./js/popper.min.js"></script>
+    <script src="./js/bootstrap.min.js"></script>
+    <script src="./js/jquery.countdown.min.js"></script>
+    <script src="./js/waypoints.min.js"></script>
+    <script src="./js/jquery.counterup.min.js"></script>
+    <script src="./js/jquery.nav.js"></script>
+    @*<script src="./js/jquery.easing.min.js"></script>*@
+    <script src="./js/wow.js"></script>
+    <script src="./js/nivo-lightbox.js"></script>
+    <script src="./js/video.js"></script>
+    <script src="./js/main.js"></script>    
