@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using EMS.Models;
+using Microsoft.AspNetCore.Http;
 
 namespace EMS.Pages.UserRole
 {
@@ -24,6 +25,14 @@ namespace EMS.Pages.UserRole
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
+            if (HttpContext.Session.GetString("role") != "admin" || HttpContext.Session.GetString("role") == null)
+            {
+                return RedirectToPage("/Login");
+            }
+            if (HttpContext.Session.GetString("role1") == "host" || HttpContext.Session.GetString("role2") == "member" || HttpContext.Session.GetString("role1") != null || HttpContext.Session.GetString("role2") != null)
+            {
+                return RedirectToPage("/Index");
+            }
             if (id == null)
             {
                 return NotFound();

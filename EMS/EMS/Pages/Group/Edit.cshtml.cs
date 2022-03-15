@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using EMS.Models;
+using Microsoft.AspNetCore.Http;
 
 namespace EMS.Pages.Group
 {
@@ -24,18 +25,29 @@ namespace EMS.Pages.Group
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
-            if (id == null)
+            if (HttpContext.Session.GetInt32("id") == null)
             {
-                return NotFound();
+                return RedirectToPage("/Login");
             }
-
-            Group = await _context.Groups.FirstOrDefaultAsync(m => m.Id == id);
-
-            if (Group == null)
+            if (HttpContext.Session.GetString("role2") == "member" || HttpContext.Session.GetString("role2") != null)
             {
-                return NotFound();
+                return RedirectToPage("/Index");
             }
-            return Page();
+            else
+            {
+                if (id == null)
+                {
+                    return NotFound();
+                }
+
+                Group = await _context.Groups.FirstOrDefaultAsync(m => m.Id == id);
+
+                if (Group == null)
+                {
+                    return NotFound();
+                }
+                return Page();
+            }
         }
 
         // To protect from overposting attacks, enable the specific properties you want to bind to.

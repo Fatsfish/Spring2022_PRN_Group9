@@ -9,11 +9,13 @@ using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Identity.Web;
 using Microsoft.Identity.Web.UI;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -35,6 +37,10 @@ namespace EMS
                 //.AddMicrosoftIdentityWebApp(Configuration.GetSection("AzureAd"));
             services.AddDbContext<EventMSContext>(options =>
             options.UseSqlServer(Configuration.GetConnectionString("EventMS")));
+            services.AddSession(options => { options.IdleTimeout = TimeSpan.FromMinutes(30); });
+            services.AddMvc().AddSessionStateTempDataProvider();
+            services.AddHttpContextAccessor();
+            services.AddDirectoryBrowser();
             services.AddAuthorization(options =>
             {
                 // By default, all incoming requests will be authorized according to the default policy
@@ -61,12 +67,24 @@ namespace EMS
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-
+            app.UseSession();
             app.UseRouting();
+            var fileProvider = new PhysicalFileProvider(Path.Combine(env.WebRootPath, "img"));
+            var requestPath = "/Images";
 
+            // Enable displaying browser links.
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                FileProvider = fileProvider,
+                RequestPath = requestPath
+            });
             //app.UseAuthentication();
             //app.UseAuthorization();
-
+            app.UseDirectoryBrowser(new DirectoryBrowserOptions
+            {
+                FileProvider = fileProvider,
+                RequestPath = requestPath
+            });
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapRazorPages();

@@ -1,0 +1,39 @@
+﻿@page
+@model EMS.Pages.LoginModel
+
+@{
+    ViewData["Title"] = "Login page";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<h1>Login</h1>
+<h4>@Model.Msg</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Account.Email" class="control-label"></label>
+                <input asp-for="Account.Email" class="form-control" />
+                <span asp-validation-for="Account.Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Account.Password" class="control-label"></label>
+                <input asp-for="Account.Password" class="form-control" type="password" />
+                <span asp-validation-for="Account.Password" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Login" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+<div>
+    <a asp-page="Index">Back to Home page</a></br>
+    <a asp-page="Register">Not having account? Click here!</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
