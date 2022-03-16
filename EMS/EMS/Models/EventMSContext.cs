@@ -99,6 +99,8 @@ namespace EMS.Models
 
                 entity.Property(e => e.EndDateTime).HasColumnType("datetime");
 
+                entity.Property(e => e.Images).HasColumnName("images");
+
                 entity.Property(e => e.IsPublic).HasColumnName("isPublic");
 
                 entity.Property(e => e.Name)

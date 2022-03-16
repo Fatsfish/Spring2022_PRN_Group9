@@ -54,6 +54,10 @@
             <th>
                 @Html.DisplayNameFor(model => model.Event[0].Status)
             </th>
+            
+            <th>
+                @Html.DisplayNameFor(model => model.Event[0].Images)
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -95,6 +99,9 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Status.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Images)
             </td>
             <td>
                 <a class="btn btn-success" asp-page="./Edit" asp-route-id="@item.Id">Edit</a>
