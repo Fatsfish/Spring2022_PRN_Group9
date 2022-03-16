@@ -1876,7 +1876,7 @@ h1 {
 
 .container-form .form-wrapper {
   background-color: white;
-  padding: 56px;
+  padding: 30px;
   box-shadow: 0 8px 24px #E2E8ED;
 }
 
@@ -2390,7 +2390,7 @@ footer {
 }
 
 #hero-area .contents {
-  padding: 160px 20px 180px;
+  padding: 80px 20px 80px;
 }
 
 #hero-area .contents .icon {

@@ -72,6 +72,10 @@
                 <select asp-for="Event.StatusId" class ="form-control" asp-items="ViewBag.StatusId"></select>
             </div>
             <div class="form-group">
+                <label asp-for="Event.Images" class="control-label"></label>
+                <input asp-for="Event.Images" class ="form-control" asp-items="ViewBag.Images"></input>
+            </div>
+            <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
         </form>
