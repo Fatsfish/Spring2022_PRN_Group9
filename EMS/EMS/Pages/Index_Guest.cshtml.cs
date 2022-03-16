@@ -33,16 +33,12 @@ namespace EMS.Pages
         public async Task<IActionResult> OnGetAsync(string sortOrder,
             string currentFilter, string searchString, int? pageIndex)
         {
-            /*if (HttpContext.Session.GetInt32("id") == null)
+            if (HttpContext.Session.GetString("role") == "admin" || HttpContext.Session.GetString("role") != null || HttpContext.Session.GetString("role1") == "host" || HttpContext.Session.GetString("role1") != null)
             {
-                return RedirectToPage("/Login");
+                return RedirectToPage("Event/index");
             }
-            if (HttpContext.Session.GetString("role2") == "member" || HttpContext.Session.GetString("role2") != null)
-            {
-                return RedirectToPage("/Index");
-            }
-            else*/
-            {
+            else
+                {
                 var _event = from m in _context.Events
                 .Include(p => p.CreationUser)
                 .Include(p => p.AllowedEventGroups)
