@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
-using EMS.Models;
-using Microsoft.AspNetCore.Http;
+using System.Threading.Tasks;
 
-namespace EMS.Pages.Event
+namespace EMS.Pages
 {
     public class DetailsModel : PageModel
     {
@@ -23,15 +19,11 @@ namespace EMS.Pages.Event
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
-            /*if (HttpContext.Session.GetInt32("id") == null)
+            if (HttpContext.Session.GetString("role") == "admin" || HttpContext.Session.GetString("role") != null || HttpContext.Session.GetString("role1") == "host" || HttpContext.Session.GetString("role1") != null)
             {
-                return RedirectToPage("/Login");
+                return RedirectToPage("Event/index");
             }
-            if (HttpContext.Session.GetString("role2") == "member" || HttpContext.Session.GetString("role2") != null)
-            {
-                return RedirectToPage("/Index");
-            }
-            else*/
+            else
             {
                 if (id == null)
                 {
