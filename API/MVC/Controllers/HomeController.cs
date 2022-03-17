@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
+using Newtonsoft.Json;
 
 namespace MVC.Controllers
 {
@@ -23,7 +25,41 @@ namespace MVC.Controllers
             return View();
         }
 
-        public IActionResult Privacy()
+        public IActionResult Login()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult Login(string email, string password)
+        {
+            try
+            {
+                return View();
+            }
+            catch (Exception ex)
+            {
+                ViewBag.Message = ex.Message;
+                return View();
+            }
+        }
+
+        public IActionResult Register()
+        {
+            return View();
+        }
+
+        public IActionResult Event()
+        {
+            return View();
+        }
+
+        public IActionResult EventDetails()
+        {
+            return View();
+        }
+
+        public IActionResult Schedule()
         {
             return View();
         }
