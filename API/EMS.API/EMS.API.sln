@@ -5,7 +5,10 @@ VisualStudioVersion = 17.1.32228.430
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EMS.API", "EMS.API.csproj", "{D08FDE8D-FA91-44CC-BA49-A74833C954B7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MVC", "..\MVC\MVC.csproj", "{5B9E4FC6-1B6F-4F66-887A-19F6CC2FE3E3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MVC", "..\MVC\MVC.csproj", "{5B9E4FC6-1B6F-4F66-887A-19F6CC2FE3E3}"
+	ProjectSection(ProjectDependencies) = postProject
+		{D08FDE8D-FA91-44CC-BA49-A74833C954B7} = {D08FDE8D-FA91-44CC-BA49-A74833C954B7}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
