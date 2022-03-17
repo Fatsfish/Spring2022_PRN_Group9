@@ -43,7 +43,10 @@ namespace EMS.Pages.Event
             {
                 return Page();
             }
-
+            Event.CreationDate = System.DateTime.Now;
+            if (Event.RegistrationEndDate < Event.CreationDate || Event.StartDateTime < Event.CreationDate || Event.EndDateTime < Event.CreationDate) return Page();
+            if (Event.EndDateTime < Event.StartDateTime) return Page();
+            if (Event.EndDateTime < Event.RegistrationEndDate) return Page();
             _context.Events.Add(Event);
             await _context.SaveChangesAsync();
 
