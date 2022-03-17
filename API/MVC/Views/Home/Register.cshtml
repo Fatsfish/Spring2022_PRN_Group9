@@ -124,8 +124,8 @@
         </div>
         <div class="input-group uf-input-group input-group-lg mb-3">
             <span class="input-group-text fa fa-lock"></span>
-            <input type="password" class="form-control" placeholder="Password confirmation">
-            <span class="text-danger"></span>
+            <input asp-for="Bio" type="password" class="form-control" placeholder="Password Confirmation">
+            <span asp-validation-for="Password" class="text-danger"></span>
         </div>
         <div class="d-grid mb-4">
             <button type="submit" class="btn uf-btn-primary btn-lg">Sign Up</button>
@@ -146,5 +146,4 @@
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
 <script src="~/js/site.js" asp-append-version="true"></script>
 </body>
-
 </html>

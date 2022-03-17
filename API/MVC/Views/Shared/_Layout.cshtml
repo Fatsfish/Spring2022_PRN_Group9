@@ -62,16 +62,16 @@
                     @if (@HttpContextAccessor.HttpContext.Session.GetInt32("id") == null)
                     {
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Login">Login</a>
+                            <a class="nav-link text-dark" href='../home/Login'>Login</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Register">Register</a>
+                            <a class="nav-link text-dark" href='../home/Register'>Register</a>
                         </li>
                     }
                     @if (@HttpContextAccessor.HttpContext.Session.GetInt32("id") != null)
                     {
                         <li class="nav-item">
-                            <a class="nav-link text-dark" style="" asp-page="/Login" asp-page-handler="Logout">Logout</a>
+                            <a class="nav-link text-dark" href='../home/Logout'>Logout</a>
                         </li>
                     }
                 </ul>
