@@ -28,7 +28,7 @@
                 @Html.DisplayFor(modelItem => item.Role.Description)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.User.Bio)
+                @Html.Raw(item.User.FirstName + " " + item.User.LastName)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |

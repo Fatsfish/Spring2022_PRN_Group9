@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using Microsoft.AspNetCore.SignalR;
+using Microsoft.EntityFrameworkCore;
 
 namespace MVC.Controllers
 {
@@ -48,14 +49,29 @@ namespace MVC.Controllers
             return View();
         }
 
-        public IActionResult Event()
+        public async Task<IActionResult> Event()
         {
-            return View();
+            var eventMSContext = _context.Events.Include(o => o.CreationUser).Include(o => o.Status);
+            return View(await eventMSContext.ToListAsync());
         }
 
-        public IActionResult EventDetails()
+        public async Task<IActionResult> EventDetails(int? id)
         {
-            return View();
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var oevent = await _context.Events
+                .Include(o => o.CreationUser)
+                .Include(o => o.Status)
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (oevent == null)
+            {
+                return NotFound();
+            }
+
+            return View(oevent);
         }
 
         public IActionResult Profile()
@@ -82,7 +98,7 @@ namespace MVC.Controllers
                 { /*Msg = "Email has been used, please choose another!";*/
                     return View(User);
                 }
-                if (User.Password!=User.Bio)
+                if (User.Password != User.Bio)
                 { /*Msg = "Email has been used, please choose another!";*/
                     return View(User);
                 }
@@ -100,13 +116,13 @@ namespace MVC.Controllers
                 return RedirectToAction(nameof(Login));
             }
             return View(User);
-            }
+        }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login([Bind("Password,Email")] User User)
         {
-            if (HttpContext.Session.GetInt32("id") != null ) return Redirect("/Home");
+            if (HttpContext.Session.GetInt32("id") != null) return Redirect("/Home");
 
             if (ModelState.IsValid)
             {
