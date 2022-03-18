@@ -338,6 +338,12 @@
             <div class="section-title-header text-center">
               <h2 class="section-title wow fadeInUp" data-wow-delay="0.2s">Upcoming Events</h2>
               <p class="wow fadeInDown" data-wow-delay="0.2s">All of the upcomming event!</p>
+              <form>
+                <p>
+                    <input type="text" class="form-control" placeholder="Event's Name" asp-for="SearchString" /> <br />
+                    <input type="submit" class="btn btn-common btn-lg" value="Search" />
+                </p>
+            </form>
             </div>
           </div>
         
@@ -358,7 +364,7 @@
         </div>
         <div class="row mt-5">
           <div class="col-12 text-center">
-            <a class="btn btn-common" asp-area="" asp-page="Index_Guest">More Event</a>
+            <a class="btn btn-common" asp-area="" asp-page="EventHistory">Event History</a>
           </div>
         </div>
       </div>

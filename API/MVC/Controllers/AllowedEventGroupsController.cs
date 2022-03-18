@@ -1,7 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -21,6 +20,7 @@ namespace MVC.Controllers
         // GET: AllowedEventGroups
         public async Task<IActionResult> Index()
         {
+            if (HttpContext.Session.GetInt32("id") == null || HttpContext.Session.GetString("role") == null || HttpContext.Session.GetString("role1") == null ) return Redirect("/Home/Login");
             var eventMSContext = _context.AllowedEventGroups.Include(a => a.Event).Include(a => a.Group);
             return View(await eventMSContext.ToListAsync());
         }
@@ -28,6 +28,7 @@ namespace MVC.Controllers
         // GET: AllowedEventGroups/Details/5
         public async Task<IActionResult> Details(int? id)
         {
+            if (HttpContext.Session.GetInt32("id") == null || (HttpContext.Session.GetString("role") == null && HttpContext.Session.GetString("role1") == null)) return Redirect("/Home/Login");
             if (id == null)
             {
                 return NotFound();
@@ -48,6 +49,7 @@ namespace MVC.Controllers
         // GET: AllowedEventGroups/Create
         public IActionResult Create()
         {
+            if (HttpContext.Session.GetInt32("id") == null || (HttpContext.Session.GetString("role") == null && HttpContext.Session.GetString("role1") == null)) return Redirect("/Home/Login");
             ViewData["EventId"] = new SelectList(_context.Events, "Id", "Description");
             ViewData["GroupId"] = new SelectList(_context.Groups, "Id", "Description");
             return View();
@@ -60,6 +62,8 @@ namespace MVC.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("EventId,GroupId,Id")] AllowedEventGroup allowedEventGroup)
         {
+            if (HttpContext.Session.GetInt32("id") == null || (HttpContext.Session.GetString("role") == null && HttpContext.Session.GetString("role1") == null)) return Redirect("/Home/Login");
+
             if (ModelState.IsValid)
             {
                 _context.Add(allowedEventGroup);
@@ -74,6 +78,8 @@ namespace MVC.Controllers
         // GET: AllowedEventGroups/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            if (HttpContext.Session.GetInt32("id") == null || (HttpContext.Session.GetString("role") == null && HttpContext.Session.GetString("role1") == null)) return Redirect("/Home/Login");
+
             if (id == null)
             {
                 return NotFound();
@@ -96,6 +102,8 @@ namespace MVC.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("EventId,GroupId,Id")] AllowedEventGroup allowedEventGroup)
         {
+            if (HttpContext.Session.GetInt32("id") == null || (HttpContext.Session.GetString("role") == null && HttpContext.Session.GetString("role1") == null)) return Redirect("/Home/Login");
+
             if (id != allowedEventGroup.Id)
             {
                 return NotFound();
@@ -129,6 +137,8 @@ namespace MVC.Controllers
         // GET: AllowedEventGroups/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
+            if (HttpContext.Session.GetInt32("id") == null || (HttpContext.Session.GetString("role") == null && HttpContext.Session.GetString("role1") == null)) return Redirect("/Home/Login");
+
             if (id == null)
             {
                 return NotFound();
@@ -151,6 +161,8 @@ namespace MVC.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
+            if (HttpContext.Session.GetInt32("id") == null || (HttpContext.Session.GetString("role") == null && HttpContext.Session.GetString("role1") == null)) return Redirect("/Home/Login");
+
             var allowedEventGroup = await _context.AllowedEventGroups.FindAsync(id);
             _context.AllowedEventGroups.Remove(allowedEventGroup);
             await _context.SaveChangesAsync();

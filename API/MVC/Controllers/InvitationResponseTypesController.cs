@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -21,12 +22,16 @@ namespace MVC.Controllers
         // GET: InvitationResponseTypes
         public async Task<IActionResult> Index()
         {
+            if (HttpContext.Session.GetInt32("id") == null || (HttpContext.Session.GetString("role") == null && HttpContext.Session.GetString("role1") == null)) return Redirect("/Home/Login");
+
             return View(await _context.InvitationResponseTypes.ToListAsync());
         }
 
         // GET: InvitationResponseTypes/Details/5
         public async Task<IActionResult> Details(int? id)
         {
+            if (HttpContext.Session.GetInt32("id") == null || (HttpContext.Session.GetString("role") == null && HttpContext.Session.GetString("role1") == null)) return Redirect("/Home/Login");
+
             if (id == null)
             {
                 return NotFound();
@@ -45,6 +50,8 @@ namespace MVC.Controllers
         // GET: InvitationResponseTypes/Create
         public IActionResult Create()
         {
+            if (HttpContext.Session.GetInt32("id") == null || (HttpContext.Session.GetString("role") == null && HttpContext.Session.GetString("role1") == null)) return Redirect("/Home/Login");
+
             return View();
         }
 
@@ -55,6 +62,8 @@ namespace MVC.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Name")] InvitationResponseType invitationResponseType)
         {
+            if (HttpContext.Session.GetInt32("id") == null || (HttpContext.Session.GetString("role") == null && HttpContext.Session.GetString("role1") == null)) return Redirect("/Home/Login");
+
             if (ModelState.IsValid)
             {
                 _context.Add(invitationResponseType);
@@ -67,6 +76,8 @@ namespace MVC.Controllers
         // GET: InvitationResponseTypes/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            if (HttpContext.Session.GetInt32("id") == null || (HttpContext.Session.GetString("role") == null && HttpContext.Session.GetString("role1") == null)) return Redirect("/Home/Login");
+
             if (id == null)
             {
                 return NotFound();
@@ -87,6 +98,8 @@ namespace MVC.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Name")] InvitationResponseType invitationResponseType)
         {
+            if (HttpContext.Session.GetInt32("id") == null || (HttpContext.Session.GetString("role") == null && HttpContext.Session.GetString("role1") == null)) return Redirect("/Home/Login");
+
             if (id != invitationResponseType.Id)
             {
                 return NotFound();
@@ -118,6 +131,8 @@ namespace MVC.Controllers
         // GET: InvitationResponseTypes/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
+            if (HttpContext.Session.GetInt32("id") == null || (HttpContext.Session.GetString("role") == null && HttpContext.Session.GetString("role1") == null)) return Redirect("/Home/Login");
+
             if (id == null)
             {
                 return NotFound();
@@ -138,6 +153,8 @@ namespace MVC.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
+            if (HttpContext.Session.GetInt32("id") == null || (HttpContext.Session.GetString("role") == null && HttpContext.Session.GetString("role1") == null)) return Redirect("/Home/Login");
+
             var invitationResponseType = await _context.InvitationResponseTypes.FindAsync(id);
             _context.InvitationResponseTypes.Remove(invitationResponseType);
             await _context.SaveChangesAsync();

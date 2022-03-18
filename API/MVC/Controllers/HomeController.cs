@@ -32,6 +32,7 @@ namespace MVC.Controllers
 
         public IActionResult Login()
         {
+            if (HttpContext.Session.GetInt32("id") != null) return RedirectToAction(nameof(Index));
             return View();
         }
 
@@ -43,6 +44,7 @@ namespace MVC.Controllers
 
         public IActionResult Register()
         {
+            if (HttpContext.Session.GetInt32("id") != null) return RedirectToAction(nameof(Index));
             return View();
         }
 
@@ -56,7 +58,7 @@ namespace MVC.Controllers
             return View();
         }
 
-        public IActionResult Schedule()
+        public IActionResult Profile()
         {
             return View();
         }
@@ -72,6 +74,8 @@ namespace MVC.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register([Bind("FirstName,LastName,Password,Email")] User User)
         {
+            if (HttpContext.Session.GetInt32("id") != null) return Redirect("/Home");
+
             if (ModelState.IsValid)
             {
                 if (AccountExists(User.Email))
@@ -102,6 +106,8 @@ namespace MVC.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login([Bind("Password,Email")] User User)
         {
+            if (HttpContext.Session.GetInt32("id") != null ) return Redirect("/Home");
+
             if (ModelState.IsValid)
             {
                 var check = _context.Users.FirstOrDefault(o => o.Email.ToLower().Equals(User.Email.ToLower()) && o.Password.Equals(User.Password));
