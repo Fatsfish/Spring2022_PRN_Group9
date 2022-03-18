@@ -32,82 +32,150 @@
                         <img class="img-fluid" src="@Html.DisplayFor(model => model.Images)" alt="">
                     </div>
                     <div class="blog_details">
-                        <h2>
-                            Second divided from form fish beast made every of seas
-                            all gathered us saying he our
-                        </h2>
+                        <div>
+                            <h2>@Model.Name</h2>
+                            @{
+                                if (Model.EventTickets.Count() >= Model.Capacity)
+                                {
+                                    <p>(Status: <span class="text-secondary" style="font: 12px;">Full capacity</span>)</p>
+                                }
+                                else if (Model.Status.Name == "Canceled")
+                                {
+                                    <p>(Status: <span class="text-danger" style="font: 12px;">Canceled</span>)</p>
+                                }
+                                else if (Model.Status.Name == "OnGoing")
+                                {
+                                    <p>(Status: <span class="text-primary" style="font: 12px;">Ongoing</span>)</p>
+                                }
+                                else if (Model.Status.Name == "Finished")
+                                {
+                                    <p>(Status: <span class="text-info" style="font: 12px;">Finished</span>)</p>
+                                }
+                                else if (Model.Status.Name == "Postponed")
+                                {
+                                    <p>(Status: <span class="text-warning" style="font: 12px;">Postponed</span>)</p>
+                                }
+                                else
+                                {
+                                    <p>(Status: <span class="text-success" style="font: 12px;">Available</span>)</p>
+                                }
+                            }
+                        </div>
                         <ul class="blog-info-link mt-3 mb-4">
                             <li>
-                                <a href="#"><i class="fa fa-user"></i> Travel, Lifestyle</a>
+                                <a href="#"><i class="fa fa-user"></i>@Model.CreationUser</a>
                             </li>
                             <li>
-                                <a href="#"><i class="fa fa-comments"></i> 03 Comments</a>
+                                <a href="#"><i class="fa fa-comments"></i>@Model.Comments.Count</a>
                             </li>
                         </ul>
-                        <p class="excert">
-                            MCSE boot camps have its supporters and its detractors. Some people do not understand why you
-                            should have to spend money on boot camp when you can get the MCSE study materials yourself at a
-                            fraction of the camp price. However, who has the willpower
-                        </p>
-                        <p>
-                            MCSE boot camps have its supporters and its detractors. Some people do not understand why you
-                            should have to spend money on boot camp when you can get the MCSE study materials yourself at a
-                            fraction of the camp price. However, who has the willpower to actually sit through a
-                            self-imposed MCSE training. who has the willpower to actually
-                        </p>
-                        <div class="quote-wrapper">
-                            <div class="quotes">
-                                MCSE boot camps have its supporters and its detractors. Some people do not understand why you
-                                should have to spend money on boot camp when you can get the MCSE study materials yourself at
-                                a fraction of the camp price. However, who has the willpower to actually sit through a
-                                self-imposed MCSE training.
+                        <div class="col-lg-12">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <h4 class="fw-bold">Start Date</h4>
+                                        <p>@Model.StartDateTime</p>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <h4 class="fw-bold">End Date</h4>
+                                        <p>@Model.EndDateTime</p>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                        <p>
-                            MCSE boot camps have its supporters and its detractors. Some people do not understand why you
-                            should have to spend money on boot camp when you can get the MCSE study materials yourself at a
-                            fraction of the camp price. However, who has the willpower
-                        </p>
-                        <p>
-                            MCSE boot camps have its supporters and its detractors. Some people do not understand why you
-                            should have to spend money on boot camp when you can get the MCSE study materials yourself at a
-                            fraction of the camp price. However, who has the willpower to actually sit through a
-                            self-imposed MCSE training. who has the willpower to actually
-                        </p>
-                    </div>
-                </div>
-               
-                <div class="comments-area">
-                    <h4>05 Comments</h4>
-                    <div class="comment-list">
-                        <div class="single-comment justify-content-between d-flex">
-                            <div class="user justify-content-between d-flex">
-                                <div class="desc">
-                                    <p class="comment">
-                                        Multiply sea night grass fourth day sea lesser rule open subdue female fill which them
-                                        Blessed, give fill lesser bearing multiply sea night grass fourth day sea lesser
-                                    </p>
-                                    <div class="d-flex justify-content-between">
-                                        <div class="d-flex align-items-center">
-                                            <h5>
-                                                Emilly Blunt
-                                            </h5>
-                                            <p class="date">December 4, 2017 at 3:12 pm </p>
-                                        </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <h4 class="fw-bold">Registration End Date</h4>
+                                        <p>@Model.RegistrationEndDate</p>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <h4 class="fw-bold">Capacity</h4>
+                                        <p>@Html.Raw(Model.EventTickets.Count() + "/" + Model.Capacity)</p>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                        <p>
+                            @Model.Description
+                        </p>
+                        <div class="d-flex justify-content-center">
+                            @{
+                                if (Model.EventTickets.Count() >= Model.Capacity)
+                                {
+                                    <h4 class="text-center">Event has full capacity</h4>
+                                }
+                                else if (Model.Status.Name == "Canceled")
+                                {
+                                    <h4 class="text-center">Event has been canceled</h4>
+                                }
+                                else if (Model.Status.Name == "OnGoing")
+                                {
+                                    <h4 class="text-center">Event on going</h4>
+                                }
+                                else if (Model.Status.Name == "Finished")
+                                {
+                                    <h4 class="text-center">Event had finished</h4>
+                                }
+                                else if (Model.Status.Name == "Postponed")
+                                {
+                                    <h4 class="text-center">Event has postponed</h4>
+                                }
+                                else
+                                {
+                                    <form method="POST">
+                                        <input type="submit" class="btn btn-primary" asp-action="" value="Apply Event" />
+                                    </form>
+                                }
+                            }
+                        </div>
+                    </div>
+                </div>
+
+                <div class="comments-area">
+                    <div class="comment-list">
+                        @if (@Model.Comments.Count == 0)
+                        {
+                            <h3>No Comment yet!</h3>
+                        }
+                        else
+                        {
+                            <h4>@Model.Comments.Count Comments</h4>
+
+                            @foreach (var item in Model.Comments)
+                            {
+                                <div class="single-comment justify-content-between d-flex mb-3">
+                                    <div class="user justify-content-between d-flex">
+                                        <div class="desc">
+                                            <p class="comment">
+                                                @Html.Raw(item.Text)
+                                            </p>
+                                            <div class="d-flex justify-content-between">
+                                                <div class="d-flex align-items-center">
+                                                    <h5>
+                                                        @*@Html.Raw(item.)*@ user name of comment
+                                                    </h5>
+                                                    <p class="date">@Html.Raw(item.CreationDate.ToString("dd/MMMM/yyyy"))</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        }
                     </div>
                 </div>
                 <div class="comment-form">
                     <h4>Leave a Reply</h4>
-                    <form class="form-contact comment_form" action="#" id="commentForm">
+                    <form method="POST" class="form-contact comment_form" asp-action="CreateComment" id="commentForm">
                         <div class="row">
                             <div class="col-12">
                                 <div class="form-group">
-                                    <textarea class="form-control w-100" name="comment" id="comment" cols="30" rows="9"
-                                              placeholder="Write Comment"></textarea>
+                                    <textarea name="Text" class="form-control w-100" id="comment" cols="30" rows="9" placeholder="Write Comment"></textarea>
+                                    <input name="EventId" value="@Model.Id" type="hidden" class="form-control" />
                                 </div>
                             </div>
                         </div>
