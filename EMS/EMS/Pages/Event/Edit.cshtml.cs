@@ -62,6 +62,16 @@ namespace EMS.Pages.Event
             {
                 return Page();
             }
+            Event.CreationDate = System.DateTime.Now;
+            if (Event.RegistrationEndDate < Event.CreationDate || Event.StartDateTime < Event.CreationDate || Event.EndDateTime < Event.CreationDate) return Page();
+            if (Event.EndDateTime < Event.StartDateTime) return Page();
+            if (Event.EndDateTime < Event.RegistrationEndDate) return Page();
+            if (Event.Capacity < 0) Event.Capacity = 0;
+            if (Event.Price < 0) Event.Price = 0;
+            if(Event.Name==null) return Page();
+            if(Event.Description==null) return Page();
+            if (Event.Place == null) Event.Place = "Undefined";
+            if (Event.Images == null) Event.Images = "/img/default.png";
 
             _context.Attach(Event).State = EntityState.Modified;
 
