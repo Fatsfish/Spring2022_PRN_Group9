@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -21,6 +22,8 @@ namespace MVC.Controllers
         // GET: UserRoles
         public async Task<IActionResult> Index()
         {
+            if (HttpContext.Session.GetInt32("id") == null || HttpContext.Session.GetString("role") == null) return Redirect("/Home/Login");
+
             var eventMSContext = _context.UserRoles.Include(u => u.Role).Include(u => u.User);
             return View(await eventMSContext.ToListAsync());
         }
@@ -28,6 +31,8 @@ namespace MVC.Controllers
         // GET: UserRoles/Details/5
         public async Task<IActionResult> Details(int? id)
         {
+            if (HttpContext.Session.GetInt32("id") == null || HttpContext.Session.GetString("role") == null) return Redirect("/Home/Login");
+
             if (id == null)
             {
                 return NotFound();
@@ -48,6 +53,8 @@ namespace MVC.Controllers
         // GET: UserRoles/Create
         public IActionResult Create()
         {
+            if (HttpContext.Session.GetInt32("id") == null || HttpContext.Session.GetString("role") == null) return Redirect("/Home/Login");
+
             ViewData["RoleId"] = new SelectList(_context.Roles, "Id", "Description");
             ViewData["UserId"] = new SelectList(_context.Users, "Id", "Bio");
             return View();
@@ -60,6 +67,8 @@ namespace MVC.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("UserId,RoleId,Id")] UserRole userRole)
         {
+            if (HttpContext.Session.GetInt32("id") == null || HttpContext.Session.GetString("role") == null) return Redirect("/Home/Login");
+
             if (ModelState.IsValid)
             {
                 _context.Add(userRole);
@@ -74,6 +83,8 @@ namespace MVC.Controllers
         // GET: UserRoles/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            if (HttpContext.Session.GetInt32("id") == null || HttpContext.Session.GetString("role") == null) return Redirect("/Home/Login");
+
             if (id == null)
             {
                 return NotFound();
@@ -96,6 +107,8 @@ namespace MVC.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("UserId,RoleId,Id")] UserRole userRole)
         {
+            if (HttpContext.Session.GetInt32("id") == null || HttpContext.Session.GetString("role") == null) return Redirect("/Home/Login");
+
             if (id != userRole.Id)
             {
                 return NotFound();
@@ -129,6 +142,8 @@ namespace MVC.Controllers
         // GET: UserRoles/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
+            if (HttpContext.Session.GetInt32("id") == null || HttpContext.Session.GetString("role") == null) return Redirect("/Home/Login");
+
             if (id == null)
             {
                 return NotFound();
@@ -151,6 +166,8 @@ namespace MVC.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
+            if (HttpContext.Session.GetInt32("id") == null || HttpContext.Session.GetString("role") == null) return Redirect("/Home/Login");
+
             var userRole = await _context.UserRoles.FindAsync(id);
             _context.UserRoles.Remove(userRole);
             await _context.SaveChangesAsync();

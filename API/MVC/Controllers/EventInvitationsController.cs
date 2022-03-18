@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -21,6 +22,7 @@ namespace MVC.Controllers
         // GET: EventInvitations
         public async Task<IActionResult> Index()
         {
+            if (HttpContext.Session.GetInt32("id") == null || (HttpContext.Session.GetString("role") == null && HttpContext.Session.GetString("role1") == null)) return Redirect("/Home/Login");
             var eventMSContext = _context.EventInvitations.Include(e => e.Event).Include(e => e.InvitationResponse).Include(e => e.User);
             return View(await eventMSContext.ToListAsync());
         }
@@ -28,6 +30,8 @@ namespace MVC.Controllers
         // GET: EventInvitations/Details/5
         public async Task<IActionResult> Details(int? id)
         {
+            if (HttpContext.Session.GetInt32("id") == null || (HttpContext.Session.GetString("role") == null && HttpContext.Session.GetString("role1") == null)) return Redirect("/Home/Login");
+
             if (id == null)
             {
                 return NotFound();
@@ -49,6 +53,7 @@ namespace MVC.Controllers
         // GET: EventInvitations/Create
         public IActionResult Create()
         {
+            if (HttpContext.Session.GetInt32("id") == null || (HttpContext.Session.GetString("role") == null && HttpContext.Session.GetString("role1") == null)) return Redirect("/Home/Login");
             ViewData["EventId"] = new SelectList(_context.Events, "Id", "Description");
             ViewData["InvitationResponseId"] = new SelectList(_context.InvitationResponseTypes, "Id", "Name");
             ViewData["UserId"] = new SelectList(_context.Users, "Id", "Bio");
@@ -62,6 +67,8 @@ namespace MVC.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("EventId,UserId,SentDate,InvitationResponseId,TextResponse,ResponseDate,Id")] EventInvitation eventInvitation)
         {
+            if (HttpContext.Session.GetInt32("id") == null || (HttpContext.Session.GetString("role") == null && HttpContext.Session.GetString("role1") == null)) return Redirect("/Home/Login");
+
             if (ModelState.IsValid)
             {
                 _context.Add(eventInvitation);
@@ -77,6 +84,8 @@ namespace MVC.Controllers
         // GET: EventInvitations/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            if (HttpContext.Session.GetInt32("id") == null || (HttpContext.Session.GetString("role") == null && HttpContext.Session.GetString("role1") == null)) return Redirect("/Home/Login");
+
             if (id == null)
             {
                 return NotFound();
@@ -100,6 +109,8 @@ namespace MVC.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("EventId,UserId,SentDate,InvitationResponseId,TextResponse,ResponseDate,Id")] EventInvitation eventInvitation)
         {
+            if (HttpContext.Session.GetInt32("id") == null || (HttpContext.Session.GetString("role") == null && HttpContext.Session.GetString("role1") == null)) return Redirect("/Home/Login");
+
             if (id != eventInvitation.Id)
             {
                 return NotFound();
@@ -134,6 +145,8 @@ namespace MVC.Controllers
         // GET: EventInvitations/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
+            if (HttpContext.Session.GetInt32("id") == null || (HttpContext.Session.GetString("role") == null && HttpContext.Session.GetString("role1") == null)) return Redirect("/Home/Login");
+
             if (id == null)
             {
                 return NotFound();
@@ -157,6 +170,8 @@ namespace MVC.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
+            if (HttpContext.Session.GetInt32("id") == null || (HttpContext.Session.GetString("role") == null && HttpContext.Session.GetString("role1") == null)) return Redirect("/Home/Login");
+
             var eventInvitation = await _context.EventInvitations.FindAsync(id);
             _context.EventInvitations.Remove(eventInvitation);
             await _context.SaveChangesAsync();

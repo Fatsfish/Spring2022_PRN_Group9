@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -21,12 +22,16 @@ namespace MVC.Controllers
         // GET: Users
         public async Task<IActionResult> Index()
         {
+            if (HttpContext.Session.GetInt32("id") == null || HttpContext.Session.GetString("role") == null) return Redirect("/Home/Login");
+
             return View(await _context.Users.ToListAsync());
         }
 
         // GET: Users/Details/5
         public async Task<IActionResult> Details(int? id)
         {
+            if (HttpContext.Session.GetInt32("id") == null || HttpContext.Session.GetString("role") == null) return Redirect("/Home/Login");
+
             if (id == null)
             {
                 return NotFound();
@@ -45,6 +50,8 @@ namespace MVC.Controllers
         // GET: Users/Create
         public IActionResult Create()
         {
+            if (HttpContext.Session.GetInt32("id") == null || HttpContext.Session.GetString("role") == null) return Redirect("/Home/Login");
+
             return View();
         }
 
@@ -55,6 +62,8 @@ namespace MVC.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Password,FirstName,LastName,Email,Bio,IsActive")] User user)
         {
+            if (HttpContext.Session.GetInt32("id") == null || HttpContext.Session.GetString("role") == null) return Redirect("/Home/Login");
+
             if (ModelState.IsValid)
             {
                 _context.Add(user);
@@ -67,6 +76,8 @@ namespace MVC.Controllers
         // GET: Users/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            if (HttpContext.Session.GetInt32("id") == null || HttpContext.Session.GetString("role") == null) return Redirect("/Home/Login");
+
             if (id == null)
             {
                 return NotFound();
@@ -87,6 +98,8 @@ namespace MVC.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Password,FirstName,LastName,Email,Bio,IsActive")] User user)
         {
+            if (HttpContext.Session.GetInt32("id") == null || HttpContext.Session.GetString("role") == null) return Redirect("/Home/Login");
+
             if (id != user.Id)
             {
                 return NotFound();
@@ -118,6 +131,8 @@ namespace MVC.Controllers
         // GET: Users/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
+            if (HttpContext.Session.GetInt32("id") == null || HttpContext.Session.GetString("role") == null) return Redirect("/Home/Login");
+
             if (id == null)
             {
                 return NotFound();
@@ -138,6 +153,8 @@ namespace MVC.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
+            if (HttpContext.Session.GetInt32("id") == null || HttpContext.Session.GetString("role") == null) return Redirect("/Home/Login");
+
             var user = await _context.Users.FindAsync(id);
             _context.Users.Remove(user);
             await _context.SaveChangesAsync();
