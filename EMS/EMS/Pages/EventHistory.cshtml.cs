@@ -6,6 +6,9 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace EMS.Pages
@@ -36,14 +39,21 @@ namespace EMS.Pages
             }
             else
             {
+                var l = from m in _context.EventTickets.Where(o => o.OwnerId == HttpContext.Session.GetInt32("id")) select m;
                 var _event = from m in _context.Events
-                .Include(p => p.CreationUser)
-                .Include(p => p.AllowedEventGroups)
-                .Include(p => p.Status)
-                .Include(p => p.Comments)
-                .Include(p => p.EventInvitations)
-                .Include(p => p.EventTickets)
-                             select m;
+                    .Include(p => p.CreationUser)
+                    .Include(p => p.AllowedEventGroups)
+                    .Include(p => p.Status)
+                    .Include(p => p.Comments)
+                    .Include(p => p.EventInvitations)
+                    .Include(p => p.EventTickets)
+                    select m;
+                _event = _event.Where(o => o.Capacity == -1);
+                foreach (var i in l)
+                {
+                    var l1= _context.Events.Where(o => o.Id == i.EventId).FirstOrDefault();
+                    _event.Append(l1);
+                }
                 if (!string.IsNullOrEmpty(SearchString))
                 {
                     _event = _event.Where(o => o.Name.Contains(SearchString));
@@ -56,7 +66,8 @@ namespace EMS.Pages
                 {
                     searchString = currentFilter;
                 }
-                var pageSize = Configuration.GetValue("PageSize", 4);
+                var pageSize = Configuration.GetValue("PageSize1", 12);
+
                 Event = await PaginatedList<Models.Event>.CreateAsync(
                     _event.AsNoTracking(), pageIndex ?? 1, pageSize);
                 return Page();
