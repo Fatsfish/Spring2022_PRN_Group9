@@ -26,7 +26,7 @@
 <section class="blog_area section-padding">
     <div class="container">
         <div class="col-lg-12">
-            <form action="#">
+            <form method="GET" asp-action="SearchEvent">
                 <div class="form-group">
                     <div class="input-group mb-3">
                         <div class="input-group-append">
@@ -34,17 +34,17 @@
                                 <i class="ti-search"></i>
                             </button>
                         </div>
-                        <input type="text" class="form-control mr-3" placeholder='Search Keyword'
-                               onfocus="this.placeholder = ''"
-                               onblur="this.placeholder = 'Search Keyword'">
-                        <button class="btn btn-primary"
-                                type="submit">
+                        <input type="text" class="form-control mr-3" placeholder='Search by name'
+                               onfocus="this.placeholder = ''" name="searchText"
+                               onblur="this.placeholder = 'Search by name'">
+                        <button class="btn btn-primary" type="submit">
                             Search
                         </button>
                     </div>
                 </div>
             </form>
-            <div class="row">
+            <div class="row justify-content-center">
+                <h4 class="text-center">@ViewBag.Message</h4>
                 @foreach (var e in Model)
                 {
                     <div class="col-lg-6 col-md-6 col-xs-12">
@@ -67,7 +67,7 @@
                                         <a href="#"><i class="fa fa-user"></i>@Html.Raw(e.CreationUser.FirstName + " " + e.CreationUser.LastName)</a>
                                     </li>
                                     <li>
-                                        <a href="#"><i class="fa fa-comments"></i>@Html.Raw(e.Comments.Count) Comments</a>
+                                        <p class="text-secondary">(Status: @Html.Raw(e.Status.Name))</p>
                                     </li>
                                 </ul>
                             </div>
