@@ -62,7 +62,9 @@ namespace EMS.Pages.EventTicket
             {
                 return Page();
             }
-
+            EventTicket.PaidDate = System.DateTime.Now;
+            if (EventTicket.EventId == null) return Page();
+            if (EventTicket.OwnerId == null) return Page();
             _context.Attach(EventTicket).State = EntityState.Modified;
 
             try

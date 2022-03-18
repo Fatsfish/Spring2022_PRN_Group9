@@ -43,7 +43,8 @@ namespace EMS.Pages.GroupUser
             {
                 return Page();
             }
-
+            if (GroupUser.UserId == null) return Page();
+            if (GroupUser.GroupId == null) return Page();
             _context.GroupUsers.Add(GroupUser);
             await _context.SaveChangesAsync();
 

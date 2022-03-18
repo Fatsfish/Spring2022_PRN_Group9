@@ -62,7 +62,8 @@ namespace EMS.Pages.AllowedEventGroup
             {
                 return Page();
             }
-
+            if (AllowedEventGroup.GroupId == null) return Page();
+            if (AllowedEventGroup.EventId == null) return Page();
             _context.Attach(AllowedEventGroup).State = EntityState.Modified;
 
             try
