@@ -43,9 +43,12 @@
                                         <li>
                                             <a asp-action="Event">Event</a>
                                         </li>
-                                        <li>
-                                            <a asp-action="Profile">Profile</a>
-                                        </li>
+                                        @if (@HttpContextAccessor.HttpContext.Session.GetInt32("id") != null)
+                                        {
+                                            <li>
+                                                <a asp-action="Profile">Profile</a>
+                                            </li>
+                                        }
                                     </ul>
                                 </nav>
                             </div>
@@ -53,15 +56,15 @@
                         <div class="col-xl-2 col-lg-2 d-none d-lg-block">
                             @if (@HttpContextAccessor.HttpContext.Session.GetInt32("id") == null)
                             {
-                            <div class="buy_ticket">
+                                <div class="buy_ticket">
                                     <a asp-action="Login" class="boxed-btn-white">Login</a>
-                            </div>
+                                </div>
                             }
                             @if (@HttpContextAccessor.HttpContext.Session.GetInt32("id") != null)
                             {
-                            <div class="buy_ticket">
-                            <a class="boxed-btn-white" href='../home/Logout'>Logout</a>
-                            </div>
+                                <div class="buy_ticket">
+                                    <a class="boxed-btn-white" href='../home/Logout'>Logout</a>
+                                </div>
                             }
                         </div>
                         <div class="col-12">
