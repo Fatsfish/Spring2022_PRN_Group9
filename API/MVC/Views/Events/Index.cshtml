@@ -42,7 +42,7 @@
             <th>
                 @Html.DisplayNameFor(model => model.Price)
             </th>
-            <th>
+            <th style="max-width: 100px">
                 @Html.DisplayNameFor(model => model.Images)
             </th>
             <th>
@@ -55,53 +55,54 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CreationDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.RegistrationEndDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.StartDateTime)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.EndDateTime)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Place)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IsPublic)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Capacity)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Price)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Images)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CreationUser.Bio)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Status.Name)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td style="max-width: 100px; text-overflow: ellipsis; overflow: hidden; white-space: nowrap;">
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td style="max-width: 100px; text-overflow: ellipsis; overflow: hidden; white-space: nowrap;">
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CreationDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RegistrationEndDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StartDateTime)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EndDateTime)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Place)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IsPublic)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Capacity)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price)
+                </td>
+                <td style="max-width: 100px; text-overflow: ellipsis; overflow: hidden; white-space: nowrap;">
+                    @Html.DisplayFor(modelItem => item.Images)
+                </td>
+                <td>
+                    @Html.Raw(item.CreationUser.FirstName + " " + item.CreationUser.LastName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Status.Name)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-warning text-white">Edit</a>
+                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-info">Details</a>
+                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger">Delete</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
