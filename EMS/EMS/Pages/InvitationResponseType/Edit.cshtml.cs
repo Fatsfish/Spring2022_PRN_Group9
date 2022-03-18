@@ -55,7 +55,7 @@ namespace EMS.Pages.InvitationResponseType
             {
                 return Page();
             }
-
+            if (InvitationResponseType.Name == null) return Page();
             _context.Attach(InvitationResponseType).State = EntityState.Modified;
 
             try

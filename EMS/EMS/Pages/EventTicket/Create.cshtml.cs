@@ -43,7 +43,9 @@ namespace EMS.Pages.EventTicket
             {
                 return Page();
             }
-
+            EventTicket.PaidDate = System.DateTime.Now;
+            if (EventTicket.EventId == null) return Page();
+            if (EventTicket.OwnerId == null) return Page();
             _context.EventTickets.Add(EventTicket);
             await _context.SaveChangesAsync();
 
