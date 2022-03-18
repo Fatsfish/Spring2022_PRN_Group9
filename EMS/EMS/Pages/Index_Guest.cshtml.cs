@@ -59,7 +59,7 @@ namespace EMS.Pages
                 {
                     searchString = currentFilter;
                 }
-                var pageSize = Configuration.GetValue("PageSize", 4);
+                var pageSize = Configuration.GetValue("PageSize1", 12);
                 Event = await PaginatedList<Models.Event>.CreateAsync(
                     _event.AsNoTracking(), pageIndex ?? 1, pageSize);
                 return Page();

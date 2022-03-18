@@ -45,7 +45,8 @@ namespace EMS.Pages.Group
             {
                 return Page();
             }
-
+            if (Group.Name == null) return Page();
+            if (Group.Description == null) Group.Description = "Group " + Group.Name;
             _context.Groups.Add(Group);
             await _context.SaveChangesAsync();
 

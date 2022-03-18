@@ -43,7 +43,8 @@ namespace EMS.Pages.AllowedEventGroup
             {
                 return Page();
             }
-
+            if (AllowedEventGroup.GroupId == null) return Page();
+            if (AllowedEventGroup.EventId == null) return Page();
             _context.AllowedEventGroups.Add(AllowedEventGroup);
             await _context.SaveChangesAsync();
 

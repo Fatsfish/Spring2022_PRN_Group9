@@ -44,7 +44,12 @@ namespace EMS.Pages.EventInvitation
             {
                 return Page();
             }
-
+            EventInvitation.SentDate = System.DateTime.Now;
+            if (EventInvitation.ResponseDate < EventInvitation.SentDate) return Page();
+            if (EventInvitation.InvitationResponseId == null) return Page();
+            if (EventInvitation.EventId == null) return Page();
+            if (EventInvitation.UserId == null) return Page();
+            if (EventInvitation.TextResponse == null) EventInvitation.TextResponse = "";
             _context.EventInvitations.Add(EventInvitation);
             await _context.SaveChangesAsync();
 

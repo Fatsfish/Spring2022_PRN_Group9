@@ -153,25 +153,26 @@
           }
         </div>
         
-@{
+
+        <div class="row mt-5">
+          <div class="col-12 text-center">
+              @{
     var prevDisabled = !Model.Event.HasPreviousPage ? "disabled" : "";
     var nextDisabled = !Model.Event.HasNextPage ? "disabled" : "";
 }
 
-<a asp-page="./Index"
+<a asp-page="./EventHistory"
    asp-route-pageIndex="@(Model.Event.PageIndex - 1)"
    asp-route-currentFilter="@Model.SearchString"
    class="btn btn-common @prevDisabled">
     Previous
 </a>
-<a asp-page="./Index"
+<a asp-page="./EventHistory"
    asp-route-pageIndex="@(Model.Event.PageIndex + 1)"
    asp-route-currentFilter="@Model.SearchString"
    class="btn btn-common @nextDisabled">
     Next
 </a>
-        <div class="row mt-5">
-          <div class="col-12 text-center">
             <a class="btn btn-common" asp-area="" asp-page="Index_Guest">More Event</a>
           </div>
         </div>

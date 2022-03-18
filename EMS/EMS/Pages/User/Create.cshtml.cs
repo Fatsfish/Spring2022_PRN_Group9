@@ -42,7 +42,11 @@ namespace EMS.Pages.User
             {
                 return Page();
             }
-
+            if (User.Password == null) return Page();
+            if (User.FirstName == null) return Page();
+            if (User.LastName == null) return Page();
+            if (User.Email == null) return Page();
+            if (User.Bio == null) User.Bio = "This is User " + User.LastName;
             _context.Users.Add(User);
             await _context.SaveChangesAsync();
 
