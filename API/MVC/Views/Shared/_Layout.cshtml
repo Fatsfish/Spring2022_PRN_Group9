@@ -23,21 +23,20 @@
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color: #f74d23">Admin Management</a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" asp-area="" asp-page="/User/Index">User</a>
-                                    <a class="dropdown-item" asp-area="" asp-page="/UserRole/Index">User Role</a>
-                                    <a class="dropdown-item" asp-area="" asp-page="/Role/Index">Role</a>
-                                    <a class="dropdown-item" asp-area="" asp-page="/InvitationResponseType/Index">Invitation Response Type</a>
+                                    <a class="dropdown-item" asp-action="Index" asp-controller="Users">User</a>
+                                    <a class="dropdown-item" asp-action="Index" asp-controller="UserRoles">User Role</a>
+                                    <a class="dropdown-item" asp-action="Index" asp-controller="Roles">Role</a>
+                                    <a class="dropdown-item" asp-action="Index" asp-controller="InvitationResponseTypes">Invitation Response Type</a>
                                     <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" asp-area="" asp-page="/Group/Index">Group</a>
-                                    <a class="dropdown-item" asp-area="" asp-page="/GroupUser/Index">Group User</a>
+                                    <a class="dropdown-item" asp-action="Index" asp-controller="Groups">Group</a>
+                                    <a class="dropdown-item" asp-action="Index" asp-controller="GroupUsers">Group User</a>
                                     <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" asp-area="" asp-page="/Event/Index">Event</a>
-                                    <a class="dropdown-item" asp-area="" asp-page="/EventInvitation/Index">Event Invitation</a>
-                                    <a class="dropdown-item" asp-area="" asp-page="/EventTicket/Index">Event Ticket</a>
-                                    <a class="dropdown-item" asp-area="" asp-page="/EventStatus/Index">Event Status</a>
+                                    <a class="dropdown-item" asp-action="Index" asp-controller="Events">Event</a>
+                                    <a class="dropdown-item" asp-action="Index" asp-controller="EventInvitations">Event Invitation</a>
+                                    <a class="dropdown-item" asp-action="Index" asp-controller="EventTickets">Event Ticket</a>
+                                    <a class="dropdown-item" asp-action="Index" asp-controller="EventStatus">Event Status</a>
                                     <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" asp-area="" asp-page="/Comment/Index">Comment</a>
-                                    <a class="dropdown-item" asp-area="" asp-page="/AllowedEventGroup/Index">Allowed Event Group</a>
+                                    <a class="dropdown-item" asp-action="Index" asp-controller="AllowedEventGroups">Allowed Event Group</a>
                                 </div>
                             </li>
                         }
@@ -46,16 +45,15 @@
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color: #f74d23">Host Management</a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" asp-area="" asp-page="/Group/Index">Group</a>
-                                    <a class="dropdown-item" asp-area="" asp-page="/GroupUser/Index">Group User</a>
+                                    <a class="dropdown-item" asp-action="Index" asp-controller="Groups">Group</a>
+                                    <a class="dropdown-item" asp-action="Index" asp-controller="GroupUs ers">Group User</a>
                                     <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" asp-area="" asp-page="/Event/Index">Event</a>
-                                    <a class="dropdown-item" asp-area="" asp-page="/EventInvitation/Index">Event Invitation</a>
-                                    <a class="dropdown-item" asp-area="" asp-page="/EventTicket/Index">Event Ticket</a>
-                                    <a class="dropdown-item" asp-area="" asp-page="/EventStatus/Index">Event Status</a>
+                                    <a class="dropdown-item" asp-action="Index" asp-controller="Events">Event</a>
+                                    <a class="dropdown-item" asp-action="Index" asp-controller="EventInvitations">Event Invitation</a>
+                                    <a class="dropdown-item" asp-action="Index" asp-controller="EventTickets">Event Ticket</a>
+                                    <a class="dropdown-item" asp-action="Index" asp-controller="EventStatus">Event Status</a>
                                     <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" asp-area="" asp-page="/Comment/Index">Comment</a>
-                                    <a class="dropdown-item" asp-area="" asp-page="/AllowedEventGroup/Index">Allowed Event Group</a>
+                                    <a class="dropdown-item" asp-action="Index" asp-controller="AllowedEventGroups">Allowed Event Group</a>
                                 </div>
                             </li>
                         }
