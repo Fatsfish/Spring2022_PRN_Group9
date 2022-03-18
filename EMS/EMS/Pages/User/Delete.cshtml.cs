@@ -57,6 +57,7 @@ namespace EMS.Pages.User
 
             if (User != null)
             {
+                if (User.IsActive == true) return Page();
                 _context.Users.Remove(User);
                 await _context.SaveChangesAsync();
             }

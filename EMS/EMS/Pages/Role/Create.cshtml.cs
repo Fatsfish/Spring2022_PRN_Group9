@@ -42,7 +42,8 @@ namespace EMS.Pages.Role
             {
                 return Page();
             }
-
+            if (Role.Name == null) return Page();
+            if(Role.Description == null) Role.Description = Role.Name + " Role";
             _context.Roles.Add(Role);
             await _context.SaveChangesAsync();
 

@@ -62,6 +62,7 @@ namespace EMS.Pages.Event
 
             if (Event != null)
             {
+                if (Event.IsPublic == true) return Page();
                 _context.Events.Remove(Event);
                 await _context.SaveChangesAsync();
             }

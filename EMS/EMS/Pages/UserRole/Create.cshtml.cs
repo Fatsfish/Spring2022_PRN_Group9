@@ -40,7 +40,8 @@ namespace EMS.Pages.UserRole
             {
                 return Page();
             }
-
+            if (UserRole.RoleId == null) return Page();
+            if (UserRole.UserId == null) return Page();
             _context.UserRoles.Add(UserRole);
             await _context.SaveChangesAsync();
 

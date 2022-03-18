@@ -58,7 +58,7 @@ namespace EMS.Pages.EventStatus
             {
                 return Page();
             }
-
+            if (EventStatus.Name == null) return Page();
             _context.Attach(EventStatus).State = EntityState.Modified;
 
             try

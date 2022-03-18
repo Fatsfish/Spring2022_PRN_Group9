@@ -45,7 +45,7 @@ namespace EMS.Pages.EventStatus
             {
                 return Page();
             }
-
+            if (EventStatus.Name == null) return Page();
             _context.EventStatuses.Add(EventStatus);
             await _context.SaveChangesAsync();
 

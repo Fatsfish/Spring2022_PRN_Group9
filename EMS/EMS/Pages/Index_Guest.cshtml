@@ -351,7 +351,7 @@
             </div>@foreach (var item in Model.Event) {
           <div class="col-lg-3 col-md-6 col-xs-12">
             <div class="event-item" style="padding:10px 10px 10px 10px">
-              <img class="img-fluid" src="./img/event/img2.jpg" alt="" @*@Html.DisplayFor(modelItem => item.Images) *@>
+              <img class="img-fluid" src="@Html.DisplayFor(modelItem => item.Images)" alt="" @*@Html.DisplayFor(modelItem => item.Images) *@>
               <div class="overlay-text">
                 <div class="content">
                   <h3>@Html.DisplayFor(modelItem => item.Name)</h3>
@@ -364,6 +364,23 @@
         </div>
         <div class="row mt-5">
           <div class="col-12 text-center">
+              @{
+    var prevDisabled = !Model.Event.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.Event.HasNextPage ? "disabled" : "";
+}
+
+<a asp-page="./Index"
+   asp-route-pageIndex="@(Model.Event.PageIndex - 1)"
+   asp-route-currentFilter="@Model.SearchString"
+   class="btn btn-common @prevDisabled">
+    Previous
+</a>
+<a asp-page="./Index"
+   asp-route-pageIndex="@(Model.Event.PageIndex + 1)"
+   asp-route-currentFilter="@Model.SearchString"
+   class="btn btn-common @nextDisabled">
+    Next
+</a>
             <a class="btn btn-common" asp-area="" asp-page="EventHistory">Event History</a>
           </div>
         </div>

@@ -43,7 +43,11 @@ namespace EMS.Pages.Comment
             {
                 return Page();
             }
-
+            if (Comment.CreationUserId == null) return Page();
+            if (Comment.EventId == null) return Page();
+            if (Comment.Text == null) return Page();
+            if (Comment.EventId == null) return Page();
+            Comment.CreationDate = System.DateTime.Now;
             _context.Comments.Add(Comment);
             await _context.SaveChangesAsync();
 

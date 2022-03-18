@@ -43,6 +43,7 @@ namespace EMS.Pages.InvitationResponseType
                 return Page();
             }
 
+            if (InvitationResponseType.Name == null) return Page();
             _context.InvitationResponseTypes.Add(InvitationResponseType);
             await _context.SaveChangesAsync();
 
