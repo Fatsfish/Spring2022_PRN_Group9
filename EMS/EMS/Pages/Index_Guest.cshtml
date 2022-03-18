@@ -369,13 +369,13 @@
     var nextDisabled = !Model.Event.HasNextPage ? "disabled" : "";
 }
 
-<a asp-page="./Index"
+<a asp-page="./Index_Guest"
    asp-route-pageIndex="@(Model.Event.PageIndex - 1)"
    asp-route-currentFilter="@Model.SearchString"
    class="btn btn-common @prevDisabled">
     Previous
 </a>
-<a asp-page="./Index"
+<a asp-page="./Index_Guest"
    asp-route-pageIndex="@(Model.Event.PageIndex + 1)"
    asp-route-currentFilter="@Model.SearchString"
    class="btn btn-common @nextDisabled">
