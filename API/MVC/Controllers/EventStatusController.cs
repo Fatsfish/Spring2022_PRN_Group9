@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -21,12 +22,15 @@ namespace MVC.Controllers
         // GET: EventStatus
         public async Task<IActionResult> Index()
         {
+            if (HttpContext.Session.GetInt32("id") == null || (HttpContext.Session.GetString("role") == null && HttpContext.Session.GetString("role1") == null)) return Redirect("/Home/Login");
             return View(await _context.EventStatuses.ToListAsync());
         }
 
         // GET: EventStatus/Details/5
         public async Task<IActionResult> Details(int? id)
         {
+            if (HttpContext.Session.GetInt32("id") == null || (HttpContext.Session.GetString("role") == null && HttpContext.Session.GetString("role1") == null)) return Redirect("/Home/Login");
+
             if (id == null)
             {
                 return NotFound();
@@ -45,6 +49,8 @@ namespace MVC.Controllers
         // GET: EventStatus/Create
         public IActionResult Create()
         {
+            if (HttpContext.Session.GetInt32("id") == null || (HttpContext.Session.GetString("role") == null && HttpContext.Session.GetString("role1") == null)) return Redirect("/Home/Login");
+
             return View();
         }
 
@@ -55,6 +61,8 @@ namespace MVC.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Name")] EventStatus eventStatus)
         {
+            if (HttpContext.Session.GetInt32("id") == null || (HttpContext.Session.GetString("role") == null && HttpContext.Session.GetString("role1") == null)) return Redirect("/Home/Login");
+
             if (ModelState.IsValid)
             {
                 _context.Add(eventStatus);
@@ -67,6 +75,8 @@ namespace MVC.Controllers
         // GET: EventStatus/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            if (HttpContext.Session.GetInt32("id") == null || (HttpContext.Session.GetString("role") == null && HttpContext.Session.GetString("role1") == null)) return Redirect("/Home/Login");
+
             if (id == null)
             {
                 return NotFound();
@@ -87,6 +97,8 @@ namespace MVC.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Name")] EventStatus eventStatus)
         {
+            if (HttpContext.Session.GetInt32("id") == null || (HttpContext.Session.GetString("role") == null && HttpContext.Session.GetString("role1") == null)) return Redirect("/Home/Login");
+
             if (id != eventStatus.Id)
             {
                 return NotFound();
@@ -118,6 +130,8 @@ namespace MVC.Controllers
         // GET: EventStatus/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
+            if (HttpContext.Session.GetInt32("id") == null || (HttpContext.Session.GetString("role") == null && HttpContext.Session.GetString("role1") == null)) return Redirect("/Home/Login");
+
             if (id == null)
             {
                 return NotFound();
@@ -138,6 +152,8 @@ namespace MVC.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
+            if (HttpContext.Session.GetInt32("id") == null || (HttpContext.Session.GetString("role") == null && HttpContext.Session.GetString("role1") == null)) return Redirect("/Home/Login");
+
             var eventStatus = await _context.EventStatuses.FindAsync(id);
             _context.EventStatuses.Remove(eventStatus);
             await _context.SaveChangesAsync();

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -21,6 +22,7 @@ namespace MVC.Controllers
         // GET: Events
         public async Task<IActionResult> Index()
         {
+            if (HttpContext.Session.GetInt32("id") == null || (HttpContext.Session.GetString("role") == null && HttpContext.Session.GetString("role1") == null)) return Redirect("/Home/Login");
             var eventMSContext = _context.Events.Include(o => o.CreationUser).Include(o => o.Status);
             return View(await eventMSContext.ToListAsync());
         }
@@ -28,6 +30,8 @@ namespace MVC.Controllers
         // GET: Events/Details/5
         public async Task<IActionResult> Details(int? id)
         {
+            if (HttpContext.Session.GetInt32("id") == null || (HttpContext.Session.GetString("role") == null && HttpContext.Session.GetString("role1") == null)) return Redirect("/Home/Login");
+
             if (id == null)
             {
                 return NotFound();
@@ -48,6 +52,8 @@ namespace MVC.Controllers
         // GET: Events/Create
         public IActionResult Create()
         {
+            if (HttpContext.Session.GetInt32("id") == null || (HttpContext.Session.GetString("role") == null && HttpContext.Session.GetString("role1") == null)) return Redirect("/Home/Login");
+
             ViewData["CreationUserId"] = new SelectList(_context.Users, "Id", "Bio");
             ViewData["StatusId"] = new SelectList(_context.EventStatuses, "Id", "Name");
             return View();
@@ -60,6 +66,8 @@ namespace MVC.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Name,Description,CreationDate,CreationUserId,RegistrationEndDate,StartDateTime,EndDateTime,Place,IsPublic,Capacity,Price,StatusId,Images")] Event oevent)
         {
+            if (HttpContext.Session.GetInt32("id") == null || (HttpContext.Session.GetString("role") == null && HttpContext.Session.GetString("role1") == null)) return Redirect("/Home/Login");
+
             if (ModelState.IsValid)
             {
                 _context.Add(oevent);
@@ -74,6 +82,8 @@ namespace MVC.Controllers
         // GET: Events/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            if (HttpContext.Session.GetInt32("id") == null || (HttpContext.Session.GetString("role") == null && HttpContext.Session.GetString("role1") == null)) return Redirect("/Home/Login");
+
             if (id == null)
             {
                 return NotFound();
@@ -96,6 +106,8 @@ namespace MVC.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Description,CreationDate,CreationUserId,RegistrationEndDate,StartDateTime,EndDateTime,Place,IsPublic,Capacity,Price,StatusId,Images")] Event oevent)
         {
+            if (HttpContext.Session.GetInt32("id") == null || (HttpContext.Session.GetString("role") == null && HttpContext.Session.GetString("role1") == null)) return Redirect("/Home/Login");
+
             if (id != oevent.Id)
             {
                 return NotFound();
@@ -129,6 +141,8 @@ namespace MVC.Controllers
         // GET: Events/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
+            if (HttpContext.Session.GetInt32("id") == null || (HttpContext.Session.GetString("role") == null && HttpContext.Session.GetString("role1") == null)) return Redirect("/Home/Login");
+
             if (id == null)
             {
                 return NotFound();
@@ -151,6 +165,8 @@ namespace MVC.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
+            if (HttpContext.Session.GetInt32("id") == null || (HttpContext.Session.GetString("role") == null && HttpContext.Session.GetString("role1") == null)) return Redirect("/Home/Login");
+
             var oevent = await _context.Events.FindAsync(id);
             _context.Events.Remove(oevent);
             await _context.SaveChangesAsync();
