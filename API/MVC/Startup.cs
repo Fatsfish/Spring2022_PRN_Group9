@@ -29,7 +29,8 @@ namespace MVC
             services.AddHttpContextAccessor();
             services.AddDirectoryBrowser();
             services.AddControllersWithViews();
-            services.AddSignalR(); services.AddDbContext<EventMSContext>(options =>
+            services.AddSignalR(); 
+            services.AddDbContext<EventMSContext>(options =>
             options.UseSqlServer(Configuration.GetConnectionString("EventMS")));
 
         }
