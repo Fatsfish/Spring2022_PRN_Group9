@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -21,6 +22,8 @@ namespace MVC.Controllers
         // GET: Comments
         public async Task<IActionResult> Index()
         {
+            if (HttpContext.Session.GetInt32("id") == null || HttpContext.Session.GetString("role") == null || HttpContext.Session.GetString("role1") == null) return Redirect("/Home/Login");
+
             var eventMSContext = _context.Comments.Include(c => c.CreationUser).Include(c => c.Event);
             return View(await eventMSContext.ToListAsync());
         }
@@ -28,6 +31,8 @@ namespace MVC.Controllers
         // GET: Comments/Details/5
         public async Task<IActionResult> Details(int? id)
         {
+            if (HttpContext.Session.GetInt32("id") == null || HttpContext.Session.GetString("role") == null || HttpContext.Session.GetString("role1") == null) return Redirect("/Home/Login");
+
             if (id == null)
             {
                 return NotFound();
@@ -48,6 +53,8 @@ namespace MVC.Controllers
         // GET: Comments/Create
         public IActionResult Create()
         {
+            if (HttpContext.Session.GetInt32("id") == null || HttpContext.Session.GetString("role") == null || HttpContext.Session.GetString("role1") == null) return Redirect("/Home/Login");
+
             ViewData["CreationUserId"] = new SelectList(_context.Users, "Id", "Bio");
             ViewData["EventId"] = new SelectList(_context.Events, "Id", "Description");
             return View();
@@ -60,6 +67,8 @@ namespace MVC.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,EventId,CreationUserId,Text,CreationDate")] Comment comment)
         {
+            if (HttpContext.Session.GetInt32("id") == null || HttpContext.Session.GetString("role") == null || HttpContext.Session.GetString("role1") == null) return Redirect("/Home/Login");
+
             if (ModelState.IsValid)
             {
                 _context.Add(comment);
@@ -74,6 +83,8 @@ namespace MVC.Controllers
         // GET: Comments/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            if (HttpContext.Session.GetInt32("id") == null || HttpContext.Session.GetString("role") == null || HttpContext.Session.GetString("role1") == null) return Redirect("/Home/Login");
+
             if (id == null)
             {
                 return NotFound();
@@ -96,6 +107,8 @@ namespace MVC.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,EventId,CreationUserId,Text,CreationDate")] Comment comment)
         {
+            if (HttpContext.Session.GetInt32("id") == null || HttpContext.Session.GetString("role") == null || HttpContext.Session.GetString("role1") == null) return Redirect("/Home/Login");
+
             if (id != comment.Id)
             {
                 return NotFound();
@@ -129,6 +142,8 @@ namespace MVC.Controllers
         // GET: Comments/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
+            if (HttpContext.Session.GetInt32("id") == null || HttpContext.Session.GetString("role") == null || HttpContext.Session.GetString("role1") == null) return Redirect("/Home/Login");
+
             if (id == null)
             {
                 return NotFound();
@@ -151,6 +166,8 @@ namespace MVC.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
+            if (HttpContext.Session.GetInt32("id") == null || HttpContext.Session.GetString("role") == null || HttpContext.Session.GetString("role1") == null) return Redirect("/Home/Login");
+
             var comment = await _context.Comments.FindAsync(id);
             _context.Comments.Remove(comment);
             await _context.SaveChangesAsync();
