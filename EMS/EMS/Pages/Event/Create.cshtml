@@ -44,7 +44,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="Event.Place" class="control-label"></label>
-                <input asp-for="Event.Place" class="form-control" />
+                <textarea asp-for="Event.Place" class="form-control" rows="2"></textarea>
                 <span asp-validation-for="Event.Place" class="text-danger"></span>
             </div>
             <div class="form-group form-check">
@@ -64,7 +64,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="Event.Images" class="control-label"></label>
-                <input asp-for="Event.Images" class ="form-control" asp-items="ViewBag.Images"></input>
+                <textarea asp-for="Event.Images" class ="form-control" asp-items="ViewBag.Images" rows="4"></textarea>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
