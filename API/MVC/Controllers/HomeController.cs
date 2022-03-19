@@ -65,6 +65,9 @@ namespace MVC.Controllers
             var oevent = await _context.Events
                 .Include(o => o.CreationUser)
                 .Include(o => o.Status)
+                .Include(o => o.Comments)
+                .Include(o => o.EventTickets)
+
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (oevent == null)
             {
@@ -72,11 +75,64 @@ namespace MVC.Controllers
             }
 
             return View(oevent);
+
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CreateComment([Bind("Id,EventId,CreationUserId,Text,CreationDate")] Comment comment)
+        {
+            if (HttpContext.Session.GetInt32("id") == null) return RedirectToAction(nameof(Login));
+
+            if (ModelState.IsValid)
+            {
+                comment.CreationDate = DateTime.Now;
+                comment.CreationUserId = HttpContext.Session.GetInt32("id");
+
+                _context.Add(comment);
+                await _context.SaveChangesAsync();
+                return Redirect($"/Home/EventDetails/{comment.EventId}");
+            }
+            return View(comment);
+
         }
 
         public IActionResult Profile()
         {
-            return View();
+            if (HttpContext.Session.GetInt32("id") == null) return RedirectToAction(nameof(Login));
+
+            var id = HttpContext.Session.GetInt32("id");
+
+            if (id == null) return RedirectToAction(nameof(Login));
+
+            User user = _context.Users.SingleOrDefault(u => u.Id == id);
+
+            return View(user);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult UpdateProfile(User user)
+        {
+            // Update Profile here
+            return RedirectToAction("Profile");
+        }
+
+        public IActionResult SearchEvent(string searchText)
+        {
+            IEnumerable<Event> _event = _context.Events
+                .Include(o => o.CreationUser)
+                .Include(o => o.Status)
+                .Include(o => o.Comments)
+                .Include(o => o.EventTickets)
+                .ToList().FindAll(e => e.Name.ToLower().Contains(searchText.ToLower()));
+
+            if (_event.Count() == 0)
+            {
+                ViewBag.Message = "No event found";
+            }
+
+            return View("Event", _event);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
