@@ -67,6 +67,7 @@ namespace MVC.Controllers
                 .Include(o => o.Status)
                 .Include(o => o.Comments)
                 .Include(o => o.EventTickets)
+
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (oevent == null)
             {
@@ -74,6 +75,7 @@ namespace MVC.Controllers
             }
 
             return View(oevent);
+
         }
 
         [HttpPost]
@@ -92,6 +94,7 @@ namespace MVC.Controllers
                 return Redirect($"/Home/EventDetails/{comment.EventId}");
             }
             return View(comment);
+
         }
 
         public IActionResult Profile()
