@@ -29,8 +29,11 @@
                 <div class="d-flex justify-content-between align-items-center mb-3">
                     <h4 class="text-right">Profile Settings</h4>
                 </div>
-                <form method="post" asp-action="UpdateProfile">
+                <form method="post">
                     <div class="row mt-2">
+                                    <input type="hidden" asp-for="Id" value="@Model.Id" />
+                                    <input class="form-check-input" type="hidden" asp-for="IsActive" value="@Model.IsActive"/>
+
                         <div class="col-md-6">
                             <label asp-for="FirstName" class="labels"></label>
                             <input asp-for="FirstName" type="text" class="form-control" placeholder="First name">
@@ -43,7 +46,7 @@
                     <div class="row mt-3">
                         <div class="col-md-6">
                             <label asp-for="Email" class="labels"></label>
-                            <input asp-for="Email" type="text" class="form-control" placeholder="Email">
+                            <input asp-for="Email" type="text" class="form-control disabled" placeholder="Email">
                             <span asp-validation-for="Email" class="text-danger"></span>
                         </div>
                         <div class="col-md-6">
@@ -59,7 +62,7 @@
                     </div>
 
                     <div class="mt-5 text-center">
-                        <button class="btn btn-primary profile-button" type="submit">Save Profile</button>
+                        <button class="btn btn-primary profile-button" asp-action="UpdateProfile" type="submit">Save Profile</button>
                     </div>
                 </form>
             </div>
@@ -70,81 +73,26 @@
                     <h4 class="text-right">Participate Event</h4>
                 </div>
                 <div class="d-flex flex-column">
-                    <div class="d-flex flex-column">
+                    <div class="d-flex flex-column">@{       IEnumerable<Event> events = ViewData["CreationUserId"] as IEnumerable<Event>;}
+                                                        @foreach (Event ev in events){
                         <div class="border-bottom">
                             <img src="img/speakers/seaker5.png" alt="">
                             <div class="speaker-name py-3">
                                 <div class="heading d-flex justify-content-between align-items-center">
-                                    <span>Jonson Miller</span>
+                                    <span>@ev.Name</span>
                                     <div class="time">
-                                        12-1.00 pm
+                                        @ev.EndDateTime
                                     </div>
                                 </div>
                                 <p>
-                                    Our set he for firmament morning sixth subdue darkness creeping gathered divide our let
-                                    god moving.
-                                    Moving in fourth air night bring upon you’re it beast let you dominion
+                                    @ev.Description
                                 </p>
                                 <div class="d-flex justify-content-end">
-                                    <input class="btn btn-primary" value="Details" />
+                                    <input class="btn btn-primary" value="Details" href="/Home/EventDetails/@ev.Id" />
                                 </div>
                             </div>
-                        </div>
-                        <div class="border-bottom">
-                            <img src="img/speakers/seaker5.png" alt="">
-                            <div class="speaker-name py-3">
-                                <div class="heading d-flex justify-content-between align-items-center">
-                                    <span>Jonson Miller</span>
-                                    <div class="time">
-                                        12-1.00 pm
-                                    </div>
-                                </div>
-                                <p>
-                                    Our set he for firmament morning sixth subdue darkness creeping gathered divide our let
-                                    god moving.
-                                    Moving in fourth air night bring upon you’re it beast let you dominion
-                                </p>
-                                <div class="d-flex justify-content-end">
-                                    <input class="btn btn-primary" value="Details" />
-                                </div>
-                            </div>
-                        </div><div class="border-bottom">
-                            <img src="img/speakers/seaker5.png" alt="">
-                            <div class="speaker-name py-3">
-                                <div class="heading d-flex justify-content-between align-items-center">
-                                    <span>Jonson Miller</span>
-                                    <div class="time">
-                                        12-1.00 pm
-                                    </div>
-                                </div>
-                                <p>
-                                    Our set he for firmament morning sixth subdue darkness creeping gathered divide our let
-                                    god moving.
-                                    Moving in fourth air night bring upon you’re it beast let you dominion
-                                </p>
-                                <div class="d-flex justify-content-end">
-                                    <input class="btn btn-primary" value="Details" />
-                                </div>
-                            </div>
-                        </div><div class="border-bottom">
-                            <img src="img/speakers/seaker5.png" alt="">
-                            <div class="speaker-name py-3">
-                                <div class="heading d-flex justify-content-between align-items-center">
-                                    <span>Jonson Miller</span>
-                                    <div class="time">
-                                        12-1.00 pm
-                                    </div>
-                                </div>
-                                <p>
-                                    Our set he for firmament morning sixth subdue darkness creeping gathered divide our let
-                                    god moving.
-                                    Moving in fourth air night bring upon you’re it beast let you dominion
-                                </p>
-                                <div class="d-flex justify-content-end">
-                                    <input class="btn btn-primary" value="Details" />
-                                </div>
-                            </div>
-                        </div>
+                        </div>}
+                        
                     </div>
                 </div>
             </div>

@@ -127,7 +127,8 @@
                                 else
                                 {
                                     <form method="POST">
-                                        <input type="submit" class="btn btn-primary" asp-action="" value="Apply Event" />
+                                        <input name="EventId" value="@Model.Id" type="hidden" class="form-control" />
+                                        <input type="submit" class="btn btn-primary" asp-action="Apply" value="Apply Event" />
                                     </form>
                                 }
                             }
@@ -156,7 +157,14 @@
                                             <div class="d-flex justify-content-between">
                                                 <div class="d-flex align-items-center">
                                                     <h5>
-                                                        @*@Html.Raw(item.)*@ user name of comment
+                                                        @{       IEnumerable<User> teachers = ViewData["CreationUserId"] as IEnumerable<User>;}
+                                                        @foreach (User teacher in teachers){
+                                                            if (item.CreationUserId == teacher.Id)
+                                                            {
+                                                                @Html.Raw(teacher.FirstName + " " + teacher.LastName)
+                                                            }
+                                                        }
+                                                        
                                                     </h5>
                                                     <p class="date">@Html.Raw(item.CreationDate.ToString("dd/MMMM/yyyy"))</p>
                                                 </div>
