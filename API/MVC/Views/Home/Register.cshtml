@@ -99,32 +99,37 @@
             <img src="/img/logo.png" alt="" height="50" style="margin-bottom: 50px">
         </a>
         <h1 class="text-white h3">Account Register</h1>
+        <p class="text-white fw-bold">@ViewBag.Message</p>
     </div>
     <form asp-action="Register" class="mt-4">
         <div class="input-group uf-input-group input-group-lg mb-3">
             <span class="input-group-text fa fa-user"></span>
             <input asp-for="FirstName" type="text" class="form-control" placeholder="Your first name">
+            <p class="text-white fw-bold">@ViewBag.FirstNameMessage</p>
             <span asp-validation-for="FirstName" class="text-danger"></span>
         </div>
         <div class="input-group uf-input-group input-group-lg mb-3">
             <span class="input-group-text fa fa-user"></span>
             <input asp-for="LastName" type="text" class="form-control" placeholder="Your last name">
+            <p class="text-white fw-bold">@ViewBag.LastNameMessage</p>
             <span asp-validation-for="LastName" class="text-danger"></span>
         </div>
         <div class="input-group uf-input-group input-group-lg mb-3">
             <span class="input-group-text fa fa-envelope"></span>
             <input asp-for="Email" type="text" class="form-control" placeholder="Email address">
+            <p class="text-white fw-bold">@ViewBag.EmailMessage</p>
             <span asp-validation-for="Email" class="text-danger"></span>
-
         </div>
         <div class="input-group uf-input-group input-group-lg mb-3">
             <span class="input-group-text fa fa-lock"></span>
-            <input asp-for="Password" type="password" class="form-control" placeholder="Password">
+            <input asp-for="Password" class="form-control" type="password" placeholder="Password">
+            <p class="text-white fw-bold">@ViewBag.PasswordMessage</p>
             <span asp-validation-for="Password" class="text-danger"></span>
         </div>
         <div class="input-group uf-input-group input-group-lg mb-3">
             <span class="input-group-text fa fa-lock"></span>
             <input asp-for="Bio" type="password" class="form-control" placeholder="Password Confirmation">
+            <p class="text-white fw-bold">@ViewBag.ConfirmMessage</p>
             <span asp-validation-for="Password" class="text-danger"></span>
         </div>
         <div class="d-grid mb-4">

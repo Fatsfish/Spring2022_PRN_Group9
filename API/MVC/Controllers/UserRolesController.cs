@@ -56,7 +56,7 @@ namespace MVC.Controllers
             if (HttpContext.Session.GetInt32("id") == null || HttpContext.Session.GetString("role") == null) return Redirect("/Home/Login");
 
             ViewData["RoleId"] = new SelectList(_context.Roles, "Id", "Description");
-            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Bio");
+            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Email");
             return View();
         }
 
@@ -76,7 +76,7 @@ namespace MVC.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["RoleId"] = new SelectList(_context.Roles, "Id", "Description", userRole.RoleId);
-            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Bio", userRole.UserId);
+            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Email", userRole.UserId);
             return View(userRole);
         }
 
@@ -96,7 +96,7 @@ namespace MVC.Controllers
                 return NotFound();
             }
             ViewData["RoleId"] = new SelectList(_context.Roles, "Id", "Description", userRole.RoleId);
-            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Bio", userRole.UserId);
+            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Email", userRole.UserId);
             return View(userRole);
         }
 
@@ -135,7 +135,7 @@ namespace MVC.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["RoleId"] = new SelectList(_context.Roles, "Id", "Description", userRole.RoleId);
-            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Bio", userRole.UserId);
+            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Email", userRole.UserId);
             return View(userRole);
         }
 

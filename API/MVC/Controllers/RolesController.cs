@@ -66,6 +66,19 @@ namespace MVC.Controllers
 
             if (ModelState.IsValid)
             {
+                if (string.IsNullOrEmpty(role.Name) || string.IsNullOrEmpty(role.Description))
+                {
+                    ViewBag.Message = "All fields are required. Please fill all fields";
+                    return View();
+                }
+                else
+                {
+                    if (role.Name.Trim().Length > 101)
+                    {
+                        ViewBag.Message = "Name < 100 characters";
+                        return View(role);
+                    }
+                }
                 _context.Add(role);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));

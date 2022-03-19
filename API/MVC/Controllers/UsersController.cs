@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -66,6 +67,47 @@ namespace MVC.Controllers
 
             if (ModelState.IsValid)
             {
+                bool err = false;
+
+                if (string.IsNullOrEmpty(user.Password) || string.IsNullOrEmpty(user.FirstName) ||
+                        string.IsNullOrEmpty(user.LastName) || string.IsNullOrEmpty(user.Email))
+                {
+                    ViewBag.Message = "Password, First Name, Last Name, Email are required. Please fill all fields!";
+                    err = true;
+                }
+                else
+                {
+                    if (user.Password.Trim().Length < 3 || user.Password.Trim().Length > 31)
+                    {
+                        ViewBag.PasswordMessage = "Password from 4 - 30 characters.";
+                        err = true;
+                    }
+
+                    if (user.FirstName.Trim().Length < 71)
+                    {
+                        ViewBag.NameMessage = "First name from 1 - 70 characters.";
+                        err = true;
+                    }
+
+                    if (user.LastName.Trim().Length > 71)
+                    {
+                        ViewBag.LastNameMessage = "Last name from 1 - 70 characters.";
+                    }
+
+                    Regex rg = new Regex(@"\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*");
+                    if (!rg.IsMatch(user.Email.Trim()))
+                    {
+                        ViewBag.EmailMessage = "Invalid email.";
+                        err = true;
+                    }
+                }
+
+                if (err)
+                {
+                    return View(user);
+                }
+
+                if (string.IsNullOrEmpty(user.Bio)) user.Bio = "";
                 _context.Add(user);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -84,6 +126,7 @@ namespace MVC.Controllers
             }
 
             var user = await _context.Users.FindAsync(id);
+
             if (user == null)
             {
                 return NotFound();
@@ -109,6 +152,49 @@ namespace MVC.Controllers
             {
                 try
                 {
+                    bool err = false;
+
+                    if (string.IsNullOrEmpty(user.Password) || string.IsNullOrEmpty(user.FirstName) ||
+                        string.IsNullOrEmpty(user.LastName) || string.IsNullOrEmpty(user.Email))
+                    {
+                        ViewBag.Message = "Password, First Name, Last Name, Email are required. Please fill all fields!";
+                        err = true;
+                    }
+                    else
+                    {
+                        if (user.Password.Trim().Length < 3 || user.Password.Trim().Length > 31)
+                        {
+                            ViewBag.PasswordMessage = "Password from 4 - 30 characters.";
+                            err = true;
+                        }
+
+                        if (user.FirstName.Trim().Length > 71)
+                        {
+                            ViewBag.NameMessage = "First name from 1 - 70 characters.";
+                            err = true;
+                        }
+
+                        if (user.LastName.Trim().Length > 71)
+                        {
+                            ViewBag.LastNameMessage = "Last name from 1 - 70 characters.";
+                        }
+
+                        Regex rg = new Regex(@"\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*");
+                        if (!rg.IsMatch(user.Email.Trim()))
+                        {
+                            ViewBag.EmailMessage = "Invalid email.";
+                            err = true;
+                        }
+                    }
+
+
+                    if (err)
+                    {
+                        return View(user);
+                    }
+
+                    if (string.IsNullOrEmpty(user.Bio.Trim())) user.Bio = "";
+
                     _context.Update(user);
                     await _context.SaveChangesAsync();
                 }
@@ -156,7 +242,8 @@ namespace MVC.Controllers
             if (HttpContext.Session.GetInt32("id") == null || HttpContext.Session.GetString("role") == null) return Redirect("/Home/Login");
 
             var user = await _context.Users.FindAsync(id);
-            _context.Users.Remove(user);
+            user.IsActive = false;
+            _context.Users.Update(user);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
