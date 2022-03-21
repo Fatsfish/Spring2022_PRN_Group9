@@ -11,7 +11,7 @@
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container" style="font-weight:bold">
-                <a class="navbar-brand" asp-page="/Index">EMS</a>
+                <a class="navbar-brand" asp-action="Index">EMS</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -26,17 +26,10 @@
                                     <a class="dropdown-item" asp-action="Index" asp-controller="Users">User</a>
                                     <a class="dropdown-item" asp-action="Index" asp-controller="UserRoles">User Role</a>
                                     <a class="dropdown-item" asp-action="Index" asp-controller="Roles">Role</a>
-                                    <a class="dropdown-item" asp-action="Index" asp-controller="InvitationResponseTypes">Invitation Response Type</a>
-                                    <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" asp-action="Index" asp-controller="Groups">Group</a>
-                                    <a class="dropdown-item" asp-action="Index" asp-controller="GroupUsers">Group User</a>
                                     <div class="dropdown-divider"></div>
                                     <a class="dropdown-item" asp-action="Index" asp-controller="Events">Event</a>
-                                    <a class="dropdown-item" asp-action="Index" asp-controller="EventInvitations">Event Invitation</a>
                                     <a class="dropdown-item" asp-action="Index" asp-controller="EventTickets">Event Ticket</a>
                                     <a class="dropdown-item" asp-action="Index" asp-controller="EventStatus">Event Status</a>
-                                    <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" asp-action="Index" asp-controller="AllowedEventGroups">Allowed Event Group</a>
                                 </div>
                             </li>
                         }
@@ -45,15 +38,9 @@
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color: #f74d23">Host Management</a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" asp-action="Index" asp-controller="Groups">Group</a>
-                                    <a class="dropdown-item" asp-action="Index" asp-controller="GroupUs ers">Group User</a>
-                                    <div class="dropdown-divider"></div>
                                     <a class="dropdown-item" asp-action="Index" asp-controller="Events">Event</a>
-                                    <a class="dropdown-item" asp-action="Index" asp-controller="EventInvitations">Event Invitation</a>
                                     <a class="dropdown-item" asp-action="Index" asp-controller="EventTickets">Event Ticket</a>
                                     <a class="dropdown-item" asp-action="Index" asp-controller="EventStatus">Event Status</a>
-                                    <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" asp-action="Index" asp-controller="AllowedEventGroups">Allowed Event Group</a>
                                 </div>
                             </li>
                         }

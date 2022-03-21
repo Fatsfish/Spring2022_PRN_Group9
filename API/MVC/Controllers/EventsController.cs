@@ -54,7 +54,6 @@ namespace MVC.Controllers
         {
             if (HttpContext.Session.GetInt32("id") == null || (HttpContext.Session.GetString("role") == null && HttpContext.Session.GetString("role1") == null)) return Redirect("/Home/Login");
 
-            ViewData["CreationUserId"] = new SelectList(_context.Users, "Id", "Bio");
             ViewData["StatusId"] = new SelectList(_context.EventStatuses, "Id", "Name");
             return View();
         }
@@ -64,12 +63,56 @@ namespace MVC.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Description,CreationDate,CreationUserId,RegistrationEndDate,StartDateTime,EndDateTime,Place,IsPublic,Capacity,Price,StatusId,Images")] Event oevent)
+        public async Task<IActionResult> Create([Bind("Id,Name,Description,CreationDate,CreationUserId,RegistrationEndDate,StartDateTime,EndDateTime,Place,IsPublic,Capacity,Price,Images")] Event oevent)
         {
             if (HttpContext.Session.GetInt32("id") == null || (HttpContext.Session.GetString("role") == null && HttpContext.Session.GetString("role1") == null)) return Redirect("/Home/Login");
 
             if (ModelState.IsValid)
             {
+                bool err = false;
+
+                oevent.CreationDate = DateTime.Now;
+                if (oevent.RegistrationEndDate < oevent.CreationDate || oevent.StartDateTime < oevent.CreationDate || oevent.EndDateTime < oevent.CreationDate)
+                {
+                    ViewBag.Message = "Registration End Date, Start Date, End Date should come after now";
+                    return View(oevent);
+                }
+                if (oevent.EndDateTime < oevent.StartDateTime)
+                {
+                    ViewBag.Message = "End date should come after start date";
+                    return View(oevent);
+                }
+                if (oevent.EndDateTime < oevent.RegistrationEndDate)
+                {
+                    ViewBag.Message = "Registration date should come before end date";
+                    return View(oevent);
+                }
+
+                if (oevent.Capacity < 2)
+                {
+                    ViewBag.CapacityMessage = "Capacity must >= 3";
+                    err = true;
+                }
+                if (oevent.Price < 0)
+                {
+                    ViewBag.PriceMessage = "Price must >= 0";
+                    err = true;
+                }
+                if (string.IsNullOrEmpty(oevent.Name))
+                {
+                    ViewBag.NameMessage = "Event name is required";
+                    err = true;
+                }
+
+                if (err) return View(oevent);
+
+                if (oevent.Description == null) oevent.Description = "";
+                if (oevent.Place == null) oevent.Place = "Undefined";
+                if (oevent.Images == null) oevent.Images = "https://playorlandonorth.com/assets/images/placeholders/placeholder-event.png";
+
+                oevent.Status = new EventStatus() { Name = "Available" };
+                oevent.CreationUserId = HttpContext.Session.GetInt32("id");
+
                 _context.Add(oevent);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
