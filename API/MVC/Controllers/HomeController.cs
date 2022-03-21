@@ -10,6 +10,8 @@ using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Text.RegularExpressions;
 
 namespace MVC.Controllers
 {
@@ -65,18 +67,123 @@ namespace MVC.Controllers
             var oevent = await _context.Events
                 .Include(o => o.CreationUser)
                 .Include(o => o.Status)
+                .Include(o => o.Comments)
+                .Include(o => o.EventTickets)
                 .FirstOrDefaultAsync(m => m.Id == id);
+            ViewData["CreationUserId"] = _context.Users.ToList();
+
             if (oevent == null)
             {
                 return NotFound();
             }
 
             return View(oevent);
+
         }
 
-        public IActionResult Profile()
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CreateComment([Bind("Id,EventId,CreationUserId,Text,CreationDate")] Comment comment)
         {
-            return View();
+            if (HttpContext.Session.GetInt32("id") == null) return RedirectToAction(nameof(Login));
+
+            if (ModelState.IsValid)
+            {
+                comment.CreationDate = DateTime.Now;
+                comment.CreationUserId = HttpContext.Session.GetInt32("id");
+
+                _context.Add(comment);
+                await _context.SaveChangesAsync();
+                return Redirect($"/Home/EventDetails/{comment.EventId}");
+            }
+            return View(comment);
+
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Apply([Bind("Id,EventId,OwnerId,IsPaid,PaidDate")] EventTicket eventTicket)
+        {
+            if (HttpContext.Session.GetInt32("id") == null ) return Redirect("/Home/Login");
+
+            var ticket=_context.EventTickets.FirstOrDefault(t => t.EventId == eventTicket.EventId&&t.OwnerId==eventTicket.OwnerId);
+            if(ticket!=null) return Redirect($"/Home/EventDetails/{eventTicket.EventId}");
+            if (ModelState.IsValid)
+            {
+                eventTicket.IsPaid = true;
+                eventTicket.PaidDate= DateTime.Now;
+                eventTicket.OwnerId= HttpContext.Session.GetInt32("id");
+                _context.Add(eventTicket);
+                await _context.SaveChangesAsync();
+                return Redirect($"/Home/EventDetails/{eventTicket.EventId}");
+            }
+            return View(eventTicket);
+        }
+
+        public async Task<IActionResult> Profile()
+        {
+            if (HttpContext.Session.GetInt32("id") == null) return RedirectToAction(nameof(Login));
+
+            var id = HttpContext.Session.GetInt32("id");
+
+            if (id == null) return RedirectToAction(nameof(Login));
+            User user = _context.Users.SingleOrDefault(u => u.Id == id);
+            ViewData["CreationUserId"] = _context.Events.ToList();
+            ViewData["user"] = _context.EventTickets.ToList();
+
+
+            return View(user);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> UpdateProfile(int id, [Bind("Id,Password,FirstName,LastName,Email,Bio")] User user)
+        {
+            if (HttpContext.Session.GetInt32("id") == null) return Redirect("/Home/Login");
+
+            if (id != user.Id)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(user);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!UserExists(user.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return Redirect($"/Home/Profile");
+            }
+            return View(user);
+        }
+
+
+        public IActionResult SearchEvent(string searchText)
+        {
+            IEnumerable<Event> _event = _context.Events
+                .Include(o => o.CreationUser)
+                .Include(o => o.Status)
+                .Include(o => o.Comments)
+                .Include(o => o.EventTickets)
+                .ToList().FindAll(e => e.Name.ToLower().Contains(searchText.ToLower()));
+
+            if (_event.Count() == 0)
+            {
+                ViewBag.Message = "No event found";
+            }
+
+            return View("Event", _event);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
@@ -88,21 +195,62 @@ namespace MVC.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Register([Bind("FirstName,LastName,Password,Email")] User User)
+        public async Task<IActionResult> Register([Bind("FirstName,LastName,Password,Email,Bio")] User User)
         {
             if (HttpContext.Session.GetInt32("id") != null) return Redirect("/Home");
 
             if (ModelState.IsValid)
             {
-                if (AccountExists(User.Email))
-                { /*Msg = "Email has been used, please choose another!";*/
-                    return View(User);
+                bool err = false;
+
+                if (string.IsNullOrEmpty(User.Password) || string.IsNullOrEmpty(User.FirstName) ||
+                        string.IsNullOrEmpty(User.LastName) || string.IsNullOrEmpty(User.Email))
+                {
+                    ViewBag.Message = "Password, First Name, Last Name, Email are required. Please fill all fields!";
+                    err = true;
                 }
-                if (User.Password != User.Bio)
-                { /*Msg = "Email has been used, please choose another!";*/
-                    return View(User);
+                else
+                {
+                    if (User.Password.Trim().Length < 3 || User.Password.Trim().Length > 31)
+                    {
+                        ViewBag.PasswordMessage = "Password from 4 - 30 characters.";
+                        err = true;
+                    }
+
+                    if (User.FirstName.Trim().Length > 71)
+                    {
+                        ViewBag.FirstNameMessage = "First name from 1 - 70 characters.";
+                        err = true;
+                    }
+
+                    if (User.LastName.Trim().Length > 71)
+                    {
+                        ViewBag.LastNameMessage = "Last name from 1 - 70 characters.";
+                    }
+
+                    Regex rg = new Regex(@"\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*");
+                    if (!rg.IsMatch(User.Email.Trim()))
+                    {
+                        ViewBag.EmailMessage = "Invalid email.";
+                        err = true;
+                    }
+
+                    if (AccountExists(User.Email))
+                    {
+                        ViewBag.EmailMessage = "Email exist. Please use other email!";
+                        err = true;
+                    }
+
+                    if (User.Password != User.Bio)
+                    {
+                        ViewBag.ConfirmMessage = "Confirm password not match. Please try again!";
+                        err = true;
+                    }
                 }
-                User.Bio = User.Email;
+
+                if (err) return View(User);
+
+                User.Bio = "";
                 User.IsActive = true;
                 _context.Add(User);
                 await _context.SaveChangesAsync();
@@ -159,5 +307,10 @@ namespace MVC.Controllers
         {
             return _context.Users.Any(e => e.Email == id);
         }
+        private bool UserExists(int id)
+        {
+            return _context.Users.Any(e => e.Id == id);
+        }
+
     }
 }
