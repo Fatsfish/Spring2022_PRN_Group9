@@ -59,7 +59,8 @@ namespace EMS.Pages
                 {
                     return NotFound();
                 }
-
+                var ticket = _context.EventTickets.FirstOrDefault(t => t.EventId == id && t.OwnerId == HttpContext.Session.GetInt32("id"));
+                EventTicket = ticket;
                 Event = await _context.Events
                     .Include(e => e.CreationUser).Include(e => e.EventTickets)
                     .Include(e => e.Status).FirstOrDefaultAsync(m => m.Id == id);
