@@ -13,6 +13,7 @@
     <div class="col-md-4">
         <form method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Event.Id" value="0"/>
             <div class="form-group">
                 <label asp-for="Event.Name" class="control-label"></label>
                 <input asp-for="Event.Name" class="form-control" />
@@ -22,15 +23,17 @@
                 <label asp-for="Event.Description" class="control-label"></label>
                 <textarea asp-for="Event.Description" class="form-control" rows="4"></textarea>
                 <span asp-validation-for="Event.Description" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Event.CreationDate" class="control-label"></label>
-                <input asp-for="Event.CreationDate" class="form-control" />
-                <span asp-validation-for="Event.CreationDate" class="text-danger"></span>
-            </div>
+            </div>                
+            <input type="hidden" asp-for="Event.CreationDate" class="form-control" value="@System.DateTime.Now"/>
             <div class="form-group">
                 <label asp-for="Event.CreationUserId" class="control-label"></label>
-                <select asp-for="Event.CreationUserId" class ="form-control" asp-items="ViewBag.CreationUserId"></select>
+                <select asp-for="Event.CreationUserId" class="form-control" asp-items="ViewBag.CreationUserId"></select>
+                <span asp-validation-for="Event.CreationUserId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Event.RegistrationEndDate" class="control-label"></label>
+                <input asp-for="Event.RegistrationEndDate" class="form-control" />
+                <span asp-validation-for="Event.RegistrationEndDate" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Event.StartDateTime" class="control-label"></label>
@@ -60,11 +63,13 @@
             <input type="hidden" asp-for="Event.Price" class="form-control" value=0/>
             <div class="form-group">
                 <label asp-for="Event.StatusId" class="control-label"></label>
-                <select asp-for="Event.StatusId" class ="form-control" asp-items="ViewBag.StatusId"></select>
+                <select asp-for="Event.StatusId" class="form-control" asp-items="ViewBag.StatusId"></select>
+                <span asp-validation-for="Event.StatusId" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Event.Images" class="control-label"></label>
                 <textarea asp-for="Event.Images" class ="form-control" asp-items="ViewBag.Images" rows="4"></textarea>
+                <span asp-validation-for="Event.Images" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />

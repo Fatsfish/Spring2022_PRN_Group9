@@ -62,7 +62,6 @@ namespace EMS.Pages.Event
             {
                 return Page();
             }
-            Event.CreationDate = System.DateTime.Now;
             if (Event.RegistrationEndDate < Event.CreationDate || Event.StartDateTime < Event.CreationDate || Event.EndDateTime < Event.CreationDate) return Page();
             if (Event.EndDateTime < Event.StartDateTime) return Page();
             if (Event.EndDateTime < Event.RegistrationEndDate) return Page();
@@ -71,7 +70,7 @@ namespace EMS.Pages.Event
             if(Event.Name==null) return Page();
             if(Event.Description==null) return Page();
             if (Event.Place == null) Event.Place = "Undefined";
-            if (Event.Images == null) Event.Images = "/img/default.png";
+            if (Event.Images == null) Event.Images = "https://playorlandonorth.com/assets/images/placeholders/placeholder-event.png";
 
             _context.Attach(Event).State = EntityState.Modified;
 

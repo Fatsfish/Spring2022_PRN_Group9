@@ -47,12 +47,12 @@ namespace EMS.Pages.Event
             if (Event.RegistrationEndDate < Event.CreationDate || Event.StartDateTime < Event.CreationDate || Event.EndDateTime < Event.CreationDate) return Page();
             if (Event.EndDateTime < Event.StartDateTime) return Page();
             if (Event.EndDateTime < Event.RegistrationEndDate) return Page();
-            if(Event.Capacity<0)Event.Capacity = 0;
+            if(Event.Capacity<2)Event.Capacity = 2;
             if(Event.Price < 0)Event.Price = 0;
             if (Event.Name == null) return Page();
             if (Event.Description == null) return Page();
             if (Event.Place == null) Event.Place = "Undefined";
-            if (Event.Images == null) Event.Images = "/img/default.png";
+            if (Event.Images == null) Event.Images = "https://playorlandonorth.com/assets/images/placeholders/placeholder-event.png";
             _context.Events.Add(Event);
             await _context.SaveChangesAsync();
 

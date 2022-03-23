@@ -78,22 +78,22 @@ namespace EMS.Pages
                     if ( i.UserId == Account.Id && i.RoleId == 1)
                     {
                         HttpContext.Session.SetString("role", "admin");
-                        return RedirectToPage("User/index");
                     }
                     else if (i.UserId == Account.Id && i.RoleId == 2)
                     {
                         HttpContext.Session.SetString("role1", "host");
-                        return RedirectToPage("/group/Index");
 
                     }
                     else if (i.UserId == Account.Id && i.RoleId == 3)
                     {
                         HttpContext.Session.SetString("role2", "member");
-                        return RedirectToPage("Index");
                     }
                     else { Msg = "This account doesn't have role, contact admin for details!";
                     }
                 }
+                if (HttpContext.Session.GetString("role") == "admin") return Redirect("/User");
+                if (HttpContext.Session.GetString("role1") == "host") return Redirect("/event");
+                if (HttpContext.Session.GetString("role2") == "member") return RedirectToAction("Index");
             }    
                 return Page();
         }

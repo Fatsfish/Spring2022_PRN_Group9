@@ -25,7 +25,11 @@ namespace EMS.Pages
             else
             {
                 var ticket = _context.EventTickets.FirstOrDefault(t => t.EventId == id && t.OwnerId == HttpContext.Session.GetInt32("id"));
-                if (ticket != null) { EventTicket = ticket; return Page(); }
+                if (ticket != null)
+                {
+                    Event = await _context.Events
+                            .Include(e => e.CreationUser).Include(e => e.EventTickets)
+                            .Include(e => e.Status).FirstOrDefaultAsync(m => m.Id == id); EventTicket = ticket; return Page(); }
                 if (HttpContext.Session.GetInt32("id") == null) { return Page(); }
                 EventTicket = new Models.EventTicket();
                 EventTicket.IsPaid = true;
