@@ -47,7 +47,7 @@ namespace EMS.Pages.User
             {
                 return RedirectToPage("/Login");
             }
-            if (HttpContext.Session.GetString("role1") == "host" || HttpContext.Session.GetString("role2") == "member" || HttpContext.Session.GetString("role1") != null || HttpContext.Session.GetString("role2") != null)
+            if ((HttpContext.Session.GetString("role1") == "host" || HttpContext.Session.GetString("role2") == "member" || HttpContext.Session.GetString("role1") != null || HttpContext.Session.GetString("role2") != null) && (HttpContext.Session.GetString("role") != "admin" || HttpContext.Session.GetString("role") == null))
             {
                 return RedirectToPage("/Index");
             }
@@ -59,6 +59,17 @@ namespace EMS.Pages.User
             if (User.FirstName == null) return Page();
             if (User.LastName == null) return Page();
             if (User.Email == null) return Page();
+            var list = _context.Users;
+            foreach(var i in list)
+            {
+                if (User.Email.ToLower() == i.Email.ToLower())
+                {
+                   if( User.Id != i.Id)
+                    {
+                        return Page();
+                    }
+                }
+            }
             if (User.Bio == null) User.Bio = "This is User " + User.LastName;
             _context.Attach(User).State = EntityState.Modified;
 

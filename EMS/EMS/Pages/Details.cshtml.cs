@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace EMS.Pages
@@ -23,8 +24,12 @@ namespace EMS.Pages
             }
             else
             {
-                var ticket = _context.EventTickets.AnyAsync(p => p.OwnerId == HttpContext.Session.GetInt32("id"));
-                if (ticket != null) return Page();
+                var ticket = _context.EventTickets.FirstOrDefault(t => t.EventId == id && t.OwnerId == HttpContext.Session.GetInt32("id"));
+                if (ticket != null)
+                {
+                    Event = await _context.Events
+                            .Include(e => e.CreationUser).Include(e => e.EventTickets)
+                            .Include(e => e.Status).FirstOrDefaultAsync(m => m.Id == id); EventTicket = ticket; return Page(); }
                 if (HttpContext.Session.GetInt32("id") == null) { return Page(); }
                 EventTicket = new Models.EventTicket();
                 EventTicket.IsPaid = true;

@@ -25,7 +25,7 @@ namespace EMS.Pages.User
             {
                 return RedirectToPage("/Login");
             }
-            if (HttpContext.Session.GetString("role1") == "host" || HttpContext.Session.GetString("role2") == "member" || HttpContext.Session.GetString("role1") != null || HttpContext.Session.GetString("role2") != null)
+            if ((HttpContext.Session.GetString("role1") == "host" || HttpContext.Session.GetString("role2") == "member" || HttpContext.Session.GetString("role1") != null || HttpContext.Session.GetString("role2") != null) && (HttpContext.Session.GetString("role") != "admin" || HttpContext.Session.GetString("role") == null))
             {
                 return RedirectToPage("/Index");
             }
@@ -45,12 +45,18 @@ namespace EMS.Pages.User
             if (User.Password == null) return Page();
             if (User.FirstName == null) return Page();
             if (User.LastName == null) return Page();
-            if (User.Email == null) return Page();
+            if (User.Email == null) return Page(); 
+            if (UserExists(User.Email)) return Page();
             if (User.Bio == null) User.Bio = "This is User " + User.LastName;
             _context.Users.Add(User);
             await _context.SaveChangesAsync();
 
             return RedirectToPage("./Index");
+        }
+
+        private bool UserExists(string id)
+        {
+            return _context.Users.Any(e => e.Email == id);
         }
     }
 }

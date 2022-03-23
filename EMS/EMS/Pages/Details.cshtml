@@ -135,7 +135,7 @@
         <p>@Html.DisplayFor(model => model.Event.Description)</p>
         <h3 class="my-3">Event Details</h3>
         <ul>
-          <li>Creation Date: @Html.DisplayFor(model => model.Event.CreationDate)</li>
+          <!--<li>Creation Date: @Html.DisplayFor(model => model.Event.CreationDate)</li>-->
           <li>Registration End Date: @Html.DisplayFor(model => model.Event.RegistrationEndDate)</li>
           <li>Start Date Time: @Html.DisplayFor(model => model.Event.StartDateTime)</li>
           <li>End Date Time: @Html.DisplayFor(model => model.Event.EndDateTime)</li>
@@ -144,7 +144,11 @@
           <li>Capacity: @Html.DisplayFor(model => model.Event.Capacity)</li>
           <li>Price: @Html.DisplayFor(model => model.Event.Price)</li>
           <li>Creation User: @Html.DisplayFor(model => model.Event.CreationUser.Bio)</li>
-          <li>Status: @Html.DisplayFor(model => model.Event.Status.Name)</li>
+          @if (Model.Event.EventTickets.Count() >= Model.Event.Capacity)
+                                {          
+                                    <li>(Status: <span class="text-secondary" style="font: 12px;">Full capacity</span>)</li>
+                                }
+          else{<li>Status: @Html.DisplayFor(model => model.Event.Status.Name)</li>}
         </ul>
       </div>
       </div>
@@ -154,20 +158,109 @@
         <div class="row">
             <div class="col-12">
                 <div class="section-title-header text-center">
-                    <h2 class="section-title wow fadeInUp" data-wow-delay="0.2s">Please Login to Apply Event or add Comment!</h2>
+                    <h2 class="section-title wow fadeInUp" data-wow-delay="0.2s">Please Login to Apply Event</h2>
                     @*<p class="wow fadeInDown" data-wow-delay="0.2s">Lorem ipsum dolor sit amet, in quodsi vulputate pro. Ius illum vocent mediocritatem an <br> cule dicta iriure at phaedrum.</p>*@
                 </div>
             </div>
         </div>
     }
-    @if (@HttpContextAccessor.HttpContext.Session.GetInt32("id") != null)
-      {
-      <div class="col-12 text-center">
-          <br />
-  <a class="btn btn-common" asp-area="" asp-page="Details" asp-page-handler="Apply" asp-route-id="@Model.Event.Id" >Apply Event</a>
-  </div>
-    
-    <!-- Comment Section -->
+    @if (@HttpContextAccessor.HttpContext.Session.GetInt32("id") != null && !@HttpContextAccessor.HttpContext.Session.GetString("role2").Equals("member"))
+    {
+        <br />
+        <div class="row">
+            <div class="col-12">
+                <div class="section-title-header text-center">
+                    <h2 class="section-title wow fadeInUp" data-wow-delay="0.2s">Please Login with account have member role to Apply Event!</h2>
+                    @*<p class="wow fadeInDown" data-wow-delay="0.2s">Lorem ipsum dolor sit amet, in quodsi vulputate pro. Ius illum vocent mediocritatem an <br> cule dicta iriure at phaedrum.</p>*@
+                </div>
+            </div>
+        </div>
+    }
+    @if (@HttpContextAccessor.HttpContext.Session.GetInt32("id") != null  && @HttpContextAccessor.HttpContext.Session.GetString("role2").Equals("member"))
+    {
+        if (Model.Event.EventTickets.Count() >= Model.Event.Capacity)
+        {
+            <br />
+            <div class="row">
+                <div class="col-12">
+                    <div class="section-title-header text-center">
+                        <h2 class="section-title wow fadeInUp" data-wow-delay="0.2s" >Event has full capacity</h2>
+                    </div>
+                </div>
+            </div>
+        }
+        else if (Model.Event.Status.Name == "Canceled")
+        {
+            <br />
+            <div class="row">
+                <div class="col-12">
+                    <div class="section-title-header text-center">
+                        <h2 class="section-title wow fadeInUp" data-wow-delay="0.2s" >Event has been canceled</h2>
+                    </div>
+                </div>
+            </div>
+        }
+        else if (Model.Event.Status.Name == "OnGoing")
+        {
+            <br />
+            <div class="row">
+                <div class="col-12">
+                    <div class="section-title-header text-center">
+                        <h2 class="section-title wow fadeInUp" data-wow-delay="0.2s" >Event on going</h2>
+                    </div>
+                </div>
+            </div>
+        }
+        else if (Model.Event.Status.Name == "Finished")
+        {
+            <br />
+            <div class="row">
+                <div class="col-12">
+                    <div class="section-title-header text-center">
+                        <h2 class="section-title wow fadeInUp" data-wow-delay="0.2s" >Event had finished</h2>
+                    </div>
+                </div>
+            </div>
+        }
+        else if (Model.Event.Status.Name == "Postponed")
+        {
+            <br />
+            <div class="row">
+                <div class="col-12">
+                    <div class="section-title-header text-center">
+                        <h2 class="section-title wow fadeInUp" data-wow-delay="0.2s" >Event has postponed</h2>
+                    </div>
+                </div>
+            </div>
+        }
+        else if (Model.Event.RegistrationEndDate <= System.DateTime.Now)
+        {
+            <br />
+            <div class="row">
+                <div class="col-12">
+                    <div class="section-title-header text-center">
+                        <h2 class="section-title wow fadeInUp" data-wow-delay="0.2s" >Event has closed registration! Please contact host for info</h2>
+                    </div>
+                </div>
+            </div>
+        }
+        else if (@Model.EventTicket != null) {<br />
+            <div class="row">
+                <div class="col-12">
+                    <div class="section-title-header text-center">
+                        <h2 class="section-title wow fadeInUp" data-wow-delay="0.2s" >You have bought this event!</h2>
+                    </div>
+                </div>
+            </div> }
+
+        else
+        {
+            <div class="col-12 text-center">
+                <br />
+                <a class="btn btn-common" asp-area="" asp-page="Details" asp-page-handler="Apply" asp-route-id="@Model.Event.Id" >Apply Event</a>
+            </div>
+        }
+        <!-- Comment Section -->
     
     }
     <!-- Comment Section End -->
